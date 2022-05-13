@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -42,19 +44,36 @@ class _Customelist extends State<Customelist> {
           backgroundColor: App_Color.Background,
           centerTitle: true,
           automaticallyImplyLeading: false,
-          title: Center(child: Text("Custome List")),
+          title: Center(
+              child: Text(
+            "Custome List",
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'OpenSans',
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
+          )),
           actions: [
-            InkWell(
-              onTap: () {},
-              child: Container(
-                padding: EdgeInsets.only(right: 10),
-                child: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 24.0,
+            Container(
+                padding: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(100),
                 ),
-              ),
-            )
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/registerCustome', (Route<dynamic> route) => false);
+                  },
+                  child: Container(
+                    child: Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 24.0,
+                    ),
+                  ),
+                ))
           ],
         ),
         body: Container(
@@ -64,7 +83,7 @@ class _Customelist extends State<Customelist> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                margin: EdgeInsets.only(left: 8,right: 8,bottom: 8,top: 8),
+                margin: EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 8),
                 alignment: Alignment.centerLeft,
                 decoration: kBoxDecorationStyle,
                 height: 44.0,
@@ -77,11 +96,11 @@ class _Customelist extends State<Customelist> {
                     return _runFilter(value);
                   },
                   decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.all(10),
-                      hintText: 'Search',
-                      hintStyle: kHintTextStyle,
-                      ),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(10),
+                    hintText: 'Search',
+                    hintStyle: kHintTextStyle,
+                  ),
                 ),
               ),
               SizedBox(height: 5),
@@ -117,15 +136,21 @@ class _Customelist extends State<Customelist> {
                               : Container(
                                   width: MediaQuery.of(context).size.width,
                                   height: MediaQuery.of(context).size.height,
-
                                   child: ListView.builder(
                                       itemCount: 100,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        return customelistcard("Cuong","0931726114","Vihu","ABCD","10000","25-5-2022");
+                                        return customelistcard(
+                                            "Cuong",
+                                            "0931726114",
+                                            "Vihu",
+                                            "ABCD",
+                                            "10000",
+                                            "25-5-2022");
                                       })))))
             ],
           ),
         ));
   }
+
 }

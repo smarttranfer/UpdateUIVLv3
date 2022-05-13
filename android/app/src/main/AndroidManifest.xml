@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vihu.vldebitor">
    <application
-        android:label="vldebitor"
+        android:label="VL Debitor"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

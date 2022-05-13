@@ -1,19 +1,28 @@
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../theme/Color_app.dart';
 import '../utilities/constants.dart';
 
-class customelistcard extends StatelessWidget {
+class customelistcard extends StatefulWidget {
   String name;
   String Phone;
   String NameShop;
   String Bill;
   String Total;
   String Create;
+
   customelistcard(
       this.name, this.Phone, this.NameShop, this.Bill, this.Total, this.Create);
 
+  @override
+  State<StatefulWidget> createState() {
+    return _ShopregisterScreen();
+  }
+}
+
+class _ShopregisterScreen extends State<customelistcard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -36,7 +45,8 @@ class customelistcard extends StatelessWidget {
                       showCupertinoModalBottomSheet(
                         context: context,
                         builder: (context) => Container(
-                          height: MediaQuery.of(context).size.height / 5,
+                          color: App_Color.Background,
+                          height: MediaQuery.of(context).size.height / 4,
                           width: MediaQuery.of(context).size.width,
                           child: Column(
                             children: [
@@ -50,7 +60,7 @@ class customelistcard extends StatelessWidget {
                                     height: 5,
                                     width: 30,
                                     decoration: new BoxDecoration(
-                                        color: Colors.grey,
+                                        color: Colors.white,
                                         borderRadius: new BorderRadius.all(
                                           Radius.circular(40.0),
                                         )),
@@ -76,31 +86,41 @@ class customelistcard extends StatelessWidget {
                                           size: 33.0,
                                         ),
                                         SizedBox(
-                                          width: 30,
+                                          width: 20,
                                         ),
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              "Edit",
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w400,
-                                                decoration: TextDecoration.none,
-                                                fontSize: 17,
-                                                fontFamily: 'OpenSans',
+                                            TextButton(
+                                              onPressed: () {
+
+                                              },
+                                              child: Column(
+                                                crossAxisAlignment:CrossAxisAlignment.start,
+                                                children: [
+                                                  Text("Edit  ",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.w400,
+                                                      decoration:
+                                                      TextDecoration.none,
+                                                      fontSize: 17,
+                                                      fontFamily: 'OpenSans',
+                                                    ),),
+                                                  Text("Edit information of shop",
+                                                      style: TextStyle(
+                                                        color: Colors.grey,
+                                                        decoration:
+                                                        TextDecoration.none,
+                                                        fontWeight: FontWeight.w300,
+                                                        fontSize: 15,
+                                                        fontFamily: 'OpenSans',
+                                                      )),
+                                                ],
                                               ),
                                             ),
-                                            Text("Edit information of shop",
-                                                style: TextStyle(
-                                                  color: Colors.grey,
-                                                  decoration:
-                                                      TextDecoration.none,
-                                                  fontWeight: FontWeight.w300,
-                                                  fontSize: 15,
-                                                  fontFamily: 'OpenSans',
-                                                )),
+
                                           ],
                                         )
                                       ],
@@ -109,7 +129,7 @@ class customelistcard extends StatelessWidget {
                               Container(
                                 padding: EdgeInsets.only(left: 90),
                                 child: Divider(
-                                  color: Colors.black,
+                                  color: Colors.grey,
                                 ),
                               ),
                               Row(children: [
@@ -122,29 +142,39 @@ class customelistcard extends StatelessWidget {
                                   size: 33.0,
                                 ),
                                 SizedBox(
-                                  width: 30,
+                                  width: 20,
                                 ),
                                 Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment:CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      "Delete",
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.w400,
-                                        decoration: TextDecoration.none,
-                                        fontSize: 17,
-                                        fontFamily: 'OpenSans',
+                                    TextButton(
+                                      onPressed: () {
+                                        _showWarningMessage("Do you want delete customer ?");
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment:CrossAxisAlignment.start,
+                                        children: [
+                                          Text("Delete",
+                                            style: TextStyle(
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.w400,
+                                              decoration:
+                                              TextDecoration.none,
+                                              fontSize: 17,
+                                              fontFamily: 'OpenSans',
+                                            ),),
+                                          Text("Delete Customer",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                decoration:
+                                                TextDecoration.none,
+                                                fontWeight: FontWeight.w300,
+                                                fontSize: 15,
+                                                fontFamily: 'OpenSans',
+                                              )),
+                                        ],
                                       ),
                                     ),
-                                    Text("Delete customer",
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.w300,
-                                          fontSize: 15,
-                                          fontFamily: 'OpenSans',
-                                        )),
                                   ],
                                 )
                               ])
@@ -185,7 +215,7 @@ class customelistcard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Name: ${name}",
+                          "Name: ${widget.name}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -193,7 +223,7 @@ class customelistcard extends StatelessWidget {
                           height: 5,
                         ),
                         Text(
-                          "Phone: ${Phone}",
+                          "Phone: ${widget.Phone}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -201,7 +231,7 @@ class customelistcard extends StatelessWidget {
                           height: 5,
                         ),
                         Text(
-                          "Shop: ${NameShop}",
+                          "Shop: ${widget.NameShop}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -209,7 +239,7 @@ class customelistcard extends StatelessWidget {
                           height: 5,
                         ),
                         Text(
-                          "Bill: ${Bill}",
+                          "Bill: ${widget.Bill}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -217,7 +247,7 @@ class customelistcard extends StatelessWidget {
                           height: 5,
                         ),
                         Text(
-                          "Total: ${Total}",
+                          "Total: ${widget.Total}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -225,7 +255,7 @@ class customelistcard extends StatelessWidget {
                           height: 5,
                         ),
                         Text(
-                          "Credit: ${Create}",
+                          "Credit: ${widget.Create}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -275,5 +305,33 @@ class customelistcard extends StatelessWidget {
             ],
           ),
         ));
+  }
+
+  _showWarningMessage(String message) {
+    showCupertinoDialog(
+        context: context,
+        builder: (context) => Theme(
+              data: ThemeData.dark(),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                child: CupertinoAlertDialog(
+                    title: Text("Warning" ,style: TextStyle(color: Colors.red),),
+                    content: Text(message),
+                    actions: [
+                      CupertinoDialogAction(
+                          child: Text(
+                            "Yes",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          onPressed: () => Navigator.pop(context)),
+                      CupertinoDialogAction(
+                          child: Text(
+                            "No",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () => Navigator.pop(context))
+                    ]),
+              ),
+            ));
   }
 }

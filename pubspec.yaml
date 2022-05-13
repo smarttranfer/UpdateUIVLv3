@@ -33,6 +33,10 @@ dependencies:
   flutter_svg: ^0.22.0
   curved_navigation_bar: ^1.0.3
   modal_bottom_sheet: ^2.0.1
+  fluttertoast: ^8.0.7
+  flutter_spinkit: ^5.1.0
+  shared_preferences: ^2.0.15
+  pull_to_refresh: ^2.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -62,8 +66,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - logo.png
-    - user.png
+    - assets/ic_app/
   fonts:
     - family: ProductSans
       fonts:

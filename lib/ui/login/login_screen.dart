@@ -57,7 +57,8 @@ class _LoginScreenState extends State<LoginScreen> {
           'Password',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        SizedBox(height: 10.0
+        ),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -187,20 +188,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   physics: AlwaysScrollableScrollPhysics(),
                   padding: EdgeInsets.symmetric(
                     horizontal: 40.0,
-                    vertical: 120.0,
+                    vertical: 50.0,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                        'Sign In',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'OpenSans',
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      Image.asset('assets/ic_app/icon_laucher.png',height: 100,width: 100,),
                       SizedBox(height: 30.0),
                       _buildEmailTF(),
                       SizedBox(
