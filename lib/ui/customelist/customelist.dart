@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 
 import '../../utilities/constants.dart';
@@ -16,6 +17,8 @@ class Customelist extends StatefulWidget {
 }
 
 class _Customelist extends State<Customelist> {
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
   final List<Map<String, dynamic>> _allUsers = [];
   List<Map<String, dynamic>> _foundUsers = [];
   String searchString = "";
@@ -35,6 +38,17 @@ class _Customelist extends State<Customelist> {
     setState(() {
       _foundUsers = results;
     });
+  }
+
+  void _onRefresh() async {
+    await Future.delayed(Duration(milliseconds: 1000));
+    _refreshController.loadComplete();
+  }
+
+  void _onLoading() async {
+    await Future.delayed(Duration(milliseconds: 1000));
+    if (mounted) setState(() {});
+    _refreshController.loadComplete();
   }
 
   @override
@@ -106,51 +120,83 @@ class _Customelist extends State<Customelist> {
               SizedBox(height: 5),
               Expanded(
                   child: SingleChildScrollView(
-                      child: Container(
-                          child: false
-                              ? Center(
-                                  child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    CircularProgressIndicator(
-                                      backgroundColor:
-                                          Colors.green.withOpacity(0.5),
-                                      color: Colors.green,
-                                    ),
-                                    SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              100,
-                                    ),
-                                    Padding(
-                                        child: Text(
-                                          "ABC4",
-                                          style: TextStyle(
-                                              color: Colors.green,
-                                              fontSize: 16),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        padding: EdgeInsets.only(bottom: 4))
-                                  ],
-                                ))
-                              : Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: MediaQuery.of(context).size.height,
-                                  child: ListView.builder(
-                                      itemCount: 100,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return customelistcard(
-                                            "Cuong",
-                                            "0931726114",
-                                            "Vihu",
-                                            "ABCD",
-                                            "10000",
-                                            "25-5-2022");
-                                      })))))
+                child: Container(
+                    child: false
+                        ? Center(
+                            child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CircularProgressIndicator(
+                                backgroundColor: Colors.green.withOpacity(0.5),
+                                color: Colors.green,
+                              ),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height / 100,
+                              ),
+                              Padding(
+                                  child: Text(
+                                    "ABC4",
+                                    style: TextStyle(
+                                        color: Colors.green, fontSize: 16),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  padding: EdgeInsets.only(bottom: 4))
+                            ],
+                          ))
+                        : Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height,
+                            child: SmartRefresher(
+                                physics: const BouncingScrollPhysics(),
+                                enablePullDown: true,
+                                enablePullUp: true,
+                                header: WaterDropHeader(
+                                  waterDropColor: App_Color.green,
+                                  complete: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      const Icon(Icons.done,
+                                          color: Colors.green),
+                                      const SizedBox(width: 15.0),
+                                      Text(
+                                        update_SC,
+                                        style:
+                                            TextStyle(color: App_Color.green),
+                                      )
+                                    ],
+                                  ),
+                                  failed: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      const Icon(Icons.error_outline,
+                                          color: Colors.red),
+                                      const SizedBox(width: 15.0),
+                                      Text(
+                                        update_F,
+                                        style: TextStyle(color: Colors.red),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                controller: _refreshController,
+                                onLoading: _onLoading,
+                                onRefresh: _onRefresh,
+                                child: ListView.builder(
+                                    itemCount: 100,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return customelistcard(
+                                          "Cuong",
+                                          "0931726114",
+                                          "Vihu",
+                                          "ABCD",
+                                          "10000",
+                                          "25-5-2022");
+                                    })))),
+              ))
             ],
           ),
         ));
   }
-
 }

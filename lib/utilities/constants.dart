@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 
+
+final String update_SC = "Update  data Sucessfull";
+final String update_F = "Update  data Fail";
+
+
 final kHintTextStyle = TextStyle(
   color: Colors.white54,
   fontFamily: 'OpenSans',
