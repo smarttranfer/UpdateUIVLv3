@@ -123,27 +123,11 @@ class _Customelist extends State<Customelist> {
                 child: Container(
                     child: false
                         ? Center(
-                            child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircularProgressIndicator(
-                                backgroundColor: Colors.green.withOpacity(0.5),
-                                color: Colors.green,
-                              ),
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height / 100,
-                              ),
-                              Padding(
-                                  child: Text(
-                                    "ABC4",
-                                    style: TextStyle(
-                                        color: Colors.green, fontSize: 16),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  padding: EdgeInsets.only(bottom: 4))
-                            ],
-                          ))
+                            child: Text(
+                              "Not data",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          )
                         : Container(
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height,
