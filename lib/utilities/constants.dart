@@ -29,3 +29,15 @@ final kBoxDecorationStyle = BoxDecoration(
     ),
   ],
 );
+
+final kBoxDecorationMoneyStyle = BoxDecoration(
+  color: Colors.grey,
+  borderRadius: BorderRadius.circular(10.0),
+  boxShadow: [
+    BoxShadow(
+      color: Colors.black12,
+      blurRadius: 6.0,
+      offset: Offset(0, 2),
+    ),
+  ],
+);

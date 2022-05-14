@@ -5,24 +5,23 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../theme/Color_app.dart';
 import '../utilities/constants.dart';
 
-class customelistcard extends StatefulWidget {
+class Shoplistcard extends StatefulWidget {
   String name;
-  String Phone;
-  String NameShop;
-  String Bill;
-  String Total;
-  String Create;
+  String address;
+  String bill;
+  String money;
+  String date_create;
 
-  customelistcard(
-      this.name, this.Phone, this.NameShop, this.Bill, this.Total, this.Create);
+  Shoplistcard(
+      this.name, this.address, this.bill, this.money, this.date_create);
 
   @override
   State<StatefulWidget> createState() {
-    return _ShopregisterScreen();
+    return _Shoplistcard();
   }
 }
 
-class _ShopregisterScreen extends State<customelistcard> {
+class _Shoplistcard extends State<Shoplistcard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -163,7 +162,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                                               fontSize: 17,
                                               fontFamily: 'OpenSans',
                                             ),),
-                                          Text("Delete Customer",
+                                          Text("Delete Shop",
                                               style: TextStyle(
                                                 color: Colors.grey,
                                                 decoration:
@@ -193,19 +192,6 @@ class _ShopregisterScreen extends State<customelistcard> {
               ),
               Row(
                 children: [
-                  // Column(
-                  //   mainAxisAlignment: MainAxisAlignment.end,
-                  //   children: [
-                  //     Container(
-                  //       height: 80,
-                  //       width: 80,
-                  //       child: Image.asset(
-                  //         "assets/user.png",
-                  //         fit: BoxFit.contain,
-                  //       ),
-                  //     )
-                  //   ],
-                  // ),
                   SizedBox(
                     width: 20,
                   ),
@@ -223,7 +209,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                           height: 5,
                         ),
                         Text(
-                          "Phone: ${widget.Phone}",
+                          "Address: ${widget.address}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -231,7 +217,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                           height: 5,
                         ),
                         Text(
-                          "Shop: ${widget.NameShop}",
+                          "Bill: ${widget.bill}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -239,7 +225,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                           height: 5,
                         ),
                         Text(
-                          "Bill: ${widget.Bill}",
+                          "Money: ${widget.money}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -247,18 +233,11 @@ class _ShopregisterScreen extends State<customelistcard> {
                           height: 5,
                         ),
                         Text(
-                          "Total: ${widget.Total}",
+                          "Date created: ${widget.date_create}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "Credit: ${widget.Create}",
-                          style: kLabelStyle,
-                          textDirection: TextDirection.ltr,
-                        ),
+
                       ],
                     ),
                   )
@@ -270,15 +249,18 @@ class _ShopregisterScreen extends State<customelistcard> {
                   Row(
                     children: [
                       MaterialButton(
-                        minWidth: 80,
+                        minWidth: 10,
                         height: 30,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         color: App_Color.orange, // background
                         textColor: Colors.white, // foreground
-                        onPressed: () {},
-                        child: Text("Shops"),
+                        onPressed: () {
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              '/shopdetail', (Route<dynamic> route) => false);
+                        },
+                        child: Text("Detail"),
                       )
                     ],
                   ),
@@ -288,7 +270,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                   Row(
                     children: [
                       MaterialButton(
-                        minWidth: 10,
+                        minWidth: 70,
                         height: 30,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -296,7 +278,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                         color: App_Color.green, // background
                         textColor: Colors.white, // foreground
                         onPressed: () {},
-                        child: Text("Add Bill"),
+                        child: Text("Pay"),
                       )
                     ],
                   )

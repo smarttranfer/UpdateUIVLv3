@@ -21,7 +21,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
         Row(
           children: [
             Text(
-              'Name',
+              'Fullname',
               style: kLabelStyle,
             ),
             Text(
@@ -101,157 +101,15 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
     );
   }
 
-  Widget _buildAdressTF() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Row(
-          children: [
-            Text(
-              'Address',
-              style: kLabelStyle,
-            ),
-            Text(
-              '*',
-              style: TextStyle(color: Colors.red),
-            ),
-          ],
-        ),
-        SizedBox(height: 10.0),
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
-          height: 60.0,
-          child: TextField(
-            obscureText: true,
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'OpenSans',
-            ),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.home_outlined,
-                color: Colors.white,
-              ),
-              hintText: 'Enter your Adrress',
-              hintStyle: kHintTextStyle,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildPostCodeTF() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Row(
-          children: [
-            Text(
-              'Post Code',
-              style: kLabelStyle,
-            ),
-            Text(
-              '*',
-              style: TextStyle(color: Colors.red),
-            ),
-          ],
-        ),
-
-        SizedBox(height: 10.0),
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
-          height: 60.0,
-          child: TextField(
-            obscureText: true,
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'OpenSans',
-            ),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.code,
-                color: Colors.white,
-              ),
-              hintText: 'Enter your Post code',
-              hintStyle: kHintTextStyle,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildContinueBtn() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 20.0),
+      padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () {
-          Navigator.pushNamed(context, '/home');
-          _showErrorMessage();
-        },
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        color: Colors.lightBlueAccent,
-        child: Text(
-          'Create Customer',
-          style: TextStyle(
-            color: Colors.white,
-            letterSpacing: 1.5,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
-          ),
-        ),
-      ),
-    );
-  }
-  Widget _buildAddShopBtn() {
-    return Container(
-      width: double.infinity,
-      child: RaisedButton(
-        elevation: 5.0,
-        onPressed: () {
-          Navigator.pushNamed(context, '/home');
-          _showErrorMessage();
-        },
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        color: App_Color.orange,
-        child: Text(
-          'Add more shop',
-          style: TextStyle(
-            color: Colors.white,
-            letterSpacing: 1.5,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDoneBtn() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 20.0),
-      width: double.infinity,
-      child: RaisedButton(
-        elevation: 5.0,
-        onPressed: () {
-          Navigator.pushNamed(context, '/home');
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              '/registerShop', (Route<dynamic> route) => false);
           _showErrorMessage();
         },
         padding: EdgeInsets.all(15.0),
@@ -260,7 +118,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
         ),
         color: App_Color.green,
         child: Text(
-          'Done',
+          'Continue',
           style: TextStyle(
             color: Colors.white,
             letterSpacing: 1.5,
@@ -268,6 +126,34 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
             fontWeight: FontWeight.bold,
             fontFamily: 'OpenSans',
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSignupBtn() {
+    return GestureDetector(
+      onTap: () => print('Sign Up Button Pressed'),
+      child: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: 'Don\'t have an Account? ',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18.0,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            TextSpan(
+              text: 'Sign Up',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -286,7 +172,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
         ),
         actions: [
           Container(
-              // padding: EdgeInsets.all(15),
+            // padding: EdgeInsets.all(15),
               decoration: BoxDecoration(
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(10),
@@ -308,14 +194,14 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
         backgroundColor: App_Color.background_search,
         title: Center(
             child: Text(
-          "Create Shop",
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: 'OpenSans',
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
-          ),
-        )),
+              "Create Custome",
+              style: TextStyle(
+                color: Colors.white,
+                fontFamily: 'OpenSans',
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            )),
       ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
@@ -347,19 +233,11 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                         height: 6.0,
                       ),
                       _buildPasswordTF(),
-                      SizedBox(
-                        height: 6.0,
-                      ),
-                      _buildAdressTF(),
-                      SizedBox(
-                        height: 6.0,
-                      ),
-                      _buildPostCodeTF(),
-                      SizedBox(
-                        height: 180.0,
-                      ),
-                      _buildAddShopBtn(),
-                      _buildDoneBtn(),
+
+                      Container(
+                        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/2,bottom: 10),
+                        child: _buildContinueBtn(),
+                      )
                     ],
                   ),
                 ),
@@ -375,21 +253,21 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
     showCupertinoDialog(
         context: context,
         builder: (context) => Theme(
-              data: ThemeData.dark(),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-                child: CupertinoAlertDialog(
-                    title: Text("Warning"),
-                    content: Text("Login failed, check information."),
-                    actions: [
-                      CupertinoDialogAction(
-                          child: Text(
-                            "Close",
-                            style: TextStyle(color: App_Color.green),
-                          ),
-                          onPressed: () => Navigator.pop(context))
-                    ]),
-              ),
-            ));
+          data: ThemeData.dark(),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: CupertinoAlertDialog(
+                title: Text("Warning"),
+                content: Text("Login failed, check information."),
+                actions: [
+                  CupertinoDialogAction(
+                      child: Text(
+                        "Close",
+                        style: TextStyle(color: App_Color.green),
+                      ),
+                      onPressed: () => Navigator.pop(context))
+                ]),
+          ),
+        ));
   }
 }

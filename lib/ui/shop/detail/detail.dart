@@ -1,23 +1,22 @@
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vldebitor/theme/Color_app.dart';
+import '../../../utilities/constants.dart';
+import '../../../widget/cardshop.dart';
+import '../../../widget/cardshoppay.dart';
 
-import '../../utilities/constants.dart';
-import '../../widget/cardcustome.dart';
-import '../../widget/cardshop.dart';
 
-class Shoplist extends StatefulWidget {
-  Shoplist({Key? key}) : super(key: key);
+class DetailScreen extends StatefulWidget {
+  DetailScreen({Key? key}) : super(key: key);
 
   @override
-  _Shoplist createState() => _Shoplist();
+  _DetailScreen createState() => _DetailScreen();
 }
 
-class _Shoplist extends State<Shoplist> {
+class _DetailScreen extends State<DetailScreen> {
   final RefreshController _refreshController =
   RefreshController(initialRefresh: false);
   final List<Map<String, dynamic>> _allUsers = [];
@@ -178,12 +177,12 @@ class _Shoplist extends State<Shoplist> {
                                     itemCount: 100,
                                     itemBuilder:
                                         (BuildContext context, int index) {
-                                      return Shoplistcard(
+                                      return Shoplistcardpay(
                                           "Cuong",
                                           "Vihu",
                                           "ABCD",
                                           "10000",
-                                          "25-5-2022");
+                                          );
                                     })))),
                   ))
             ],

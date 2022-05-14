@@ -5,24 +5,21 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../theme/Color_app.dart';
 import '../utilities/constants.dart';
 
-class customelistcard extends StatefulWidget {
-  String name;
-  String Phone;
-  String NameShop;
-  String Bill;
+class Shoplistcardpay extends StatefulWidget {
+  String Date;
   String Total;
-  String Create;
+  String Paid;
+  String Totalpay;
 
-  customelistcard(
-      this.name, this.Phone, this.NameShop, this.Bill, this.Total, this.Create);
+  Shoplistcardpay(this.Date, this.Total, this.Paid, this.Totalpay);
 
   @override
   State<StatefulWidget> createState() {
-    return _ShopregisterScreen();
+    return _Shoplistcardpay();
   }
 }
 
-class _ShopregisterScreen extends State<customelistcard> {
+class _Shoplistcardpay extends State<Shoplistcardpay> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -70,62 +67,62 @@ class _ShopregisterScreen extends State<customelistcard> {
                               SizedBox(
                                 height: 25,
                               ),
-                              Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                          width: 30,
-                                        ),
-                                        Icon(
-                                          Icons.remove_circle_outline_sharp,
-                                          color: Colors.grey,
-                                          size: 33.0,
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            TextButton(
-                                              onPressed: () {
-
-                                              },
-                                              child: Column(
-                                                crossAxisAlignment:CrossAxisAlignment.start,
-                                                children: [
-                                                  Text("Edit  ",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight: FontWeight.w400,
-                                                      decoration:
-                                                      TextDecoration.none,
-                                                      fontSize: 17,
-                                                      fontFamily: 'OpenSans',
-                                                    ),),
-                                                  Text("Edit information of shop",
-                                                      style: TextStyle(
-                                                        color: Colors.grey,
-                                                        decoration:
-                                                        TextDecoration.none,
-                                                        fontWeight: FontWeight.w300,
-                                                        fontSize: 15,
-                                                        fontFamily: 'OpenSans',
-                                                      )),
-                                                ],
-                                              ),
-                                            ),
-
-                                          ],
-                                        )
-                                      ],
-                                    )
-                                  ]),
+                              // Row(
+                              //     crossAxisAlignment: CrossAxisAlignment.start,
+                              //     children: [
+                              //       Row(
+                              //         mainAxisAlignment:
+                              //         MainAxisAlignment.center,
+                              //         children: [
+                              //           SizedBox(
+                              //             width: 30,
+                              //           ),
+                              //           Icon(
+                              //             Icons.remove_circle_outline_sharp,
+                              //             color: Colors.grey,
+                              //             size: 33.0,
+                              //           ),
+                              //           SizedBox(
+                              //             width: 20,
+                              //           ),
+                              //           Column(
+                              //             crossAxisAlignment:
+                              //             CrossAxisAlignment.start,
+                              //             children: [
+                              //               TextButton(
+                              //                 onPressed: () {
+                              //
+                              //                 },
+                              //                 child: Column(
+                              //                   crossAxisAlignment:CrossAxisAlignment.start,
+                              //                   children: [
+                              //                     Text("Edit  ",
+                              //                       style: TextStyle(
+                              //                         color: Colors.white,
+                              //                         fontWeight: FontWeight.w400,
+                              //                         decoration:
+                              //                         TextDecoration.none,
+                              //                         fontSize: 17,
+                              //                         fontFamily: 'OpenSans',
+                              //                       ),),
+                              //                     Text("Edit information of shop",
+                              //                         style: TextStyle(
+                              //                           color: Colors.grey,
+                              //                           decoration:
+                              //                           TextDecoration.none,
+                              //                           fontWeight: FontWeight.w300,
+                              //                           fontSize: 15,
+                              //                           fontFamily: 'OpenSans',
+                              //                         )),
+                              //                   ],
+                              //                 ),
+                              //               ),
+                              //
+                              //             ],
+                              //           )
+                              //         ],
+                              //       )
+                              //     ]),
                               Container(
                                 padding: EdgeInsets.only(left: 90),
                                 child: Divider(
@@ -145,29 +142,31 @@ class _ShopregisterScreen extends State<customelistcard> {
                                   width: 20,
                                 ),
                                 Column(
-                                  crossAxisAlignment:CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     TextButton(
                                       onPressed: () {
-                                        _showWarningMessage("Do you want delete customer ?");
+                                        _showWarningMessage(
+                                            "Do you want delete customer ?");
                                       },
                                       child: Column(
-                                        crossAxisAlignment:CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text("Delete",
+                                          Text(
+                                            "Delete",
                                             style: TextStyle(
                                               color: Colors.red,
                                               fontWeight: FontWeight.w400,
-                                              decoration:
-                                              TextDecoration.none,
+                                              decoration: TextDecoration.none,
                                               fontSize: 17,
                                               fontFamily: 'OpenSans',
-                                            ),),
-                                          Text("Delete Customer",
+                                            ),
+                                          ),
+                                          Text("Delete Shop",
                                               style: TextStyle(
                                                 color: Colors.grey,
-                                                decoration:
-                                                TextDecoration.none,
+                                                decoration: TextDecoration.none,
                                                 fontWeight: FontWeight.w300,
                                                 fontSize: 15,
                                                 fontFamily: 'OpenSans',
@@ -193,19 +192,6 @@ class _ShopregisterScreen extends State<customelistcard> {
               ),
               Row(
                 children: [
-                  // Column(
-                  //   mainAxisAlignment: MainAxisAlignment.end,
-                  //   children: [
-                  //     Container(
-                  //       height: 80,
-                  //       width: 80,
-                  //       child: Image.asset(
-                  //         "assets/user.png",
-                  //         fit: BoxFit.contain,
-                  //       ),
-                  //     )
-                  //   ],
-                  // ),
                   SizedBox(
                     width: 20,
                   ),
@@ -215,31 +201,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Name: ${widget.name}",
-                          style: kLabelStyle,
-                          textDirection: TextDirection.ltr,
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "Phone: ${widget.Phone}",
-                          style: kLabelStyle,
-                          textDirection: TextDirection.ltr,
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "Shop: ${widget.NameShop}",
-                          style: kLabelStyle,
-                          textDirection: TextDirection.ltr,
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "Bill: ${widget.Bill}",
+                          "Date: ${widget.Date}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -255,10 +217,43 @@ class _ShopregisterScreen extends State<customelistcard> {
                           height: 5,
                         ),
                         Text(
-                          "Credit: ${widget.Create}",
+                          "Paid: ${widget.Paid}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Total pay:",
+                              style: kLabelStyle,
+                              textDirection: TextDirection.ltr,
+                            ),
+                            SizedBox(width: 5),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              decoration: kBoxDecorationMoneyStyle,
+                              height: 30.0,
+                              width: MediaQuery.of(context).size.width/1.5,
+                              // height: 10,
+                              child: TextField(
+                                keyboardType: TextInputType.number,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'OpenSans',
+                                ),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.all(4.0),
+                                  // hintText: 'Enter Money',
+                                  hintStyle: kHintTextStyle,
+                                ),
+                              ),
+                            )
+                          ],
+                        )
                       ],
                     ),
                   )
@@ -270,7 +265,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                   Row(
                     children: [
                       MaterialButton(
-                        minWidth: 80,
+                        minWidth: 10,
                         height: 30,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -279,9 +274,9 @@ class _ShopregisterScreen extends State<customelistcard> {
                         textColor: Colors.white, // foreground
                         onPressed: () {
                           Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/shoplist', (Route<dynamic> route) => false);
+                              '/shopdetail', (Route<dynamic> route) => false);
                         },
-                        child: Text("Shops"),
+                        child: Text("Detail"),
                       )
                     ],
                   ),
@@ -291,7 +286,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                   Row(
                     children: [
                       MaterialButton(
-                        minWidth: 10,
+                        minWidth: 70,
                         height: 30,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -299,7 +294,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                         color: App_Color.green, // background
                         textColor: Colors.white, // foreground
                         onPressed: () {},
-                        child: Text("Add Bill"),
+                        child: Text("Pay"),
                       )
                     ],
                   )
@@ -318,7 +313,10 @@ class _ShopregisterScreen extends State<customelistcard> {
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
                 child: CupertinoAlertDialog(
-                    title: Text("Warning" ,style: TextStyle(color: Colors.red),),
+                    title: Text(
+                      "Warning",
+                      style: TextStyle(color: Colors.red),
+                    ),
                     content: Text(message),
                     actions: [
                       CupertinoDialogAction(
