@@ -1,22 +1,24 @@
 import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vldebitor/theme/Color_app.dart';
+
 import '../../utilities/constants.dart';
 import '../../widget/cardcustome.dart';
 
-class Customelist extends StatefulWidget {
-  Customelist({Key? key}) : super(key: key);
+class Shoplist extends StatefulWidget {
+  Shoplist({Key? key}) : super(key: key);
 
   @override
-  _Customelist createState() => _Customelist();
+  _Shoplist createState() => _Shoplist();
 }
 
-class _Customelist extends State<Customelist> {
+class _Shoplist extends State<Shoplist> {
   final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  RefreshController(initialRefresh: false);
   final List<Map<String, dynamic>> _allUsers = [];
   List<Map<String, dynamic>> _foundUsers = [];
   String searchString = "";
@@ -30,7 +32,7 @@ class _Customelist extends State<Customelist> {
     } else {
       results = _allUsers
           .where((user) =>
-              user["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
+          user["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
           .toList();
     }
     setState(() {
@@ -58,14 +60,14 @@ class _Customelist extends State<Customelist> {
           automaticallyImplyLeading: false,
           title: Center(
               child: Text(
-            "Custome List",
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'OpenSans',
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-            ),
-          )),
+                "Custome List",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'OpenSans',
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
           actions: [
             Container(
                 padding: EdgeInsets.all(15),
@@ -118,15 +120,15 @@ class _Customelist extends State<Customelist> {
               SizedBox(height: 5),
               Expanded(
                   child: SingleChildScrollView(
-                child: Container(
-                    child: false
-                        ? Center(
-                            child: Text(
-                              "Not data",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          )
-                        : Container(
+                    child: Container(
+                        child: false
+                            ? Center(
+                          child: Text(
+                            "Not data",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        )
+                            : Container(
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height,
                             child: SmartRefresher(
@@ -144,7 +146,7 @@ class _Customelist extends State<Customelist> {
                                       Text(
                                         update_SC,
                                         style:
-                                            TextStyle(color: App_Color.green),
+                                        TextStyle(color: App_Color.green),
                                       )
                                     ],
                                   ),
@@ -176,7 +178,7 @@ class _Customelist extends State<Customelist> {
                                           "10000",
                                           "25-5-2022");
                                     })))),
-              ))
+                  ))
             ],
           ),
         ));
