@@ -1,6 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 
 import '../customelist/customelist.dart';
@@ -13,6 +14,15 @@ class Home_page extends StatefulWidget {
 class _Home_page extends State<Home_page> {
   int _page = 0;
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+
+
+  Future _getDataCutomer() async {
+    final prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token").toString();
+
+  }
+
+
 
   @override
   Widget build(BuildContext context) {

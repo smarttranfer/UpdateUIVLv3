@@ -1,8 +1,9 @@
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import '../login/login_screen.dart';
 import 'app_icon.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -37,11 +38,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
   //
   navigate() async {
+    await constant.DC_adress();
     Future.delayed(Duration.zero,()async{
       Navigator.pushReplacementNamed(context, '/login');
     });
-
-    // Navigator.of(context).pushNamedAndRemoveUntil(
-    //     '/login', (Route<dynamic> route) => false);
   }
 }

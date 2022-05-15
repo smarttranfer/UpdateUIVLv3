@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vldebitor/funtion_app/apilogin/fn_login.dart';
+import 'package:vldebitor/funtion_app/apilogin/login.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../utilities/constants.dart';
 import '../home/home.dart';
@@ -13,6 +15,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
+  final TextEditingController username = TextEditingController();
+  final TextEditingController password = TextEditingController();
 
   Widget _buildEmailTF() {
     return Column(
@@ -28,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
+            controller: username,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
               color: Colors.white,
@@ -64,6 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
+            controller: password,
             obscureText: true,
             style: TextStyle(
               color: Colors.white,
@@ -121,9 +127,13 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () {
-          Navigator.pushNamed(context, '/home');
-          _showErrorMessage();
+        onPressed: () async{
+          await fn_login.fn_loginapp(username.text, password.text);
+          if(login.LoginSucces==true){
+            Navigator.pushNamed(context, '/home');
+          }else{
+            _showErrorMessage();
+          }
         } ,
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(

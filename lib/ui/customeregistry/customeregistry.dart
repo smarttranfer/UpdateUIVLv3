@@ -2,8 +2,13 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vldebitor/funtion_app/apiregistercustomer/registercustomer.dart';
 import 'package:vldebitor/theme/Color_app.dart';
+import '../../funtion_app/apiregistercustomer/fn_registercustomer.dart';
 import '../../utilities/constants.dart';
+import '../../widget/process_loading.dart';
 import '../home/home.dart';
 
 class CustomeregisterScreen extends StatefulWidget {
@@ -13,6 +18,7 @@ class CustomeregisterScreen extends StatefulWidget {
 
 class _CustomeregisterScreen extends State<CustomeregisterScreen> {
   bool _rememberMe = false;
+  bool _isLoaderVisible = false;
 
   Widget _buildEmailTF() {
     return Column(
@@ -80,7 +86,8 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
-            obscureText: true,
+            keyboardType: TextInputType.number,
+            maxLength: 11,
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
@@ -100,17 +107,35 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
       ],
     );
   }
-
+  Future _CreaterCustomers() async {
+    context.loaderOverlay.show(widget: ReconnectingOverlay());
+    setState(() {
+      _isLoaderVisible = context.loaderOverlay.visible;
+    });
+    final prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token").toString();
+    await CreaterCustomer.CreaterCustomers(token);
+    // Loader.hide();
+  }
   Widget _buildContinueBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-              '/registerShop', (Route<dynamic> route) => false);
-          _showErrorMessage();
+        onPressed: () async {
+
+          await Future.delayed(Duration(seconds: 3));
+          await _CreaterCustomers();
+          if(registercustomer.Create_Customer_Succes==true){
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                '/registerShop', (Route<dynamic> route) => false);
+
+          }else{
+            _showErrorMessage();
+          }
+
+
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
