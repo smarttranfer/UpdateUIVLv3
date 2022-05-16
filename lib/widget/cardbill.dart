@@ -5,21 +5,23 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../theme/Color_app.dart';
 import '../utilities/constants.dart';
 
-class Shoplistcardpay extends StatefulWidget {
-  String Date;
-  String Total;
-  String Paid;
-  String Totalpay;
+class cardbill extends StatefulWidget {
+  String name;
+  String address;
+  String bill;
+  String money;
+  String date_create;
 
-  Shoplistcardpay(this.Date, this.Total, this.Paid, this.Totalpay);
+  cardbill(
+      this.name, this.address, this.bill, this.money, this.date_create);
 
   @override
   State<StatefulWidget> createState() {
-    return _Shoplistcardpay();
+    return _cardbill();
   }
 }
 
-class _Shoplistcardpay extends State<Shoplistcardpay> {
+class _cardbill extends State<cardbill> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -67,6 +69,62 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                               SizedBox(
                                 height: 25,
                               ),
+                              Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: 30,
+                                        ),
+                                        Icon(
+                                          Icons.remove_circle_outline_sharp,
+                                          color: Colors.grey,
+                                          size: 33.0,
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            TextButton(
+                                              onPressed: () {
+
+                                              },
+                                              child: Column(
+                                                crossAxisAlignment:CrossAxisAlignment.start,
+                                                children: [
+                                                  Text("Edit  ",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.w400,
+                                                      decoration:
+                                                      TextDecoration.none,
+                                                      fontSize: 17,
+                                                      fontFamily: 'OpenSans',
+                                                    ),),
+                                                  Text("Edit information of shop",
+                                                      style: TextStyle(
+                                                        color: Colors.grey,
+                                                        decoration:
+                                                        TextDecoration.none,
+                                                        fontWeight: FontWeight.w300,
+                                                        fontSize: 15,
+                                                        fontFamily: 'OpenSans',
+                                                      )),
+                                                ],
+                                              ),
+                                            ),
+
+                                          ],
+                                        )
+                                      ],
+                                    )
+                                  ]),
                               Container(
                                 padding: EdgeInsets.only(left: 90),
                                 child: Divider(
@@ -86,31 +144,29 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                                   width: 20,
                                 ),
                                 Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment:CrossAxisAlignment.start,
                                   children: [
                                     TextButton(
                                       onPressed: () {
-                                        _showWarningMessage(
-                                            "Do you want delete customer ?");
+                                        _showWarningMessage("Do you want delete customer ?");
                                       },
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment:CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            "Delete",
+                                          Text("Delete",
                                             style: TextStyle(
                                               color: Colors.red,
                                               fontWeight: FontWeight.w400,
-                                              decoration: TextDecoration.none,
+                                              decoration:
+                                              TextDecoration.none,
                                               fontSize: 17,
                                               fontFamily: 'OpenSans',
-                                            ),
-                                          ),
+                                            ),),
                                           Text("Delete Shop",
                                               style: TextStyle(
                                                 color: Colors.grey,
-                                                decoration: TextDecoration.none,
+                                                decoration:
+                                                TextDecoration.none,
                                                 fontWeight: FontWeight.w300,
                                                 fontSize: 15,
                                                 fontFamily: 'OpenSans',
@@ -145,7 +201,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Date: ${widget.Date}",
+                          "Name: ${widget.name}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -153,7 +209,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                           height: 5,
                         ),
                         Text(
-                          "Total: ${widget.Total}",
+                          "Address: ${widget.address}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -161,44 +217,27 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                           height: 5,
                         ),
                         Text(
-                          "Paid: ${widget.Paid}",
+                          "Bill: ${widget.bill}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
                         SizedBox(
                           height: 5,
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              "Total pay:",
-                              style: kLabelStyle,
-                              textDirection: TextDirection.ltr,
-                            ),
-                            SizedBox(width: 5),
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              decoration: kBoxDecorationMoneyStyle,
-                              width: MediaQuery.of(context).size.width/1.5,
-                              height: 30,
-                              child: TextField(
-                                keyboardType: TextInputType.number,
+                        Text(
+                          "Money: ${widget.money}",
+                          style: kLabelStyle,
+                          textDirection: TextDirection.ltr,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "Date created: ${widget.date_create}",
+                          style: kLabelStyle,
+                          textDirection: TextDirection.ltr,
+                        ),
 
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'OpenSans',
-                                ),
-                                decoration: InputDecoration(
-
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.only(bottom: 18,left: 5),
-                                  // hintText: 'Enter Money',
-                                  hintStyle: kHintTextStyle,
-                                ),
-                              ),
-                            )
-                          ],
-                        )
                       ],
                     ),
                   )
@@ -254,30 +293,27 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
     showCupertinoDialog(
         context: context,
         builder: (context) => Theme(
-              data: ThemeData.dark(),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-                child: CupertinoAlertDialog(
-                    title: Text(
-                      "Warning",
-                      style: TextStyle(color: Colors.red),
-                    ),
-                    content: Text(message),
-                    actions: [
-                      CupertinoDialogAction(
-                          child: Text(
-                            "Yes",
-                            style: TextStyle(color: Colors.red),
-                          ),
-                          onPressed: () => Navigator.pop(context)),
-                      CupertinoDialogAction(
-                          child: Text(
-                            "No",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () => Navigator.pop(context))
-                    ]),
-              ),
-            ));
+          data: ThemeData.dark(),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: CupertinoAlertDialog(
+                title: Text("Warning" ,style: TextStyle(color: Colors.red),),
+                content: Text(message),
+                actions: [
+                  CupertinoDialogAction(
+                      child: Text(
+                        "Yes",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      onPressed: () => Navigator.pop(context)),
+                  CupertinoDialogAction(
+                      child: Text(
+                        "No",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () => Navigator.pop(context))
+                ]),
+          ),
+        ));
   }
 }

@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 
 import '../customelist/customelist.dart';
+import '../setting/setting.dart';
 
 class Home_page extends StatefulWidget {
   @override
@@ -12,30 +13,23 @@ class Home_page extends StatefulWidget {
 }
 
 class _Home_page extends State<Home_page> {
-  int _page = 0;
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
-
-
-  Future _getDataCutomer() async {
-    final prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("token").toString();
-
-  }
-
-
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _tabItems = [Customelist(), Customelist(), SettingsPage(),SettingsPage()];
+    Widget page  = _tabItems[3];
+    int activePage = 0;
     return Scaffold(
         bottomNavigationBar: CurvedNavigationBar(
           key: _bottomNavigationKey,
           index: 0,
           height: 60.0,
           items: <Widget>[
-            Icon(Icons.people_alt_sharp, size: 30,color: App_Color.green,),
-            Icon(Icons.person, size: 30,color: App_Color.green),
-            Icon(Icons.stacked_bar_chart, size: 30,color: App_Color.green),
-            Icon(Icons.settings, size: 30,color: App_Color.green),
+            Icon(Icons.people_alt_outlined, size: 30,color: App_Color.green,),
+            Icon(Icons.person_outline_outlined, size: 30,color: App_Color.green),
+            Icon(Icons.bar_chart_outlined, size: 30,color: App_Color.green),
+            Icon(Icons.settings_outlined, size: 30,color: App_Color.green),
           ],
           color: App_Color.background_textfield,
           buttonBackgroundColor: App_Color.background_textfield,
@@ -44,7 +38,8 @@ class _Home_page extends State<Home_page> {
           animationDuration: Duration(milliseconds: 500),
           onTap: (index) {
             setState(() {
-              _page = index;
+              activePage = index;
+              page = _tabItems[activePage];
             });
           },
           letIndexChange: (index) => true,
@@ -52,7 +47,7 @@ class _Home_page extends State<Home_page> {
         body: Container(
           color: App_Color.Background,
           child: Center(
-            child: Customelist()
+            child: page
           ),
         ));
   }

@@ -1,9 +1,10 @@
 import 'dart:ui';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apiregistercustomer/registercustomer.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../funtion_app/apiregistercustomer/fn_registercustomer.dart';
@@ -19,7 +20,8 @@ class CustomeregisterScreen extends StatefulWidget {
 class _CustomeregisterScreen extends State<CustomeregisterScreen> {
   bool _rememberMe = false;
   bool _isLoaderVisible = false;
-
+  final TextEditingController name = TextEditingController();
+  final TextEditingController phone = TextEditingController();
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,8 +45,10 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
           height: 60.0,
           width: MediaQuery.of(context).size.width,
           child: TextField(
+            controller: name,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
+
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
@@ -86,8 +90,8 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
+            controller: phone,
             keyboardType: TextInputType.number,
-            maxLength: 11,
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
@@ -107,16 +111,14 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
       ],
     );
   }
-  Future _CreaterCustomers() async {
-    context.loaderOverlay.show(widget: ReconnectingOverlay());
-    setState(() {
-      _isLoaderVisible = context.loaderOverlay.visible;
-    });
+
+  Future _CreaterCustomers(String Name, String Phone) async {
     final prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token").toString();
-    await CreaterCustomer.CreaterCustomers(token);
-    // Loader.hide();
+    await CreaterCustomer.CreaterCustomers(token,Name,Phone);
+
   }
+
   Widget _buildContinueBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
@@ -124,18 +126,24 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () async {
-
-          await Future.delayed(Duration(seconds: 3));
-          await _CreaterCustomers();
-          if(registercustomer.Create_Customer_Succes==true){
+          setState(() {
+            _isLoaderVisible = true;
+          });
+          await _CreaterCustomers(name.text,phone.text);
+          setState(() {
+            _isLoaderVisible = false;
+          });
+          if (registercustomer.Create_Customer_Succes == true && phone.value.text.toString().length == 11) {
             Navigator.of(context).pushNamedAndRemoveUntil(
                 '/registerShop', (Route<dynamic> route) => false);
+          } else {
+            if(phone.value.text.toString().length > 11||phone.value.text.toString().length < 11){
+              _showErrorMessage("Your phone number is not 11 characters long");
+            }else{
+              _showErrorMessage("Your registration has a problem");
+            }
 
-          }else{
-            _showErrorMessage();
           }
-
-
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -230,51 +238,84 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
       ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
-        child: GestureDetector(
-          onHorizontalDragUpdate: (details) {
-            if (details.delta.dx > 0) {
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/home', (Route<dynamic> route) => false);
-              // Right Swipe
-            }
-          },
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Stack(
-            children: <Widget>[
-              Container(
+        child: _isLoaderVisible
+            ? Container(
                 color: App_Color.Background,
-                height: double.infinity,
-                child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10.0,
-                    vertical: 6.0,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      _buildEmailTF(),
-                      SizedBox(
-                        height: 6.0,
+                child: Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                        height: 70,
+                        width: 70,
+                        decoration: BoxDecoration(
+                          color: App_Color.background_search,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Card(
+                            elevation: 4.0,
+                            color: App_Color.background_search,
+                            child: CircularProgressIndicator(
+                              color: App_Color.green,
+                            ))),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    AnimatedTextKit(
+                      animatedTexts: [
+                        WavyAnimatedText('Loading . . . .',
+                            textStyle: TextStyle(color: App_Color.green)),
+                      ],
+                      isRepeatingAnimation: true,
+                    )
+                  ],
+                )))
+            : GestureDetector(
+                onHorizontalDragUpdate: (details) {
+                  if (details.delta.dx > 0) {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/home', (Route<dynamic> route) => false);
+                    // Right Swipe
+                  }
+                },
+                onTap: () => FocusScope.of(context).unfocus(),
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      color: App_Color.Background,
+                      height: double.infinity,
+                      child: SingleChildScrollView(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.0,
+                          vertical: 6.0,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            _buildEmailTF(),
+                            SizedBox(
+                              height: 6.0,
+                            ),
+                            _buildPasswordTF(),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  top: MediaQuery.of(context).size.height / 2,
+                                  bottom: 10),
+                              child: _buildContinueBtn(),
+                            )
+                          ],
+                        ),
                       ),
-                      _buildPasswordTF(),
-
-                      Container(
-                        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/2,bottom: 10),
-                        child: _buildContinueBtn(),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
-        ),
+              ),
       ),
     );
   }
 
-  _showErrorMessage() {
+  _showErrorMessage(String messenger) {
     showCupertinoDialog(
         context: context,
         builder: (context) => Theme(
@@ -282,13 +323,13 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
                 child: CupertinoAlertDialog(
-                    title: Text("Warning"),
-                    content: Text("Login failed, check information."),
+                    title: Text("Warning",style: TextStyle(color: Colors.red),),
+                    content: Text("${messenger}"),
                     actions: [
                       CupertinoDialogAction(
                           child: Text(
                             "Close",
-                            style: TextStyle(color: App_Color.green),
+                            style: TextStyle(color: Colors.red),
                           ),
                           onPressed: () => Navigator.pop(context))
                     ]),

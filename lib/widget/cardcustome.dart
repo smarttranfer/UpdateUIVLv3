@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:vldebitor/constants/constant_app.dart';
 import '../theme/Color_app.dart';
 import '../utilities/constants.dart';
 
@@ -12,9 +13,10 @@ class customelistcard extends StatefulWidget {
   String Bill;
   String Total;
   String Create;
+  int index;
 
   customelistcard(
-      this.name, this.Phone, this.NameShop, this.Bill, this.Total, this.Create);
+      this.name, this.Phone, this.NameShop, this.Bill, this.Total, this.Create,this.index);
 
   @override
   State<StatefulWidget> createState() {
@@ -278,6 +280,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                         color: App_Color.orange, // background
                         textColor: Colors.white, // foreground
                         onPressed: () {
+                          constant.indexshop = widget.index;
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               '/shoplist', (Route<dynamic> route) => false);
                         },
@@ -298,7 +301,10 @@ class _ShopregisterScreen extends State<customelistcard> {
                         ),
                         color: App_Color.green, // background
                         textColor: Colors.white, // foreground
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              '/billlist', (Route<dynamic> route) => false);
+                        },
                         child: Text("Add Bill"),
                       )
                     ],

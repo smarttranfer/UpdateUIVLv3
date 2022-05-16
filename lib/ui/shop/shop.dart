@@ -1,13 +1,12 @@
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/theme/Color_app.dart';
-
+import '../../model/sc_datahome/sc_datahome_customer.dart';
 import '../../utilities/constants.dart';
-import '../../widget/cardcustome.dart';
 import '../../widget/cardshop.dart';
 
 class Shoplist extends StatefulWidget {
@@ -51,7 +50,13 @@ class _Shoplist extends State<Shoplist> {
     if (mounted) setState(() {});
     _refreshController.loadComplete();
   }
-
+  int numbershop(List<sc_datahome_customer> listshop){
+    int number_shop = 0;
+    for(var i in listshop){
+      number_shop+= i.ListBills.length;
+    }
+    return number_shop;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,15 +180,15 @@ class _Shoplist extends State<Shoplist> {
                                 onLoading: _onLoading,
                                 onRefresh: _onRefresh,
                                 child: ListView.builder(
-                                    itemCount: 100,
+                                    itemCount: numbershop(constant.ListCustomer_infor_all),
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return Shoplistcard(
-                                          "Cuong",
-                                          "Vihu",
-                                          "ABCD",
-                                          "10000",
-                                          "25-5-2022");
+                                          constant.ListCustomer_infor_all[constant.indexshop].Name_Custome,
+                                          constant.ListCustomer_infor_all[constant.indexshop].ListBill_detail[index].Street_name,
+                                          constant.ListCustomer_infor_all[constant.indexshop].ListBill_detail.length.toString(),
+                                          constant.ListCustomer_infor_all[constant.indexshop].ListBill_detail[index].Original_amount,
+                                          constant.ListCustomer_infor_all[constant.indexshop].ListBill_detail[index].Create_date);
                                     })))),
                   ))
             ],

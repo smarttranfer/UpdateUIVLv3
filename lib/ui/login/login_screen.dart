@@ -2,9 +2,11 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/funtion_app/apilogin/fn_login.dart';
 import 'package:vldebitor/funtion_app/apilogin/login.dart';
 import 'package:vldebitor/theme/Color_app.dart';
+import '../../funtion_app/home/fn_getdatacutome.dart';
 import '../../utilities/constants.dart';
 import '../home/home.dart';
 
@@ -17,7 +19,11 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
   final TextEditingController username = TextEditingController();
   final TextEditingController password = TextEditingController();
-
+  void saveuser(String user , String password)async{
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString("username", user);
+    await prefs.setString("password", password);
+  }
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,9 +111,14 @@ class _LoginScreenState extends State<LoginScreen> {
               value: _rememberMe,
               checkColor: Colors.green,
               activeColor: Colors.white,
-              onChanged: (value) {
+              onChanged: (value){
                 setState(() {
                   _rememberMe = value!;
+                  if(_rememberMe==true){
+                    saveuser(username.text,password.text);
+                  }else{
+                    saveuser("","");
+                  }
                 });
               },
             ),
@@ -128,7 +139,10 @@ class _LoginScreenState extends State<LoginScreen> {
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () async{
+          final prefs = await SharedPreferences.getInstance();
           await fn_login.fn_loginapp(username.text, password.text);
+          String token = prefs.getString("token").toString();
+          await fn_DataCustomer.getDataCustomer(token);
           if(login.LoginSucces==true){
             Navigator.pushNamed(context, '/home');
           }else{

@@ -1,7 +1,10 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/apilogin/fn_login.dart';
+import 'package:vldebitor/funtion_app/apilogin/login.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'app_icon.dart';
@@ -39,8 +42,21 @@ class _SplashScreenState extends State<SplashScreen> {
   //
   navigate() async {
     await constant.DC_adress();
-    Future.delayed(Duration.zero,()async{
-      Navigator.pushReplacementNamed(context, '/login');
-    });
+    final prefs = await SharedPreferences.getInstance();
+    String? username =  await prefs.getString("username");
+    String? password = await prefs.getString("password");
+    if(username.toString().isNotEmpty){
+      await fn_login.fn_loginapp(username.toString(), password.toString());
+      if(login.LoginSucces==true){
+        Navigator.pushReplacementNamed(context, '/home');
+      }else{
+        Navigator.pushReplacementNamed(context, '/login');
+      }
+    }else{
+      Future.delayed(Duration.zero,()async{
+        Navigator.pushReplacementNamed(context, '/login');
+      });
+    }
+
   }
 }

@@ -5,18 +5,19 @@ import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/theme/Color_app.dart';
-import '../../model/sc_datahome/sc_datahome_bill.dart';
+import '../../model/sc_datahome/sc_datahome_customer.dart';
 import '../../utilities/constants.dart';
-import '../../widget/cardcustome.dart';
+import '../../widget/cardbill.dart';
+import '../../widget/cardshop.dart';
 
-class Customelist extends StatefulWidget {
-  Customelist({Key? key}) : super(key: key);
+class Billlist extends StatefulWidget {
+  Billlist({Key? key}) : super(key: key);
 
   @override
-  _Customelist createState() => _Customelist();
+  _Billlist createState() => _Billlist();
 }
 
-class _Customelist extends State<Customelist> {
+class _Billlist extends State<Billlist> {
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   final List<Map<String, dynamic>> _allUsers = [];
@@ -51,24 +52,31 @@ class _Customelist extends State<Customelist> {
     _refreshController.loadComplete();
   }
 
-  String List_shop(List<sc_datahome_bill> list_shop_bill){
-    String shops = "";
-    for(var shop in list_shop_bill){
-      shops += shop.Name.toString();
+  int numbershop(List<sc_datahome_customer> listshop) {
+    int number_shop = 0;
+    for (var i in listshop) {
+      number_shop += i.ListBills.length;
     }
-    return shops;
+    return number_shop;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/home', (Route<dynamic> route) => false);
+            },
+            icon: Icon(Icons.arrow_back_ios),
+          ),
           backgroundColor: App_Color.Background,
           centerTitle: true,
           automaticallyImplyLeading: false,
           title: Center(
               child: Text(
-            "Custome List",
+            "Bills",
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
@@ -86,7 +94,7 @@ class _Customelist extends State<Customelist> {
                 child: InkWell(
                   onTap: () {
                     Navigator.of(context).pushNamedAndRemoveUntil(
-                        '/registerCustome', (Route<dynamic> route) => false);
+                        '/registershopnew', (Route<dynamic> route) => false);
                   },
                   child: Container(
                     child: Icon(
@@ -129,7 +137,7 @@ class _Customelist extends State<Customelist> {
               Expanded(
                   child: SingleChildScrollView(
                 child: Container(
-                    child: false
+                    child: constant.ListCustomer_infor_all.isEmpty
                         ? Center(
                             child: Text(
                               "Not data",
@@ -175,18 +183,16 @@ class _Customelist extends State<Customelist> {
                                 onLoading: _onLoading,
                                 onRefresh: _onRefresh,
                                 child: ListView.builder(
-                                    itemCount: constant.ListCustomer_infor_all.length,
+                                    itemCount: numbershop(
+                                        constant.ListCustomer_infor_all),
                                     itemBuilder:
                                         (BuildContext context, int index) {
-                                      return customelistcard(
-                                          constant.ListCustomer_infor_all[index].Name_Custome,
-                                          constant.ListCustomer_infor_all[index].Phome,
-                                          List_shop(constant.ListCustomer_infor_all[index].ListBills),
-                                          constant.ListCustomer_infor_all[index].ListBills.length.toString(),
-                                          constant.ListCustomer_infor_all[index].ListBills[index].Original_amount,
-                                          constant.ListCustomer_infor_all[index].ListBills[index].Payment,
-                                          index
-                                      );
+                                      return cardbill(
+                                          constant.ListCustomer_infor_all[constant.indexshop].Name_Custome,
+                                          constant.ListCustomer_infor_all[constant.indexshop].ListBill_detail[index].Street_name,
+                                          constant.ListCustomer_infor_all[constant.indexshop].ListBill_detail.length.toString(),
+                                          constant.ListCustomer_infor_all[constant.indexshop].ListBill_detail[index].Original_amount,
+                                          constant.ListCustomer_infor_all[constant.indexshop].ListBill_detail[index].Create_date);
                                     })))),
               ))
             ],

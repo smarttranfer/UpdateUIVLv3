@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apilogin/login.dart';
 
 class fn_login {
@@ -16,8 +17,8 @@ class fn_login {
       login.datalogin = await response.stream.bytesToString();
       if (json.decode(login.datalogin)["status"].toString() == "200") {
         login.LoginSucces = true;
-        await prefs.setString(
-            'token', json.decode(login.datalogin)["data"]["token"].toString());
+        constant.user = username;
+        await prefs.setString('token', json.decode(login.datalogin)["data"]["token"].toString());
         List<String> rule = [];
         for (String rules in json.decode(login.datalogin)["status"]["roles"]) {
           rule.add(rules);

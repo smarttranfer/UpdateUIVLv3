@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vldebitor/ui/addbill/addbill.dart';
 import 'package:vldebitor/ui/customelist/customelist.dart';
 import 'package:vldebitor/ui/customeregistry/customeregistry.dart';
 import 'package:vldebitor/ui/home/home.dart';
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
         '/registerShop': (context) => ShopregisterScreen(),
         '/shoplist':(context)=>Shoplist(),
         '/registershopnew':(context)=>ShopregisterScreen(),
-        '/shopdetail':(context)=>DetailScreen()
+        '/shopdetail':(context)=>DetailScreen(),
+        '/billlist':(context)=>Billlist()
       },
     );
   }
