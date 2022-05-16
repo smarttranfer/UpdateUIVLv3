@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,12 +8,12 @@ import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 
 class SettingsPage extends StatelessWidget {
-
-  void removedata() async{
+  void removedata() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove("username");
     prefs.remove("password");
   }
+
   @override
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
@@ -23,9 +25,7 @@ class SettingsPage extends StatelessWidget {
         backgroundColor: App_Color.Background,
         title: Text(
           'Settings',
-          style: TextStyle(
-              fontWeight: FontWeight.bold
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
       body: Container(
@@ -56,6 +56,21 @@ class SettingsPage extends StatelessWidget {
                       onChanged: (value) {},
                     ),
                   ),
+                  SettingsItem(
+                    onTap: () {},
+                    icons: Icons.language_outlined,
+                    iconStyle: IconStyle(
+                      iconsColor: Colors.white,
+                      withBackground: true,
+                      backgroundColor: Colors.red,
+                    ),
+                    title: 'Language',
+                    subtitle: "Switch language",
+                    trailing: Switch.adaptive(
+                      value: true,
+                      onChanged: (value) {},
+                    ),
+                  ),
                 ],
               ),
               SettingsGroup(
@@ -64,7 +79,7 @@ class SettingsPage extends StatelessWidget {
                     onTap: () {},
                     icons: Icons.info_rounded,
                     iconStyle: IconStyle(
-                      backgroundColor: Colors.purple,
+                      backgroundColor: Colors.red,
                     ),
                     title: 'About',
                     subtitle: "Learn more about Vihu",
@@ -76,9 +91,41 @@ class SettingsPage extends StatelessWidget {
                 items: [
                   SettingsItem(
                     onTap: () {
+                      showCupertinoDialog(
+                          context: context,
+                          builder: (context) => Theme(
+                                data: ThemeData.dark(),
+                                child: BackdropFilter(
+                                  filter:
+                                      ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                                  child: CupertinoAlertDialog(
+                                      title: Text("Infomation"),
+                                      content: Text(
+                                          "Do you want close app ?"),
+                                      actions: [
+                                        CupertinoDialogAction(
+                                            child: Text(
+                                              "Yes",
+                                              style: TextStyle(
+                                                  color: App_Color.green),
+                                            ),
+                                            onPressed: () {
+                                              removedata();
+                                              Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
 
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                          '/login', (Route<dynamic> route) => false);
+                                            }),
+
+                                        CupertinoDialogAction(
+                                            child: Text("Close",
+                                              style: TextStyle(color: App_Color.green),
+                                            ),
+                                            onPressed: () =>
+                                                Navigator.pop(context))
+                                      ]),
+                                ),
+                              ));
+
+
                     },
                     icons: Icons.exit_to_app_rounded,
                     title: "Sign Out",

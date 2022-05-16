@@ -1,3 +1,4 @@
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,41 +15,50 @@ class Home_page extends StatefulWidget {
 
 class _Home_page extends State<Home_page> {
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _tabItems = [Customelist(), Customelist(), SettingsPage(),SettingsPage()];
-    Widget page  = _tabItems[3];
-    int activePage = 0;
+    List<Widget> tabItems = <Widget>[
+      Customelist(),
+      Customelist(),
+      SettingsPage(),
+      SettingsPage()
+    ];
     return Scaffold(
-        bottomNavigationBar: CurvedNavigationBar(
-          key: _bottomNavigationKey,
-          index: 0,
-          height: 60.0,
-          items: <Widget>[
-            Icon(Icons.people_alt_outlined, size: 30,color: App_Color.green,),
-            Icon(Icons.person_outline_outlined, size: 30,color: App_Color.green),
-            Icon(Icons.bar_chart_outlined, size: 30,color: App_Color.green),
-            Icon(Icons.settings_outlined, size: 30,color: App_Color.green),
-          ],
-          color: App_Color.background_textfield,
-          buttonBackgroundColor: App_Color.background_textfield,
-          backgroundColor: App_Color.Background,
-          animationCurve: Curves.easeInOutCubicEmphasized,
-          animationDuration: Duration(milliseconds: 500),
-          onTap: (index) {
+        bottomNavigationBar: BottomNavyBar(
+          backgroundColor: App_Color.background_textfield,
+          selectedIndex: currentIndex,
+          onItemSelected: (index){
             setState(() {
-              activePage = index;
-              page = _tabItems[activePage];
+              currentIndex = index;
             });
-          },
-          letIndexChange: (index) => true,
-        ),
+          }, items: [
+          BottomNavyBarItem(
+            icon: Icon(Icons.home),
+            title: Text('Home'),
+            activeColor: App_Color.green,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.people_alt_rounded),
+            title: Text('Staff'),
+            activeColor: App_Color.green,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.bar_chart,),
+            title: Text('Statistical'),
+            activeColor: App_Color.green,
+          ),
+          BottomNavyBarItem(
+            icon: Icon(Icons.settings),
+            title: Text('Setting'),
+            activeColor: App_Color.green,
+            inactiveColor: App_Color.orange,
+          ),
+        ]),
         body: Container(
           color: App_Color.Background,
-          child: Center(
-            child: page
-          ),
+          child: Center(child: tabItems[currentIndex]),
         ));
   }
 }

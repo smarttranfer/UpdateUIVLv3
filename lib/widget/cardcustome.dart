@@ -195,19 +195,6 @@ class _ShopregisterScreen extends State<customelistcard> {
               ),
               Row(
                 children: [
-                  // Column(
-                  //   mainAxisAlignment: MainAxisAlignment.end,
-                  //   children: [
-                  //     Container(
-                  //       height: 80,
-                  //       width: 80,
-                  //       child: Image.asset(
-                  //         "assets/user.png",
-                  //         fit: BoxFit.contain,
-                  //       ),
-                  //     )
-                  //   ],
-                  // ),
                   SizedBox(
                     width: 20,
                   ),

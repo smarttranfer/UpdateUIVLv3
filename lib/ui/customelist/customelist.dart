@@ -183,8 +183,8 @@ class _Customelist extends State<Customelist> {
                                           constant.ListCustomer_infor_all[index].Phome,
                                           List_shop(constant.ListCustomer_infor_all[index].ListBills),
                                           constant.ListCustomer_infor_all[index].ListBills.length.toString(),
-                                          constant.ListCustomer_infor_all[index].ListBills[index].Original_amount,
-                                          constant.ListCustomer_infor_all[index].ListBills[index].Payment,
+                                          (constant.ListCustomer_infor_all[index].ListBills.length > 0) ?constant.ListCustomer_infor_all[index].ListBills[index].Original_amount:"",
+                                          (constant.ListCustomer_infor_all[index].ListBills.length > 0) ?constant.ListCustomer_infor_all[index].ListBills[index].Payment : "",
                                           index
                                       );
                                     })))),

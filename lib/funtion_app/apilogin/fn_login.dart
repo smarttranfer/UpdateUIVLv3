@@ -25,6 +25,7 @@ class fn_login {
         }
         await prefs.setStringList("rule", rule);
       } else {
+        login.LoginSucces = false;
         await prefs.setString('token', "");
         await prefs.setStringList("rule", []);
       }

@@ -21,11 +21,12 @@ class CreaterCustomer {
       });
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
-      home.datacustomeall = await response.stream.bytesToString();
-      print(home.datacustomeall);
-      if (json.decode(home.datacustomeall)["status"].toString() == "200") {
+      registercustomer.Jsondata = await response.stream.bytesToString();
+      if (json.decode(registercustomer.Jsondata)["status"].toString() == "200") {
         registercustomer.Create_Customer_Succes = true;
+        prefs.setInt("id_custome", json.decode(registercustomer.Jsondata)["data"]["id"]);
       } else {
+        registercustomer.Create_Customer_Succes = false;
         print(response.reasonPhrase);
       }
     } catch (e) {}

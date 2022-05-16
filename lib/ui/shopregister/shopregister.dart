@@ -2,7 +2,11 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vldebitor/funtion_app/apiregistershop/registershop.dart';
 import 'package:vldebitor/theme/Color_app.dart';
+import '../../funtion_app/apiregistershop/fn_registershop.dart';
 import '../../utilities/constants.dart';
 import '../home/home.dart';
 
@@ -13,7 +17,10 @@ class ShopregisterScreen extends StatefulWidget {
 
 class _ShopregisterScreen extends State<ShopregisterScreen> {
   bool _rememberMe = false;
-
+  final TextEditingController name = TextEditingController();
+  final TextEditingController phone = TextEditingController();
+  final TextEditingController address = TextEditingController();
+  final TextEditingController postcode = TextEditingController();
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,6 +44,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
           height: 60.0,
           width: MediaQuery.of(context).size.width,
           child: TextField(
+            controller: name,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
               color: Colors.white,
@@ -80,7 +88,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
-            obscureText: true,
+            controller: phone,
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
@@ -119,11 +127,12 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
         ),
         SizedBox(height: 10.0),
         Container(
+
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
-            obscureText: true,
+            controller: address,
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
@@ -167,8 +176,9 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
-            obscureText: true,
+            controller: postcode,
             style: TextStyle(
+
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
@@ -188,42 +198,34 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
     );
   }
 
-  Widget _buildContinueBtn() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 20.0),
-      width: double.infinity,
-      child: RaisedButton(
-        elevation: 5.0,
-        onPressed: () {
-          Navigator.pushNamed(context, '/home');
-          _showErrorMessage();
-        },
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        color: Colors.lightBlueAccent,
-        child: Text(
-          'Create Customer',
-          style: TextStyle(
-            color: Colors.white,
-            letterSpacing: 1.5,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
-          ),
-        ),
-      ),
-    );
+  Future _CreaterShop(String name, String phone , String address ,String postcode) async {
+    final prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token").toString();
+    int? Ct_id = prefs.getInt("id_custome");
+    await CreaterShop.CreaterShops(token, name, phone, address, postcode, Ct_id!);
+
   }
   Widget _buildAddShopBtn() {
     return Container(
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () {
-          Navigator.pushNamed(context, '/home');
-          _showErrorMessage();
+        onPressed: () async{
+          await _CreaterShop(name.text,phone.text,address.text,postcode.text);
+          if(registershop.Create_Shop_Succes==true){
+            Fluttertoast.showToast(
+                msg: "Create Shop Done",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: App_Color.green.withOpacity(0.9),
+                textColor: Colors.white,
+                fontSize: 16.0
+            );
+            Navigator.pushNamed(context, '/home');
+          }else{
+            _showErrorMessage(registershop.ContentError);
+          }
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -252,7 +254,6 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
         elevation: 5.0,
         onPressed: () {
           Navigator.pushNamed(context, '/home');
-          _showErrorMessage();
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -371,7 +372,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
     );
   }
 
-  _showErrorMessage() {
+  _showErrorMessage(String content) {
     showCupertinoDialog(
         context: context,
         builder: (context) => Theme(
@@ -380,7 +381,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                 filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
                 child: CupertinoAlertDialog(
                     title: Text("Warning"),
-                    content: Text("Login failed, check information."),
+                    content: Text("${content}"),
                     actions: [
                       CupertinoDialogAction(
                           child: Text(

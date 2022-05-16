@@ -38,6 +38,7 @@ dependencies:
   shared_preferences: ^2.0.15
   pull_to_refresh: ^2.0.0
   animated_text_kit: ^4.2.1
+  bottom_navy_bar: ^6.0.0
   babstrap_settings_screen: ^0.1.3
 
 
