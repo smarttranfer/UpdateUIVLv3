@@ -1,9 +1,12 @@
 import 'dart:ui';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/home/fn_getdatacutome.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../model/sc_datahome/sc_datahome_bill.dart';
 import '../../utilities/constants.dart';
@@ -17,13 +20,21 @@ class Customelist extends StatefulWidget {
 }
 
 class _Customelist extends State<Customelist> {
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  final RefreshController _refreshController = RefreshController(initialRefresh: false);
   final List<Map<String, dynamic>> _allUsers = [];
   List<Map<String, dynamic>> _foundUsers = [];
   String searchString = "";
-  bool checknull = false;
+  String state = "Not Data";
+  bool checknull = true;
   bool check_loding_data = true;
+
+
+  @override
+  void didChangeDependencies() async{
+    await checkEmty();
+    super.didChangeDependencies();
+  }
+
 
   void _runFilter(String enteredKeyword) {
     List<Map<String, dynamic>> results = [];
@@ -51,14 +62,30 @@ class _Customelist extends State<Customelist> {
     _refreshController.loadComplete();
   }
 
-  String List_shop(List<sc_datahome_bill> list_shop_bill){
+  String List_shop(List<sc_datahome_bill> list_shop_bill) {
     String shops = "";
-    for(var shop in list_shop_bill){
+    for (var shop in list_shop_bill) {
       shops += shop.Name.toString();
     }
     return shops;
   }
 
+  Future<bool> checkEmty() async {
+    final prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token").toString();
+    await fn_DataCustomer.getDataCustomer(token);
+    if(constant.ListCustomer_infor_all.isNotEmpty){
+      setState(() {
+        checknull = false;
+      });
+      return false;
+    }else {
+      setState(() {
+        checknull = true;
+      });
+      return true;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,16 +156,42 @@ class _Customelist extends State<Customelist> {
               Expanded(
                   child: SingleChildScrollView(
                 child: Container(
-                    child: false
+                    child: checknull
                         ? Center(
-                            child: Text(
-                              "Not data",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          )
+                            child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              AnimatedTextKit(
+                                animatedTexts: [
+                                  WavyAnimatedText(state,
+                                      textStyle:
+                                          TextStyle(color: App_Color.green)),
+                                ],
+                                isRepeatingAnimation: true,
+                              ),
+                              Center(
+                                  child: IconButton(
+                                      onPressed: () async{
+                                        setState(() {
+                                          state = "Get Data";
+                                        });
+                                        final prefs = await SharedPreferences.getInstance();
+                                        String token = prefs.getString("token").toString();
+                                        await fn_DataCustomer.getDataCustomer(token);
+                                        if(constant.ListCustomer_infor_all.isNotEmpty){
+                                          checkEmty();
+                                        }
+                                      },
+                                      icon: Icon(
+                                        Icons.refresh,
+                                        color: App_Color.green,
+                                      )))
+                            ],
+                          ))
                         : Container(
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height,
+                            height: MediaQuery.of(context).size.height/1.3,
                             child: SmartRefresher(
                                 physics: const BouncingScrollPhysics(),
                                 enablePullDown: true,
@@ -175,7 +228,8 @@ class _Customelist extends State<Customelist> {
                                 onLoading: _onLoading,
                                 onRefresh: _onRefresh,
                                 child: ListView.builder(
-                                    itemCount: constant.ListCustomer_infor_all.length,
+                                    itemCount:
+                                        constant.ListCustomer_infor_all.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return customelistcard(
@@ -183,10 +237,9 @@ class _Customelist extends State<Customelist> {
                                           constant.ListCustomer_infor_all[index].Phome,
                                           List_shop(constant.ListCustomer_infor_all[index].ListBills),
                                           constant.ListCustomer_infor_all[index].ListBills.length.toString(),
-                                          (constant.ListCustomer_infor_all[index].ListBills.length > 0) ?constant.ListCustomer_infor_all[index].ListBills[index].Original_amount:"",
-                                          (constant.ListCustomer_infor_all[index].ListBills.length > 0) ?constant.ListCustomer_infor_all[index].ListBills[index].Payment : "",
-                                          index
-                                      );
+                                          (constant.ListCustomer_infor_all[index].ListBills.length > 0) ? constant.ListCustomer_infor_all[index].ListBills[index].Original_amount : "Data Not Of Available",
+                                          (constant.ListCustomer_infor_all[index].ListBills.length > 0) ? constant.ListCustomer_infor_all[index].ListBills[index].Payment : "Data Not Of Available",
+                                          index);
                                     })))),
               ))
             ],

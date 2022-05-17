@@ -7,14 +7,6 @@ class CreaterShop {
   static Future CreaterShops(
       String token, String name, String phone,String Address,String Postcode,int Ct_id) async {
     try {
-      // print(json.encode({
-      //   "name": "${name}",
-      //   "building_number": "VL build",
-      //   "street_name": "${Address}",
-      //   "phone": "${phone}",
-      //   "post_code": "${Postcode}",
-      //   "customer_id": Ct_id
-      // }));
       final prefs = await SharedPreferences.getInstance();
       String DC_address = await prefs.getString("DC_adress").toString();
       var headers = {
@@ -33,11 +25,12 @@ class CreaterShop {
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       registershop.Jsondata = await response.stream.bytesToString();
+      print(json.decode(registershop.Jsondata ));
       if (json.decode(registershop.Jsondata )["status"].toString() == "200") {
         registershop.Create_Shop_Succes = true;
       } else {
         registershop.Create_Shop_Succes = false;
-        registershop.ContentError = json.decode(registershop.Jsondata)["message"].toString();
+        registershop.ContentError = json.decode(registershop.Jsondata)["data"].toString();
       }
     } catch (e) {}
   }

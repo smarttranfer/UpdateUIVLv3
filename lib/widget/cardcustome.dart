@@ -15,8 +15,8 @@ class customelistcard extends StatefulWidget {
   String Create;
   int index;
 
-  customelistcard(
-      this.name, this.Phone, this.NameShop, this.Bill, this.Total, this.Create,this.index);
+  customelistcard(this.name, this.Phone, this.NameShop, this.Bill, this.Total,
+      this.Create, this.index);
 
   @override
   State<StatefulWidget> createState() {
@@ -95,34 +95,37 @@ class _ShopregisterScreen extends State<customelistcard> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             TextButton(
-                                              onPressed: () {
-
-                                              },
+                                              onPressed: () {},
                                               child: Column(
-                                                crossAxisAlignment:CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  Text("Edit  ",
+                                                  Text(
+                                                    "Edit  ",
                                                     style: TextStyle(
                                                       color: Colors.white,
-                                                      fontWeight: FontWeight.w400,
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                       decoration:
-                                                      TextDecoration.none,
+                                                          TextDecoration.none,
                                                       fontSize: 17,
                                                       fontFamily: 'OpenSans',
-                                                    ),),
-                                                  Text("Edit information of shop",
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                      "Edit information of shop",
                                                       style: TextStyle(
                                                         color: Colors.grey,
                                                         decoration:
-                                                        TextDecoration.none,
-                                                        fontWeight: FontWeight.w300,
+                                                            TextDecoration.none,
+                                                        fontWeight:
+                                                            FontWeight.w300,
                                                         fontSize: 15,
                                                         fontFamily: 'OpenSans',
                                                       )),
                                                 ],
                                               ),
                                             ),
-
                                           ],
                                         )
                                       ],
@@ -147,29 +150,31 @@ class _ShopregisterScreen extends State<customelistcard> {
                                   width: 20,
                                 ),
                                 Column(
-                                  crossAxisAlignment:CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     TextButton(
                                       onPressed: () {
-                                        _showWarningMessage("Do you want delete customer ?");
+                                        _showWarningMessage(
+                                            "Do you want delete customer ?");
                                       },
                                       child: Column(
-                                        crossAxisAlignment:CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text("Delete",
+                                          Text(
+                                            "Delete",
                                             style: TextStyle(
                                               color: Colors.red,
                                               fontWeight: FontWeight.w400,
-                                              decoration:
-                                              TextDecoration.none,
+                                              decoration: TextDecoration.none,
                                               fontSize: 17,
                                               fontFamily: 'OpenSans',
-                                            ),),
+                                            ),
+                                          ),
                                           Text("Delete Customer",
                                               style: TextStyle(
                                                 color: Colors.grey,
-                                                decoration:
-                                                TextDecoration.none,
+                                                decoration: TextDecoration.none,
                                                 fontWeight: FontWeight.w300,
                                                 fontSize: 15,
                                                 fontFamily: 'OpenSans',
@@ -203,51 +208,126 @@ class _ShopregisterScreen extends State<customelistcard> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          "Name: ${widget.name}",
-                          style: kLabelStyle,
-                          textDirection: TextDirection.ltr,
+                        Row(children: [
+                          Text(
+                            "Name:",
+                            style: kLabelStyle,
+                            textDirection: TextDirection.ltr,
+                          ),
+                          Text(
+                            "${widget.name}",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'OpenSans',
+                            ),
+                            textDirection: TextDirection.ltr,
+                          ),
+                        ],),
+
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Phone: ",
+                              style: kLabelStyle,
+                              textDirection: TextDirection.ltr,
+                            ),
+                            Text(
+                              "${widget.Phone}",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: 'OpenSans',
+                              ),
+                              textDirection: TextDirection.ltr,
+                            ),
+                          ],
                         ),
                         SizedBox(
                           height: 5,
                         ),
-                        Text(
-                          "Phone: ${widget.Phone}",
-                          style: kLabelStyle,
-                          textDirection: TextDirection.ltr,
-                        ),
+                        Row(children: [
+                          Text(
+                            "Shop: ",
+                            style: kLabelStyle,
+                            textDirection: TextDirection.ltr,
+                          ),
+                          Text(
+                            "${widget.NameShop}",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'OpenSans',
+                            ),
+                            textDirection: TextDirection.ltr,
+                          ),
+                        ],),
+
                         SizedBox(
                           height: 5,
                         ),
-                        Text(
-                          "Shop: ${widget.NameShop}",
-                          style: kLabelStyle,
-                          textDirection: TextDirection.ltr,
-                        ),
+                        Row(children: [
+                          Text(
+                            "Bill: ",
+                            style: kLabelStyle,
+                            textDirection: TextDirection.ltr,
+                          ),
+                          Text(
+                            "${widget.Bill}",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'OpenSans',
+                            ),
+                            textDirection: TextDirection.ltr,
+                          ),
+                        ],),
+
                         SizedBox(
                           height: 5,
                         ),
-                        Text(
-                          "Bill: ${widget.Bill}",
-                          style: kLabelStyle,
-                          textDirection: TextDirection.ltr,
-                        ),
+                        Row(
+                          children: [
+                          Text(
+                            "Total: ",
+                            style: kLabelStyle,
+                            textDirection: TextDirection.ltr,
+                          ),
+                          Text(
+                            "${widget.Total}",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'OpenSans',
+                            ),
+                            textDirection: TextDirection.ltr,
+                          ),
+
+                        ],),
+
                         SizedBox(
                           height: 5,
                         ),
-                        Text(
-                          "Total: ${widget.Total}",
-                          style: kLabelStyle,
-                          textDirection: TextDirection.ltr,
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "Credit: ${widget.Create}",
-                          style: kLabelStyle,
-                          textDirection: TextDirection.ltr,
-                        ),
+                        Row(children: [
+                          Text(
+                            "Credit: ",
+                            style: kLabelStyle,
+                            textDirection: TextDirection.ltr,
+                          ),
+                          Text(
+                            "${widget.Create}",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'OpenSans',
+                            ),
+                            textDirection: TextDirection.ltr,
+                          ),
+                        ],)
+
                       ],
                     ),
                   )
@@ -311,7 +391,10 @@ class _ShopregisterScreen extends State<customelistcard> {
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
                 child: CupertinoAlertDialog(
-                    title: Text("Warning" ,style: TextStyle(color: Colors.red),),
+                    title: Text(
+                      "Warning",
+                      style: TextStyle(color: Colors.red),
+                    ),
                     content: Text(message),
                     actions: [
                       CupertinoDialogAction(

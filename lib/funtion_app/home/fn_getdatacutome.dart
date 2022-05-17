@@ -10,6 +10,7 @@ import '../../model/sc_datahome/sc_datahome_customer.dart';
 
 class fn_DataCustomer{
   static Future getDataCustomer(String token) async{
+    constant.ListCustomer_infor_all.clear();
     final prefs = await SharedPreferences.getInstance();
     String DC_address = await prefs.getString("DC_adress").toString();
     var headers = {
