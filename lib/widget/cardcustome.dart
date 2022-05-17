@@ -2,11 +2,14 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
+import '../funtion_app/apigetshopinformation/fn_getshopininformation.dart';
 import '../theme/Color_app.dart';
 import '../utilities/constants.dart';
 
 class customelistcard extends StatefulWidget {
+  int ID_Custome;
   String name;
   String Phone;
   String NameShop;
@@ -16,7 +19,7 @@ class customelistcard extends StatefulWidget {
   int index;
 
   customelistcard(this.name, this.Phone, this.NameShop, this.Bill, this.Total,
-      this.Create, this.index);
+      this.Create, this.index,this.ID_Custome);
 
   @override
   State<StatefulWidget> createState() {
@@ -346,8 +349,11 @@ class _ShopregisterScreen extends State<customelistcard> {
                         ),
                         color: App_Color.orange, // background
                         textColor: Colors.white, // foreground
-                        onPressed: () {
-                          constant.indexshop = widget.index;
+                        onPressed: () async{
+                          final prefs = await SharedPreferences.getInstance();
+                          String? token = await prefs.getString("token");
+                          await getshopinformation.getshopinformation_id( widget.ID_Custome, token!);
+
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               '/shoplist', (Route<dynamic> route) => false);
                         },
@@ -368,7 +374,8 @@ class _ShopregisterScreen extends State<customelistcard> {
                         ),
                         color: App_Color.green, // background
                         textColor: Colors.white, // foreground
-                        onPressed: () {
+                        onPressed: () async{
+
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               '/billlist', (Route<dynamic> route) => false);
                         },

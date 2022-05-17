@@ -9,9 +9,8 @@ class Shoplistcardpay extends StatefulWidget {
   String Date;
   String Total;
   String Paid;
-  String Totalpay;
 
-  Shoplistcardpay(this.Date, this.Total, this.Paid, this.Totalpay);
+  Shoplistcardpay(this.Date, this.Total, this.Paid);
 
   @override
   State<StatefulWidget> createState() {

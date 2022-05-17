@@ -239,7 +239,9 @@ class _Customelist extends State<Customelist> {
                                           constant.ListCustomer_infor_all[index].ListBills.length.toString(),
                                           (constant.ListCustomer_infor_all[index].ListBills.length > 0) ? constant.ListCustomer_infor_all[index].ListBills[index].Original_amount : "Data Not Of Available",
                                           (constant.ListCustomer_infor_all[index].ListBills.length > 0) ? constant.ListCustomer_infor_all[index].ListBills[index].Payment : "Data Not Of Available",
-                                          index);
+                                          index,
+                                          int.parse(constant.ListCustomer_infor_all[index].ID),
+                                          );
                                     })))),
               ))
             ],

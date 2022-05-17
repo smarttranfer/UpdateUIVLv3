@@ -1,13 +1,14 @@
 import 'dart:ui';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vldebitor/theme/Color_app.dart';
+import '../../../funtion_app/apigetshopinformation/getshopinformation.dart';
 import '../../../utilities/constants.dart';
 import '../../../widget/cardshop.dart';
 import '../../../widget/cardshoppay.dart';
-
 
 class DetailScreen extends StatefulWidget {
   DetailScreen({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreen extends State<DetailScreen> {
   final RefreshController _refreshController =
-  RefreshController(initialRefresh: false);
+      RefreshController(initialRefresh: false);
   final List<Map<String, dynamic>> _allUsers = [];
   List<Map<String, dynamic>> _foundUsers = [];
   String searchString = "";
@@ -32,7 +33,7 @@ class _DetailScreen extends State<DetailScreen> {
     } else {
       results = _allUsers
           .where((user) =>
-          user["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
+              user["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
           .toList();
     }
     setState(() {
@@ -67,14 +68,14 @@ class _DetailScreen extends State<DetailScreen> {
           automaticallyImplyLeading: false,
           title: Center(
               child: Text(
-                "Shops List",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'OpenSans',
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              )),
+            "Shops List",
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'OpenSans',
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
+          )),
           actions: [
             Container(
                 padding: EdgeInsets.all(15),
@@ -127,15 +128,17 @@ class _DetailScreen extends State<DetailScreen> {
               SizedBox(height: 5),
               Expanded(
                   child: SingleChildScrollView(
-                    child: Container(
-                        child: false
-                            ? Center(
-                          child: Text(
-                            "Not data",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        )
-                            : Container(
+                child: Container(
+                    child: Getshopinformation.data_shop_bill.isEmpty
+                        ? Center(
+                            child: AnimatedTextKit(
+                            animatedTexts: [
+                              WavyAnimatedText("Not Data",
+                                  textStyle: TextStyle(color: App_Color.green)),
+                            ],
+                            isRepeatingAnimation: true,
+                          ))
+                        : Container(
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height,
                             child: SmartRefresher(
@@ -153,7 +156,7 @@ class _DetailScreen extends State<DetailScreen> {
                                       Text(
                                         update_SC,
                                         style:
-                                        TextStyle(color: App_Color.green),
+                                            TextStyle(color: App_Color.green),
                                       )
                                     ],
                                   ),
@@ -174,17 +177,22 @@ class _DetailScreen extends State<DetailScreen> {
                                 onLoading: _onLoading,
                                 onRefresh: _onRefresh,
                                 child: ListView.builder(
-                                    itemCount: 100,
+                                    itemCount: Getshopinformation
+                                        .data_shop_bill.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return Shoplistcardpay(
-                                          "Cuong",
-                                          "Vihu",
-                                          "ABCD",
-                                          "10000",
-                                          );
+                                        Getshopinformation
+                                            .data_shop_bill[index].Create_date,
+                                        Getshopinformation.data_shop_bill[index]
+                                            .Original_amount
+                                            .toString(),
+                                        Getshopinformation
+                                            .data_shop_bill[index].Payment
+                                            .toString(),
+                                      );
                                     })))),
-                  ))
+              ))
             ],
           ),
         ));
