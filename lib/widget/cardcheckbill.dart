@@ -6,20 +6,20 @@ import 'package:vldebitor/constants/constant_app.dart';
 import '../theme/Color_app.dart';
 import '../utilities/constants.dart';
 
-class Shoplistcardpay extends StatefulWidget {
+class cardcheckbill extends StatefulWidget {
   String Date;
   String Total;
   String Paid;
 
-  Shoplistcardpay(this.Date, this.Total, this.Paid);
+  cardcheckbill(this.Date, this.Total, this.Paid);
 
   @override
   State<StatefulWidget> createState() {
-    return _Shoplistcardpay();
+    return _cardcheckbill();
   }
 }
 
-class _Shoplistcardpay extends State<Shoplistcardpay> {
+class _cardcheckbill extends State<cardcheckbill> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -31,7 +31,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
         ),
         shadowColor: Colors.black54,
         child: Container(
-          padding: EdgeInsets.only(left: 0, bottom: 4, top: 12, right: 9),
+          padding: EdgeInsets.only(left: 0, bottom: 4, top: 8, right: 9),
           child: Column(
             children: [
               Row(
@@ -44,11 +44,6 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          "Date: ${widget.Date}",
-                          style: kLabelStyle,
-                          textDirection: TextDirection.ltr,
-                        ),
                         SizedBox(
                           height: 5,
                         ),
@@ -105,31 +100,10 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                 ],
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
-                    children: [
-                      MaterialButton(
-                        minWidth: 10,
-                        height: 30,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        color: App_Color.orange, // background
-                        textColor: Colors.white, // foreground
-                        onPressed: () {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/shopdetail', (Route<dynamic> route) => false);
-                        },
-                        child: Text("History"),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Row(
-                    children: [
+                  Center(
+                    child:
                       MaterialButton(
                         disabledColor: App_Color.green.withOpacity(0.2),
                         minWidth: 70,
@@ -139,10 +113,16 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                         ),
                         color: App_Color.green, // background
                         textColor: Colors.white, // foreground
-                        onPressed:constant.ButtonEnble ?() {}:null,
-                        child: Text("Pay"),
+                        onPressed:() {
+                          setState(() {
+                            constant.ButtonEnble = true;
+                          });
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              '/shopdetail', (Route<dynamic> route) => false);
+                        },
+                        child: Text("Check Bill"),
                       )
-                    ],
+
                   )
                 ],
               ),
@@ -155,30 +135,30 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
     showCupertinoDialog(
         context: context,
         builder: (context) => Theme(
-              data: ThemeData.dark(),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-                child: CupertinoAlertDialog(
-                    title: Text(
-                      "Warning",
-                      style: TextStyle(color: Colors.red),
-                    ),
-                    content: Text(message),
-                    actions: [
-                      CupertinoDialogAction(
-                          child: Text(
-                            "Yes",
-                            style: TextStyle(color: Colors.red),
-                          ),
-                          onPressed: () => Navigator.pop(context)),
-                      CupertinoDialogAction(
-                          child: Text(
-                            "No",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () => Navigator.pop(context))
-                    ]),
-              ),
-            ));
+          data: ThemeData.dark(),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: CupertinoAlertDialog(
+                title: Text(
+                  "Warning",
+                  style: TextStyle(color: Colors.red),
+                ),
+                content: Text(message),
+                actions: [
+                  CupertinoDialogAction(
+                      child: Text(
+                        "Yes",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      onPressed: () => Navigator.pop(context)),
+                  CupertinoDialogAction(
+                      child: Text(
+                        "No",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () => Navigator.pop(context))
+                ]),
+          ),
+        ));
   }
 }

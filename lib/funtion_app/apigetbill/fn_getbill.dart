@@ -13,12 +13,12 @@ class getbillinformation{
     var headers = {
       'Authorization': 'Bearer ${token}'
     };
-    var request = http.Request('GET', Uri.parse('${DC_address}/invoice/all_by_customer/${id}'));
+    var request = http.Request('GET', Uri.parse('${DC_address}/invoice/all_by_shop/${id}'));
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     Getbillinformation.Jsondata = await response.stream.bytesToString();
     if (json.decode(Getbillinformation.Jsondata)["status"].toString() == "200") {
-      for(var bills in json.decode(Getbillinformation.Jsondata)["data"]){
+      for(var bills in json.decode(Getbillinformation.Jsondata)["data"]["invoices"]){
         sc_data_bill bill = new sc_data_bill();
         bill.ID = bills["id"];
         bill.Name = bills["name"];
@@ -32,8 +32,12 @@ class getbillinformation{
         bill.create_date = bills["create_date"];
         Getbillinformation.data_bill.add(bill);
       }
+      Getbillinformation.GetbillinformationSucces = true;
+      Getbillinformation.ContentError = json.decode(Getbillinformation.Jsondata)["message"];
     }
     else {
+      Getbillinformation.GetbillinformationSucces = false;
+      Getbillinformation.ContentError = json.decode(Getbillinformation.Jsondata)["message"];
       print(response.reasonPhrase);
     }
   }

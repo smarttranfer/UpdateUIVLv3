@@ -6,6 +6,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apigetbill/fn_getbill.dart';
+import '../constants/constant_app.dart';
 import '../funtion_app/apigetshopinformation/fn_getshopininformation.dart';
 import '../funtion_app/apiregistercustomer/delete/deletecustomer.dart';
 import '../funtion_app/apiregistercustomer/delete/fn_detelecustomer.dart';
@@ -358,6 +359,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                         onPressed: () async{
                           final prefs = await SharedPreferences.getInstance();
                           String? token = await prefs.getString("token");
+                          constant.indexcustomer = widget.ID_Custome;
                           await getshopinformation.getshopinformation_id( widget.ID_Custome, token!);
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               '/shoplist', (Route<dynamic> route) => false);
@@ -382,6 +384,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                         onPressed: () async{
                           final prefs = await SharedPreferences.getInstance();
                           String? token = await prefs.getString("token");
+                          constant.indexcustomer = widget.ID_Custome;
                           await getbillinformation.getbill(widget.ID_Custome, token!);
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               '/billlist', (Route<dynamic> route) => false);

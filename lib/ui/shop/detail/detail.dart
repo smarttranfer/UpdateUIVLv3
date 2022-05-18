@@ -4,10 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/theme/Color_app.dart';
-import '../../../funtion_app/apigetshopinformation/getshopinformation.dart';
+import '../../../funtion_app/apigetbill/apigetbill.dart';
 import '../../../utilities/constants.dart';
-import '../../../widget/cardshop.dart';
+import '../../../widget/cardcheckbill.dart';
 import '../../../widget/cardshoppay.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -68,7 +69,7 @@ class _DetailScreen extends State<DetailScreen> {
           automaticallyImplyLeading: false,
           title: Center(
               child: Text(
-            "Shops List",
+                constant.TitleApp_Bar,
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
@@ -99,37 +100,26 @@ class _DetailScreen extends State<DetailScreen> {
           ],
         ),
         body: Container(
-          padding: EdgeInsets.all(8),
+          padding: EdgeInsets.all(2),
           color: App_Color.Background,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                margin: EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 8),
-                alignment: Alignment.centerLeft,
-                decoration: kBoxDecorationStyle,
-                height: 44.0,
-                child: TextField(
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'OpenSans',
-                  ),
-                  onChanged: (value) {
-                    return _runFilter(value);
-                  },
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.all(10),
-                    hintText: 'Search',
-                    hintStyle: kHintTextStyle,
-                  ),
-                ),
-              ),
+                margin: EdgeInsets.only(top: 8),
+                child:
+              cardcheckbill("","",""),),
+              Container(
+                margin: EdgeInsets.only(left: 8,right: 8),
+                child:
+              Divider(
+                color: Colors.grey,
+              ),),
               SizedBox(height: 5),
               Expanded(
                   child: SingleChildScrollView(
                 child: Container(
-                    child: Getshopinformation.data_shop_bill.isEmpty
+                    child: Getbillinformation.data_bill.isEmpty
                         ? Center(
                             child: AnimatedTextKit(
                             animatedTexts: [
@@ -177,19 +167,13 @@ class _DetailScreen extends State<DetailScreen> {
                                 onLoading: _onLoading,
                                 onRefresh: _onRefresh,
                                 child: ListView.builder(
-                                    itemCount: Getshopinformation
-                                        .data_shop_bill.length,
+                                    itemCount: Getbillinformation.data_bill.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return Shoplistcardpay(
-                                        Getshopinformation
-                                            .data_shop_bill[index].Create_date,
-                                        Getshopinformation.data_shop_bill[index]
-                                            .Original_amount
-                                            .toString(),
-                                        Getshopinformation
-                                            .data_shop_bill[index].Payment
-                                            .toString(),
+                                        Getbillinformation.data_bill[index].create_date,
+                                          Getbillinformation.data_bill[index].original_amount.toString(),
+                                          Getbillinformation.data_bill[index].payment.toString()
                                       );
                                     })))),
               ))

@@ -11,6 +11,9 @@ class constant {
         'DC_adress',"http://159.223.52.212:27554");
   }
   static int indexshop = 0;
+  static int indexcustomer = 0;
+  static String TitleApp_Bar = "";
+  static bool ButtonEnble = false;
   static String user = "";
   static List<sc_datahome_customer> ListCustomer_infor_all = [];
 }

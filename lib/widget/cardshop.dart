@@ -5,6 +5,8 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apigetshopinformation/delete/fn_delete.dart';
+import '../funtion_app/apigetbill/apigetbill.dart';
+import '../funtion_app/apigetbill/fn_getbill.dart';
 import '../theme/Color_app.dart';
 import '../utilities/constants.dart';
 
@@ -263,9 +265,19 @@ class _Shoplistcard extends State<Shoplistcard> {
                         ),
                         color: App_Color.orange, // background
                         textColor: Colors.white, // foreground
-                        onPressed: () {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/shopdetail', (Route<dynamic> route) => false);
+                        onPressed: () async{
+                          constant.TitleApp_Bar = widget.name;
+                          constant.ButtonEnble = false;
+                          final prefs = await SharedPreferences.getInstance();
+                          String? token = await prefs.getString("token");
+                          await getbillinformation.getbill(widget.id, token!);
+                          if( Getbillinformation.GetbillinformationSucces == true){
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                '/shopdetail', (Route<dynamic> route) => false);
+                          }else{
+                            _showMessage(Getbillinformation.ContentError);
+                          }
+
                         },
                         child: Text("Detail"),
                       )
@@ -292,6 +304,36 @@ class _Shoplistcard extends State<Shoplistcard> {
                 ],
               ),
             ],
+          ),
+        ));
+  }
+
+  _showMessage(String message) {
+    showCupertinoDialog(
+        context: context,
+        builder: (context) => Theme(
+          data: ThemeData.dark(),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: CupertinoAlertDialog(
+                title: Text("Warning" ,style: TextStyle(color: Colors.red),),
+                content: Text(message),
+                actions: [
+                  CupertinoDialogAction(
+                      child: Text(
+                        "Yes",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      onPressed: (){
+                        Navigator.of(context).pop();
+                      }),
+                  CupertinoDialogAction(
+                      child: Text(
+                        "No",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () => Navigator.pop(context))
+                ]),
           ),
         ));
   }

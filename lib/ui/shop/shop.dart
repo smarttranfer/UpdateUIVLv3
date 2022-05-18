@@ -20,11 +20,11 @@ class Shoplist extends StatefulWidget {
 }
 
 class _Shoplist extends State<Shoplist> {
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  final RefreshController _refreshController = RefreshController(initialRefresh: false);
   final List<Map<String, dynamic>> _allUsers = [];
   List<Map<String, dynamic>> _foundUsers = [];
   String searchString = "";
+  String status= "No Data";
   bool checknull = false;
   bool check_loding_data = true;
 
@@ -45,15 +45,17 @@ class _Shoplist extends State<Shoplist> {
 
   void _onRefresh() async {
     setState(() {
+      status = "Get Data";
       Getshopinformation.data_shop=[];
     });
     await Future.delayed(Duration(milliseconds: 1000));
     final prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token").toString();
-    await getshopinformation.getshopinformation_id(constant.indexshop,token);
+    await getshopinformation.getshopinformation_id(constant.indexcustomer,token);
     if (Getshopinformation.GetshopinformationSucces==true){
 
       setState(() {
+        status = "Get Data";
         Getshopinformation.data_shop=Getshopinformation.data_shop;
       });
       _refreshController.refreshCompleted();
@@ -65,14 +67,16 @@ class _Shoplist extends State<Shoplist> {
 
   void _onLoading() async {
     setState(() {
+      status = "Get Data";
       Getshopinformation.data_shop=[];
     });
     await Future.delayed(Duration(milliseconds: 1000));
     final prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString("token").toString();
-    await getshopinformation.getshopinformation_id(constant.indexshop,token!);
+    await getshopinformation.getshopinformation_id(constant.indexcustomer,token!);
     if(Getshopinformation.GetshopinformationSucces==true){
       setState(() {
+        status = "Get Data";
         Getshopinformation.data_shop=Getshopinformation.data_shop;
       });
       _refreshController.loadComplete();
@@ -162,7 +166,7 @@ class _Shoplist extends State<Shoplist> {
                     ? Center(
                         child: AnimatedTextKit(
                         animatedTexts: [
-                          WavyAnimatedText("Not Data",
+                          WavyAnimatedText(status,
                               textStyle: TextStyle(color: App_Color.green)),
                         ],
                         isRepeatingAnimation: true,
