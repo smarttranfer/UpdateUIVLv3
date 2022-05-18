@@ -88,6 +88,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
+            
             controller: phone,
             style: TextStyle(
               color: Colors.white,
@@ -127,7 +128,6 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
         ),
         SizedBox(height: 10.0),
         Container(
-
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
           height: 60.0,
@@ -169,7 +169,6 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
             ),
           ],
         ),
-
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
@@ -178,7 +177,6 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
           child: TextField(
             controller: postcode,
             style: TextStyle(
-
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
@@ -198,33 +196,42 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
     );
   }
 
-  Future _CreaterShop(String name, String phone , String address ,String postcode) async {
+  Future _CreaterShop(
+      String name, String phone, String address, String postcode) async {
     final prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token").toString();
     int? Ct_id = prefs.getInt("id_custome");
-    await CreaterShop.CreaterShops(token, name, phone, address, postcode, Ct_id!);
-
+    await CreaterShop.CreaterShops(
+        token, name, phone, address, postcode, Ct_id!);
   }
+
   Widget _buildAddShopBtn() {
     return Container(
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () async{
-          await _CreaterShop(name.text,phone.text,address.text,postcode.text);
-          if(registershop.Create_Shop_Succes==true){
-            Fluttertoast.showToast(
-                msg: "Create Shop Done",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.CENTER,
-                timeInSecForIosWeb: 1,
-                backgroundColor: App_Color.green.withOpacity(0.9),
-                textColor: Colors.white,
-                fontSize: 16.0
-            );
-            Navigator.pushNamed(context, '/home');
-          }else{
-            _showErrorMessage(registershop.ContentError);
+        onPressed: () async {
+          if (name.text.isEmpty |
+              phone.text.isEmpty |
+              address.text.isEmpty |
+              postcode.text.isEmpty) {
+            _showErrorMessage(
+                "You have not entered enough information in the fields");
+          } else {
+            await _CreaterShop(
+                name.text, phone.text, address.text, postcode.text);
+            if (registershop.Create_Shop_Succes == true) {
+              Fluttertoast.showToast(
+                  msg: "Create Shop Done",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: App_Color.green.withOpacity(0.9),
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+            } else {
+              _showErrorMessage(registershop.ContentError);
+            }
           }
         },
         padding: EdgeInsets.all(15.0),
@@ -246,14 +253,65 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
     );
   }
 
-  Widget _buildDoneBtn() {
+  Widget _buildCRCustomerBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20.0),
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () {
-          Navigator.pushNamed(context, '/home');
+          Navigator.pushNamed(context, '/registerCustome');
+        },
+        padding: EdgeInsets.all(15.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        color: Colors.lightBlue,
+        child: Text(
+          'Creater Customer',
+          style: TextStyle(
+            color: Colors.white,
+            letterSpacing: 1.5,
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'OpenSans',
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDoneBtn() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 20.0),
+      width: double.infinity,
+      child: RaisedButton(
+        elevation: 5.0,
+        onPressed: () async {
+          if (name.text.isEmpty |
+              phone.text.isEmpty |
+              address.text.isEmpty |
+              postcode.text.isEmpty) {
+            _showErrorMessage(
+                "You have not entered enough information in the fields");
+          } else {
+            await _CreaterShop(
+                name.text, phone.text, address.text, postcode.text);
+            if (registershop.Create_Shop_Succes == true) {
+              Fluttertoast.showToast(
+                  msg: "Create Shop Done",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: App_Color.green.withOpacity(0.9),
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/home', (Route<dynamic> route) => false);
+            } else {
+              _showErrorMessage(registershop.ContentError);
+            }
+          }
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -321,10 +379,34 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: GestureDetector(
-          onHorizontalDragUpdate: (details) {
+          onHorizontalDragUpdate: (details) async {
             if (details.delta.dx > 0) {
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/home', (Route<dynamic> route) => false);
+              if (name.text.isEmpty |
+                  phone.text.isEmpty |
+                  address.text.isEmpty |
+                  postcode.text.isEmpty) {
+                _showErrorMessage(
+                    "You have not entered enough information in the fields");
+              } else {
+                await _CreaterShop(
+                    name.text, phone.text, address.text, postcode.text);
+                if (registershop.Create_Shop_Succes == true) {
+                  Fluttertoast.showToast(
+                      msg: "Create Shop Done",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: App_Color.green.withOpacity(0.9),
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/home', (Route<dynamic> route) => false);
+                } else {
+                  _showErrorMessage(registershop.ContentError);
+                }
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/home', (Route<dynamic> route) => false);
+              }
               // Right Swipe
             }
           },
@@ -357,8 +439,9 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                       ),
                       _buildPostCodeTF(),
                       SizedBox(
-                        height: 180.0,
+                        height: 80.0,
                       ),
+                      _buildCRCustomerBtn(),
                       _buildAddShopBtn(),
                       _buildDoneBtn(),
                     ],

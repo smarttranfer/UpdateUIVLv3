@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/apigetbill/apigetbill.dart';
 import 'package:vldebitor/theme/Color_app.dart';
-import '../../model/sc_datahome/sc_datahome_customer.dart';
 import '../../utilities/constants.dart';
 import '../../widget/cardbill.dart';
-import '../../widget/cardshop.dart';
 
 class Billlist extends StatefulWidget {
   Billlist({Key? key}) : super(key: key);
@@ -52,13 +51,7 @@ class _Billlist extends State<Billlist> {
     _refreshController.loadComplete();
   }
 
-  int numbershop(List<sc_datahome_customer> listshop) {
-    int number_shop = 0;
-    for (var i in listshop) {
-      number_shop += i.ListBills.length;
-    }
-    return number_shop;
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -183,20 +176,22 @@ class _Billlist extends State<Billlist> {
                                 onLoading: _onLoading,
                                 onRefresh: _onRefresh,
                                 child: ListView.builder(
-                                    itemCount: numbershop(
-                                        constant.ListCustomer_infor_all),
+                                    itemCount: Getbillinformation.data_bill.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return cardbill(
-                                          constant.ListCustomer_infor_all[constant.indexshop].Name_Custome,
-                                          constant.ListCustomer_infor_all[constant.indexshop].ListBill_detail[index].Street_name,
-                                          constant.ListCustomer_infor_all[constant.indexshop].ListBill_detail.length.toString(),
-                                          constant.ListCustomer_infor_all[constant.indexshop].ListBill_detail[index].Original_amount,
-                                          constant.ListCustomer_infor_all[constant.indexshop].ListBill_detail[index].Create_date);
+                                          Getbillinformation.data_bill[index].Name,
+                                          Getbillinformation.data_bill[index].ID.toString(),
+                                          Getbillinformation.data_bill[index].original_amount.toString(),
+                                          Getbillinformation.data_bill[index].payment.toString(),
+                                          (Getbillinformation.data_bill[index].original_amount-Getbillinformation.data_bill[index].payment).toString(),
+                                          Getbillinformation.data_bill[index].create_date.toString()
+                                      );
                                     })))),
               ))
             ],
           ),
         ));
   }
+
 }

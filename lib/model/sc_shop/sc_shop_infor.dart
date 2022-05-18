@@ -1,31 +1,30 @@
 class sc_Infor_Shop {
-  late int ID_custome;
+  late int Total_invoice_paid;
   late int Shop_ID;
   late String Name;
   late String street_name;
   late String Post_code;
   late String Create_date;
   late String Phone;
-  late int Building_number;
-  late double Payment;
-  late double original_amount;
-  late int Number_bill;
+  late String Building_number;
+  late double Total_payment;
+  late double Total_liabilities;
+  late int Total_invoice;
 
-
-  int get Number_bill_detail {
-    return Number_bill;
+  int get Total_invoice_detail {
+    return Total_invoice;
   }
 
-  void set Number_bill_detail(int Number_bill) {
-    Number_bill = Number_bill;
+  void set Total_invoice_detail(int Total_invoice) {
+    Total_invoice = Total_invoice;
   }
 
-  int get ID_custome_detail {
-    return ID_custome;
+  int get Total_invoice_paid_detail {
+    return Total_invoice_paid;
   }
 
-  void set ID_custome_detail(int ID_custome) {
-    ID_custome = ID_custome;
+  void set Total_invoice_paid_detail(int Total_invoice_paid) {
+    Total_invoice_paid = Total_invoice_paid;
   }
 
   int get Shop_ID_detail {
@@ -68,28 +67,27 @@ class sc_Infor_Shop {
     Create_date = Create_date;
   }
 
-  int get Building_numberdetail {
+  String get Building_numberdetail {
     return Building_number;
   }
 
-  void set Building_numberdetail(int Building_number) {
+  void set Building_numberdetail(String Building_number) {
     Building_number = Building_number;
   }
 
-  double get Payment_detail {
-    return Payment;
+  double get Total_payment_detail {
+    return Total_payment;
   }
 
-  void set Payment_detail(double Payment) {
-    Payment = Payment;
+  void set Payment_detail(double Total_payment) {
+    Total_payment = Total_payment;
   }
 
-  double get original_amount_detail {
-    return Payment;
+  double get Total_liabilities_detail {
+    return Total_liabilities;
   }
 
-  void set original_amount_detail(double Payment) {
-    Payment = Payment;
+  void set Total_liabilities_detail(double Total_liabilities) {
+    Total_liabilities = Total_liabilities;
   }
-
 }

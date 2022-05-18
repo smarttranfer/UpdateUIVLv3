@@ -1,10 +1,14 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/apigetbill/fn_getbill.dart';
 import '../funtion_app/apigetshopinformation/fn_getshopininformation.dart';
+import '../funtion_app/apiregistercustomer/delete/deletecustomer.dart';
+import '../funtion_app/apiregistercustomer/delete/fn_detelecustomer.dart';
 import '../theme/Color_app.dart';
 import '../utilities/constants.dart';
 
@@ -16,10 +20,9 @@ class customelistcard extends StatefulWidget {
   String Bill;
   String Total;
   String Create;
-  int index;
 
   customelistcard(this.name, this.Phone, this.NameShop, this.Bill, this.Total,
-      this.Create, this.index,this.ID_Custome);
+      this.Create,this.ID_Custome);
 
   @override
   State<StatefulWidget> createState() {
@@ -156,9 +159,12 @@ class _ShopregisterScreen extends State<customelistcard> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     TextButton(
-                                      onPressed: () {
-                                        _showWarningMessage(
-                                            "Do you want delete customer ?");
+                                      onPressed: () async{
+                                        final prefs = await SharedPreferences.getInstance();
+                                        String? token = await prefs.getString("token");
+                                        _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
+
+
                                       },
                                       child: Column(
                                         crossAxisAlignment:
@@ -353,7 +359,6 @@ class _ShopregisterScreen extends State<customelistcard> {
                           final prefs = await SharedPreferences.getInstance();
                           String? token = await prefs.getString("token");
                           await getshopinformation.getshopinformation_id( widget.ID_Custome, token!);
-
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               '/shoplist', (Route<dynamic> route) => false);
                         },
@@ -375,7 +380,9 @@ class _ShopregisterScreen extends State<customelistcard> {
                         color: App_Color.green, // background
                         textColor: Colors.white, // foreground
                         onPressed: () async{
-
+                          final prefs = await SharedPreferences.getInstance();
+                          String? token = await prefs.getString("token");
+                          await getbillinformation.getbill(widget.ID_Custome, token!);
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               '/billlist', (Route<dynamic> route) => false);
                         },
@@ -390,7 +397,7 @@ class _ShopregisterScreen extends State<customelistcard> {
         ));
   }
 
-  _showWarningMessage(String message) {
+  _showWarningMessage(String message,Future f) {
     showCupertinoDialog(
         context: context,
         builder: (context) => Theme(
@@ -409,7 +416,32 @@ class _ShopregisterScreen extends State<customelistcard> {
                             "Yes",
                             style: TextStyle(color: Colors.red),
                           ),
-                          onPressed: () => Navigator.pop(context)),
+                          onPressed: () async{
+                           await f;
+                           if(Deletecustomer.Delete_Customer_Succes==true){
+                             Fluttertoast.showToast(
+                                 msg: "Delete customer successfully",
+                                 toastLength: Toast.LENGTH_SHORT,
+                                 gravity: ToastGravity.CENTER,
+                                 timeInSecForIosWeb: 1,
+                                 backgroundColor: App_Color.background_textfield,
+                                 textColor: Colors.white,
+                                 fontSize: 16.0
+                             );
+                             Navigator.pop(context);
+                           }else{
+                             Fluttertoast.showToast(
+                                 msg: Deletecustomer.ContentError,
+                                 toastLength: Toast.LENGTH_SHORT,
+                                 gravity: ToastGravity.CENTER,
+                                 timeInSecForIosWeb: 1,
+                                 backgroundColor: App_Color.background_textfield,
+                                 textColor: Colors.white,
+                                 fontSize: 16.0
+                             );
+                           }
+                           Navigator.pop(context);
+                          }),
                       CupertinoDialogAction(
                           child: Text(
                             "No",

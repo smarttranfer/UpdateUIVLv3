@@ -1,10 +1,17 @@
+import 'dart:ffi';
+
 import 'package:vldebitor/model/sc_datahome/sc_datahome_bill.dart';
 
 class sc_datahome_customer {
   late String ID;
   late String Name_Custome;
-  late String Phome;
-  late List<sc_datahome_bill> ListBills = [];
+  late String Phone;
+  late double Unallocated;
+  late int Total_shop;
+  late int Total_invoice;
+  late int Total_invoice_paid;
+  late double Total_payment;
+  late double Total_liabilities;
 
   String get ID_detail {
     return ID;
@@ -22,12 +29,49 @@ class sc_datahome_customer {
     Phome = Phome;
   }
 
-  List<sc_datahome_bill> get ListBill_detail {
-    return ListBills;
+  double get Unallocated_detail {
+    return Unallocated;
   }
 
-  void set ListBill_detail(List<sc_datahome_bill> ListBills) {
-    ListBills = ListBills;
+  void set Unallocated_detail(double Unallocated) {
+    Unallocated = Unallocated;
   }
+
+
+  int get Total_shop_detail {
+    return Total_shop;
+  }
+
+  void set Total_shop_detail(int Total_shop) {
+    Total_shop = Total_shop;
+  }
+
+
+  int get Total_invoice_detail {
+    return Total_invoice;
+  }
+
+  void set Total_invoice_detail(int Total_invoice) {
+    Total_invoice = Total_invoice;
+  }
+
+
+  double get Total_payment_detail {
+    return Total_payment;
+  }
+
+  void set Total_payment_detail(double Total_payment) {
+    Total_payment = Total_payment;
+  }
+
+
+  double get Total_liabilities_detail {
+    return Total_liabilities;
+  }
+
+  void set Total_liabilities_detail(double Total_liabilities) {
+    Total_liabilities = Total_liabilities;
+  }
+
   
 }

@@ -7,13 +7,14 @@ import '../utilities/constants.dart';
 
 class cardbill extends StatefulWidget {
   String name;
-  String address;
-  String bill;
-  String money;
+  String ID;
+  String Total;
+  String Paid;
+  String Rest;
   String date_create;
 
   cardbill(
-      this.name, this.address, this.bill, this.money, this.date_create);
+      this.name, this.ID, this.Total, this.Paid, this.Rest,this.date_create);
 
   @override
   State<StatefulWidget> createState() {
@@ -209,7 +210,7 @@ class _cardbill extends State<cardbill> {
                           height: 5,
                         ),
                         Text(
-                          "Address: ${widget.address}",
+                          "ID: ${widget.ID}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -217,7 +218,7 @@ class _cardbill extends State<cardbill> {
                           height: 5,
                         ),
                         Text(
-                          "Bill: ${widget.bill}",
+                          "Total: ${widget.Total}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -225,7 +226,15 @@ class _cardbill extends State<cardbill> {
                           height: 5,
                         ),
                         Text(
-                          "Money: ${widget.money}",
+                          "Paid: ${widget.Paid}",
+                          style: kLabelStyle,
+                          textDirection: TextDirection.ltr,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "Rest: ${widget.Rest}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),

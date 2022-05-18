@@ -2,10 +2,14 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/apigetshopinformation/delete/fn_delete.dart';
 import '../theme/Color_app.dart';
 import '../utilities/constants.dart';
 
 class Shoplistcard extends StatefulWidget {
+  int id;
   String name;
   String address;
   String bill;
@@ -13,7 +17,7 @@ class Shoplistcard extends StatefulWidget {
   String date_create;
 
   Shoplistcard(
-      this.name, this.address, this.bill, this.money, this.date_create);
+      this.id,this.name, this.address, this.bill, this.money, this.date_create);
 
   @override
   State<StatefulWidget> createState() {
@@ -147,8 +151,11 @@ class _Shoplistcard extends State<Shoplistcard> {
                                   crossAxisAlignment:CrossAxisAlignment.start,
                                   children: [
                                     TextButton(
-                                      onPressed: () {
-                                        _showWarningMessage("Do you want delete customer ?");
+                                      onPressed: () async{
+                                        constant.indexshop = widget.id;
+                                        final prefs = await SharedPreferences.getInstance();
+                                        String? token = await prefs.getString("token");
+                                        _showWarningMessage("Do you want delete customer ?",Deleteshops.Deleteshopfuntion(widget.id, token!));
                                       },
                                       child: Column(
                                         crossAxisAlignment:CrossAxisAlignment.start,
@@ -289,7 +296,7 @@ class _Shoplistcard extends State<Shoplistcard> {
         ));
   }
 
-  _showWarningMessage(String message) {
+  _showWarningMessage(String message,Future funtions) {
     showCupertinoDialog(
         context: context,
         builder: (context) => Theme(
@@ -305,7 +312,10 @@ class _Shoplistcard extends State<Shoplistcard> {
                         "Yes",
                         style: TextStyle(color: Colors.red),
                       ),
-                      onPressed: () => Navigator.pop(context)),
+                      onPressed: () async{
+                        await funtions;
+                        Navigator.of(context).pop();
+                      }),
                   CupertinoDialogAction(
                       child: Text(
                         "No",

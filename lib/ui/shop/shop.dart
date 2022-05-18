@@ -4,10 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/apigetshopinformation/fn_getshopininformation.dart';
 import 'package:vldebitor/funtion_app/apigetshopinformation/getshopinformation.dart';
 import 'package:vldebitor/theme/Color_app.dart';
-import '../../model/sc_datahome/sc_datahome_customer.dart';
 import '../../utilities/constants.dart';
 import '../../widget/cardshop.dart';
 
@@ -43,22 +44,41 @@ class _Shoplist extends State<Shoplist> {
   }
 
   void _onRefresh() async {
+    setState(() {
+      Getshopinformation.data_shop=[];
+    });
     await Future.delayed(Duration(milliseconds: 1000));
-    _refreshController.refreshCompleted();
+    final prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token").toString();
+    await getshopinformation.getshopinformation_id(constant.indexshop,token);
+    if (Getshopinformation.GetshopinformationSucces==true){
+
+      setState(() {
+        Getshopinformation.data_shop=Getshopinformation.data_shop;
+      });
+      _refreshController.refreshCompleted();
+    }else{
+      _refreshController.refreshFailed();
+    }
+
   }
 
   void _onLoading() async {
+    setState(() {
+      Getshopinformation.data_shop=[];
+    });
     await Future.delayed(Duration(milliseconds: 1000));
-    if (mounted) setState(() {});
-    _refreshController.loadComplete();
-  }
-
-  int numbershop(List<sc_datahome_customer> listshop) {
-    int number_shop = 0;
-    for (var i in listshop) {
-      number_shop += i.ListBills.length;
+    final prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString("token").toString();
+    await getshopinformation.getshopinformation_id(constant.indexshop,token!);
+    if(Getshopinformation.GetshopinformationSucces==true){
+      setState(() {
+        Getshopinformation.data_shop=Getshopinformation.data_shop;
+      });
+      _refreshController.loadComplete();
+    }else{
+      _refreshController.loadFailed();
     }
-    return number_shop;
   }
 
   @override
@@ -153,7 +173,7 @@ class _Shoplist extends State<Shoplist> {
                         child: SmartRefresher(
                             physics: const BouncingScrollPhysics(),
                             enablePullDown: true,
-                            enablePullUp: true,
+                            enablePullUp: false,
                             header: WaterDropHeader(
                               waterDropColor: App_Color.green,
                               complete: Row(
@@ -187,15 +207,14 @@ class _Shoplist extends State<Shoplist> {
                                 itemCount: Getshopinformation.data_shop.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Shoplistcard(
+                                      Getshopinformation.data_shop[index].Shop_ID,
                                       Getshopinformation.data_shop[index].Name,
                                       Getshopinformation
                                           .data_shop[index].street_name,
                                       Getshopinformation
-                                          .data_shop[index].Building_number
+                                          .data_shop[index].Total_invoice
                                           .toString(),
-                                      Getshopinformation
-                                          .data_shop[index].original_amount
-                                          .toString(),
+                                      "${Getshopinformation.data_shop[index].Total_payment.toString()+"/"+Getshopinformation.data_shop[index].Total_liabilities.toString()}",
                                       Getshopinformation
                                           .data_shop[index].Create_date
                                           .toString());

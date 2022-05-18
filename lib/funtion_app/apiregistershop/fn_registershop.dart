@@ -13,7 +13,7 @@ class CreaterShop {
         'Authorization': 'Bearer ${token}',
         'Content-Type': 'application/json'
       };
-      var request = http.Request('POST', Uri.parse('${DC_address}/customer'));
+      var request = http.Request('POST', Uri.parse('${DC_address}/shop'));
       request.body = json.encode({
         "name": "${name}",
         "building_number": "VL build",
@@ -25,7 +25,6 @@ class CreaterShop {
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       registershop.Jsondata = await response.stream.bytesToString();
-      print(json.decode(registershop.Jsondata ));
       if (json.decode(registershop.Jsondata )["status"].toString() == "200") {
         registershop.Create_Shop_Succes = true;
       } else {

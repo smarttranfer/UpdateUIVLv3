@@ -16,33 +16,29 @@ class fn_DataCustomer{
     var headers = {
       'Authorization': 'Bearer ${token}'
     };
-    var request = http.Request('GET', Uri.parse('${DC_address}/customer/info/all'));
+    var request = http.Request('GET', Uri.parse('${DC_address}/customer/info_customers'));
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     home.datacustomeall = await response.stream.bytesToString();
     if (json.decode(home.datacustomeall)["status"].toString() == "200") {
+      print(json.decode(home.datacustomeall)["data"]);
       for(var i in json.decode(home.datacustomeall)["data"]){
         sc_datahome_customer datahome_customer = new sc_datahome_customer();
         datahome_customer.ID = i["id"].toString();
         datahome_customer.Name_Custome = i["name"];
-        datahome_customer.Phome = i["phone"];
-        for(var shops in i["shops"]){
-          sc_datahome_bill datahome_bill = new sc_datahome_bill();
-          datahome_bill.ID = shops["id"].toString();
-          datahome_bill.Name = shops["name"];
-          datahome_bill.Phome = shops["phone"];
-          datahome_bill.Payment = double.parse(shops["payment"].toString()).toString();
-          datahome_bill.Street_name = shops["street_name"];
-          datahome_bill.Post_code = shops["post_code"];
-          datahome_bill.Customer_id = shops["customer_id"].toString();
-          datahome_bill.Original_amount = shops["original_amount"].toString();
-          datahome_bill.Create_date = shops["create_date"];
-          datahome_customer.ListBills.add(datahome_bill);
-        }
+        datahome_customer.Phone = i["phone"];
+        datahome_customer.Unallocated = i["unallocated"];
+        datahome_customer.Total_shop = i["total_shop"];
+        datahome_customer.Total_invoice = i["total_invoice"];
+        datahome_customer.Total_invoice_paid = i["total_invoice_paid"];
+        datahome_customer.Total_payment = i["total_payment"];
+        datahome_customer.Total_liabilities = i["total_liabilities"];
         constant.ListCustomer_infor_all.add(datahome_customer);
       }
+      home.get_data_Succes = true;
     }
     else {
+      home.get_data_Succes = false;
       print(response.reasonPhrase);
     }
   }

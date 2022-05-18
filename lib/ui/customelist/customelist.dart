@@ -7,6 +7,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/home/fn_getdatacutome.dart';
+import 'package:vldebitor/funtion_app/home/home.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../model/sc_datahome/sc_datahome_bill.dart';
 import '../../utilities/constants.dart';
@@ -52,14 +53,40 @@ class _Customelist extends State<Customelist> {
   }
 
   void _onRefresh() async {
+    setState(() {
+      constant.ListCustomer_infor_all=[];
+    });
     await Future.delayed(Duration(milliseconds: 1000));
-    _refreshController.refreshCompleted();
+    final prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token").toString();
+    await fn_DataCustomer.getDataCustomer(token);
+    if(home.get_data_Succes==true){
+      _refreshController.refreshCompleted();
+      setState(() {
+        constant.ListCustomer_infor_all=constant.ListCustomer_infor_all;
+      });
+    }else{
+      _refreshController.refreshFailed();
+    }
+
   }
 
   void _onLoading() async {
+    setState(() {
+      constant.ListCustomer_infor_all=[];
+    });
     await Future.delayed(Duration(milliseconds: 1000));
-    if (mounted) setState(() {});
-    _refreshController.loadComplete();
+    final prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token").toString();
+    await fn_DataCustomer.getDataCustomer(token);
+    if(home.get_data_Succes==true){
+      setState(() {
+        constant.ListCustomer_infor_all=constant.ListCustomer_infor_all;
+      });
+      _refreshController.loadComplete();
+    }else{
+      _refreshController.loadFailed();
+    }
   }
 
   String List_shop(List<sc_datahome_bill> list_shop_bill) {
@@ -195,7 +222,7 @@ class _Customelist extends State<Customelist> {
                             child: SmartRefresher(
                                 physics: const BouncingScrollPhysics(),
                                 enablePullDown: true,
-                                enablePullUp: true,
+                                enablePullUp: false,
                                 header: WaterDropHeader(
                                   waterDropColor: App_Color.green,
                                   complete: Row(
@@ -228,18 +255,15 @@ class _Customelist extends State<Customelist> {
                                 onLoading: _onLoading,
                                 onRefresh: _onRefresh,
                                 child: ListView.builder(
-                                    itemCount:
-                                        constant.ListCustomer_infor_all.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
+                                    itemCount: constant.ListCustomer_infor_all.length,
+                                    itemBuilder: (BuildContext context, int index) {
                                       return customelistcard(
                                           constant.ListCustomer_infor_all[index].Name_Custome,
-                                          constant.ListCustomer_infor_all[index].Phome,
-                                          List_shop(constant.ListCustomer_infor_all[index].ListBills),
-                                          constant.ListCustomer_infor_all[index].ListBills.length.toString(),
-                                          (constant.ListCustomer_infor_all[index].ListBills.length > 0) ? constant.ListCustomer_infor_all[index].ListBills[index].Original_amount : "Data Not Of Available",
-                                          (constant.ListCustomer_infor_all[index].ListBills.length > 0) ? constant.ListCustomer_infor_all[index].ListBills[index].Payment : "Data Not Of Available",
-                                          index,
+                                          constant.ListCustomer_infor_all[index].Phone,
+                                          constant.ListCustomer_infor_all[index].Total_shop.toString(),
+                                          constant.ListCustomer_infor_all[index].Total_invoice.toString(),
+                                          constant.ListCustomer_infor_all[index].Total_liabilities.toString(),
+                                          (constant.ListCustomer_infor_all[index].Total_liabilities - constant.ListCustomer_infor_all[index].Total_payment).toString(),
                                           int.parse(constant.ListCustomer_infor_all[index].ID),
                                           );
                                     })))),
