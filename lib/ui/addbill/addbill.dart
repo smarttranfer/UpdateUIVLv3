@@ -149,21 +149,17 @@ class _Billlist extends State<Billlist> {
                                   complete: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      const Icon(Icons.done,
-                                          color: Colors.green),
+                                      const Icon(Icons.done, color: Colors.green),
                                       const SizedBox(width: 15.0),
                                       Text(
-                                        update_SC,
-                                        style:
-                                            TextStyle(color: App_Color.green),
+                                        update_SC, style: TextStyle(color: App_Color.green),
                                       )
                                     ],
                                   ),
                                   failed: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      const Icon(Icons.error_outline,
-                                          color: Colors.red),
+                                      const Icon(Icons.error_outline, color: Colors.red),
                                       const SizedBox(width: 15.0),
                                       Text(
                                         update_F,

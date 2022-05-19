@@ -213,15 +213,12 @@ class _Shoplist extends State<Shoplist> {
                                   return Shoplistcard(
                                       Getshopinformation.data_shop[index].Shop_ID,
                                       Getshopinformation.data_shop[index].Name,
-                                      Getshopinformation
-                                          .data_shop[index].street_name,
-                                      Getshopinformation
-                                          .data_shop[index].Total_invoice
-                                          .toString(),
-                                      "${Getshopinformation.data_shop[index].Total_payment.toString()+"/"+Getshopinformation.data_shop[index].Total_liabilities.toString()}",
-                                      Getshopinformation
-                                          .data_shop[index].Create_date
-                                          .toString());
+                                      Getshopinformation.data_shop[index].street_name,
+                                      Getshopinformation.data_shop[index].Total_invoice_paid.toString(),
+                                      Getshopinformation.data_shop[index].Total_invoice.toString(),
+                                      Getshopinformation.data_shop[index].Total_payment.toString(),
+                                      Getshopinformation.data_shop[index].Total_liabilities.toString(),
+                                      Getshopinformation.data_shop[index].Create_date.toString());
                                 }))),
               )))
             ],

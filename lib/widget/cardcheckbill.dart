@@ -114,9 +114,6 @@ class _cardcheckbill extends State<cardcheckbill> {
                         color: App_Color.green, // background
                         textColor: Colors.white, // foreground
                         onPressed:() {
-                          setState(() {
-                            constant.ButtonEnble = true;
-                          });
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               '/shopdetail', (Route<dynamic> route) => false);
                         },

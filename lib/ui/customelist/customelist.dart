@@ -262,8 +262,10 @@ class _Customelist extends State<Customelist> {
                                           constant.ListCustomer_infor_all[index].Phone,
                                           constant.ListCustomer_infor_all[index].Total_shop.toString(),
                                           constant.ListCustomer_infor_all[index].Total_invoice.toString(),
+                                          constant.ListCustomer_infor_all[index].Total_invoice_paid.toString(),
+                                          constant.ListCustomer_infor_all[index].Total_payment.toString(),
                                           constant.ListCustomer_infor_all[index].Total_liabilities.toString(),
-                                          (constant.ListCustomer_infor_all[index].Total_liabilities - constant.ListCustomer_infor_all[index].Total_payment).toString(),
+                                          constant.ListCustomer_infor_all[index].Unallocated.toString(),
                                           int.parse(constant.ListCustomer_infor_all[index].ID),
                                           );
                                     })))),

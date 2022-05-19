@@ -69,7 +69,7 @@ class _DetailScreen extends State<DetailScreen> {
           automaticallyImplyLeading: false,
           title: Center(
               child: Text(
-                constant.TitleApp_Bar,
+            constant.TitleApp_Bar,
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
@@ -85,16 +85,9 @@ class _DetailScreen extends State<DetailScreen> {
                   borderRadius: BorderRadius.circular(100),
                 ),
                 child: InkWell(
-                  onTap: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        '/registershopnew', (Route<dynamic> route) => false);
-                  },
-                  child: Container(
-                    child: Icon(
-                      Icons.add,
-                      color: Colors.white,
-                      size: 24.0,
-                    ),
+                  onTap: () {},
+                  child: SizedBox(
+                    width: 50,
                   ),
                 ))
           ],
@@ -105,17 +98,7 @@ class _DetailScreen extends State<DetailScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                margin: EdgeInsets.only(top: 8),
-                child:
-              cardcheckbill("","",""),),
-              Container(
-                margin: EdgeInsets.only(left: 8,right: 8),
-                child:
-              Divider(
-                color: Colors.grey,
-              ),),
-              SizedBox(height: 5),
+              SizedBox(height: 15),
               Expanded(
                   child: SingleChildScrollView(
                 child: Container(
@@ -167,14 +150,16 @@ class _DetailScreen extends State<DetailScreen> {
                                 onLoading: _onLoading,
                                 onRefresh: _onRefresh,
                                 child: ListView.builder(
-                                    itemCount: Getbillinformation.data_bill.length,
+                                    itemCount:
+                                        Getbillinformation.data_bill.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return Shoplistcardpay(
-                                        Getbillinformation.data_bill[index].create_date,
+                                          Getbillinformation.data_bill[index].create_date,
                                           Getbillinformation.data_bill[index].original_amount.toString(),
-                                          Getbillinformation.data_bill[index].payment.toString()
-                                      );
+                                          Getbillinformation.data_bill[index].payment.toString(),
+                                          0.0,
+                                          constant.credit > 0 ? ((constant.credit - (Getbillinformation.data_bill[index].original_amount - Getbillinformation.data_bill[index].payment)) > 0 ? double.parse((Getbillinformation.data_bill[index].original_amount - Getbillinformation.data_bill[index].payment).toStringAsFixed(2)) : 0.0): 0.0);
                                     })))),
               ))
             ],

@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apigetbill/fn_getbill.dart';
 import '../constants/constant_app.dart';
+import '../funtion_app/addtocredit/addtocreadit.dart';
+import '../funtion_app/addtocredit/fn_addtocredit.dart';
 import '../funtion_app/apigetshopinformation/fn_getshopininformation.dart';
 import '../funtion_app/apiregistercustomer/delete/deletecustomer.dart';
 import '../funtion_app/apiregistercustomer/delete/fn_detelecustomer.dart';
@@ -18,12 +20,13 @@ class customelistcard extends StatefulWidget {
   String name;
   String Phone;
   String NameShop;
-  String Bill;
-  String Total;
-  String Create;
+  String total_invoice;
+  String total_invoice_paid;
+  String total_payment;
+  String total_liabilities;
+  String unallocated;
 
-  customelistcard(this.name, this.Phone, this.NameShop, this.Bill, this.Total,
-      this.Create,this.ID_Custome);
+  customelistcard(this.name, this.Phone, this.NameShop, this.total_invoice, this.total_invoice_paid,this.total_payment,this.total_liabilities,this.unallocated,this.ID_Custome);
 
   @override
   State<StatefulWidget> createState() {
@@ -32,6 +35,7 @@ class customelistcard extends StatefulWidget {
 }
 
 class _ShopregisterScreen extends State<customelistcard> {
+  final TextEditingController _money = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -83,29 +87,22 @@ class _ShopregisterScreen extends State<customelistcard> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        SizedBox(
-                                          width: 30,
-                                        ),
+                                        SizedBox(width: 30,),
                                         Icon(
                                           Icons.remove_circle_outline_sharp,
                                           color: Colors.grey,
                                           size: 33.0,
                                         ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
+                                        SizedBox(width: 20,),
                                         Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             TextButton(
                                               onPressed: () {},
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
                                                     "Edit  ",
@@ -286,7 +283,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                             textDirection: TextDirection.ltr,
                           ),
                           Text(
-                            "${widget.Bill}",
+                            "${widget.total_invoice_paid}/${widget.total_invoice}",
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
@@ -307,7 +304,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                             textDirection: TextDirection.ltr,
                           ),
                           Text(
-                            "${widget.Total}",
+                            "${widget.total_payment}/${widget.total_liabilities}",
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
@@ -328,7 +325,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                             textDirection: TextDirection.ltr,
                           ),
                           Text(
-                            "${widget.Create}",
+                            "${widget.unallocated}",
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
@@ -358,13 +355,6 @@ class _ShopregisterScreen extends State<customelistcard> {
                         textColor: Colors.white, // foreground
                         onPressed: () async{
                           _showConfirm();
-
-                        //   final prefs = await SharedPreferences.getInstance();
-                        //   String? token = await prefs.getString("token");
-                        //   constant.indexcustomer = widget.ID_Custome;
-                        //   await getshopinformation.getshopinformation_id( widget.ID_Custome, token!);
-                        //   Navigator.of(context).pushNamedAndRemoveUntil(
-                        //       '/shoplist', (Route<dynamic> route) => false);
                         },
                         child: Text("Add to credit",style: TextStyle(fontSize: 12),),
                       )
@@ -449,6 +439,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                     alignment: Alignment.centerLeft,
                     decoration: kBoxDecorationStyle,
                     child: TextField(
+                      controller: _money,
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.all(5),
@@ -467,7 +458,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                       ),
                       onPressed: () async{
                         Navigator.pop(context);
-                        _showWarningMessagePay("213213124");
+                        _showWarningMessagePay("Do you want add to credit ${_money.text}");
 
                       }),
                   CupertinoDialogAction(
@@ -481,7 +472,7 @@ class _ShopregisterScreen extends State<customelistcard> {
         ));
   }
 
-  _showWarningMessagePay(String message,Future j) {
+  _showWarningMessagePay(String message) {
     showCupertinoDialog(
         context: context,
         builder: (context) => Theme(
@@ -501,10 +492,12 @@ class _ShopregisterScreen extends State<customelistcard> {
                         style: TextStyle(color: Colors.red),
                       ),
                       onPressed: () async{
-
-                        if(Deletecustomer.Delete_Customer_Succes==true){
+                        final prefs = await SharedPreferences.getInstance();
+                        String? token = await prefs.getString("token");
+                        await fn_AddToCredit.AddtoCredits(double.parse(_money.text), widget.ID_Custome, token!);
+                        if(AddCredit_check.AddCredit_Succes==true){
                           Fluttertoast.showToast(
-                              msg: "Delete customer successfully",
+                              msg: "Add to successfully",
                               toastLength: Toast.LENGTH_SHORT,
                               gravity: ToastGravity.CENTER,
                               timeInSecForIosWeb: 1,
@@ -512,10 +505,9 @@ class _ShopregisterScreen extends State<customelistcard> {
                               textColor: Colors.white,
                               fontSize: 16.0
                           );
-                          Navigator.pop(context);
                         }else{
                           Fluttertoast.showToast(
-                              msg: Deletecustomer.ContentError,
+                              msg: AddCredit_check.ContentError,
                               toastLength: Toast.LENGTH_SHORT,
                               gravity: ToastGravity.CENTER,
                               timeInSecForIosWeb: 1,

@@ -10,8 +10,10 @@ class Shoplistcardpay extends StatefulWidget {
   String Date;
   String Total;
   String Paid;
+  double Credit;
+  double suggest;
 
-  Shoplistcardpay(this.Date, this.Total, this.Paid);
+  Shoplistcardpay(this.Date, this.Total, this.Paid,this.Credit,this.suggest);
 
   @override
   State<StatefulWidget> createState() {
@@ -20,6 +22,8 @@ class Shoplistcardpay extends StatefulWidget {
 }
 
 class _Shoplistcardpay extends State<Shoplistcardpay> {
+  final TextEditingController _money = TextEditingController();
+  late  bool checkactive = false;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -68,10 +72,17 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                         SizedBox(
                           height: 5,
                         ),
+                        Text(
+                          "Credit: ${constant.credit}",
+                          style: kLabelStyle,
+                          textDirection: TextDirection.ltr,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
                         Row(
                           children: [
-                            Text(
-                              "Total pay:",
+                            Text("Total pay:",
                               style: kLabelStyle,
                               textDirection: TextDirection.ltr,
                             ),
@@ -82,17 +93,30 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                               width: MediaQuery.of(context).size.width/1.5,
                               height: 30,
                               child: TextField(
+                                controller: _money..text = "${widget.suggest}",
                                 keyboardType: TextInputType.number,
+                                onChanged: (value){
+                                  if(double.parse(value.toString())>constant.credit){
+                                    setState(() {
+                                      checkactive=false;
+                                    });
 
+                                    _showWarningMessage("The amount in the account is not enough");
+                                  }else{
+                                    setState(() {
+                                      checkactive = true;
+                                    });
+
+                                  }
+                                },
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'OpenSans',
                                 ),
                                 decoration: InputDecoration(
-
                                   border: InputBorder.none,
-                                  contentPadding: EdgeInsets.only(bottom: 18,left: 5),
-                                  // hintText: 'Enter Money',
+                                  contentPadding: EdgeInsets.only(bottom: 14,left: 5),
+                                  hintText: 'Enter Money',
                                   hintStyle: kHintTextStyle,
                                 ),
                               ),
@@ -139,7 +163,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                         ),
                         color: App_Color.green, // background
                         textColor: Colors.white, // foreground
-                        onPressed:constant.ButtonEnble ?() {}:null,
+                        onPressed:checkactive?() {}:null,
                         child: Text("Pay"),
                       )
                     ],

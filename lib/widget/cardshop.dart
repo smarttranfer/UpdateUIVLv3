@@ -14,12 +14,14 @@ class Shoplistcard extends StatefulWidget {
   int id;
   String name;
   String address;
-  String bill;
-  String money;
+  String total_invoice_paid;
+  String total_invoice;
+  String total_payment;
+  String total_liabilities;
   String date_create;
 
   Shoplistcard(
-      this.id,this.name, this.address, this.bill, this.money, this.date_create);
+      this.id,this.name, this.address, this.total_invoice_paid, this.total_invoice, this.total_payment, this.total_liabilities, this.date_create);
 
   @override
   State<StatefulWidget> createState() {
@@ -226,7 +228,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                           height: 5,
                         ),
                         Text(
-                          "Bill: ${widget.bill}",
+                          "Bill: ${widget.total_invoice_paid}/${widget.total_invoice}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -234,7 +236,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                           height: 5,
                         ),
                         Text(
-                          "Money: ${widget.money}",
+                          "Money: ${widget.total_payment}/${widget.total_liabilities}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -267,7 +269,6 @@ class _Shoplistcard extends State<Shoplistcard> {
                         textColor: Colors.white, // foreground
                         onPressed: () async{
                           constant.TitleApp_Bar = widget.name;
-                          constant.ButtonEnble = false;
                           final prefs = await SharedPreferences.getInstance();
                           String? token = await prefs.getString("token");
                           await getbillinformation.getbill(widget.id, token!);
