@@ -349,7 +349,34 @@ class _ShopregisterScreen extends State<customelistcard> {
                   Row(
                     children: [
                       MaterialButton(
-                        minWidth: 80,
+                        minWidth: 10,
+                        height: 30,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        color: Colors.lightBlue, // background
+                        textColor: Colors.white, // foreground
+                        onPressed: () async{
+                          _showConfirm();
+
+                        //   final prefs = await SharedPreferences.getInstance();
+                        //   String? token = await prefs.getString("token");
+                        //   constant.indexcustomer = widget.ID_Custome;
+                        //   await getshopinformation.getshopinformation_id( widget.ID_Custome, token!);
+                        //   Navigator.of(context).pushNamedAndRemoveUntil(
+                        //       '/shoplist', (Route<dynamic> route) => false);
+                        },
+                        child: Text("Add to credit",style: TextStyle(fontSize: 12),),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Row(
+                    children: [
+                      MaterialButton(
+                        minWidth: 100,
                         height: 30,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -364,7 +391,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               '/shoplist', (Route<dynamic> route) => false);
                         },
-                        child: Text("Shops"),
+                        child: Text("Shops",style: TextStyle(fontSize: 12)),
                       )
                     ],
                   ),
@@ -374,7 +401,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                   Row(
                     children: [
                       MaterialButton(
-                        minWidth: 10,
+                        minWidth: 100,
                         height: 30,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -389,13 +416,123 @@ class _ShopregisterScreen extends State<customelistcard> {
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               '/billlist', (Route<dynamic> route) => false);
                         },
-                        child: Text("Add Bill"),
+                        child: Text("Add Bill",style: TextStyle(fontSize: 12)),
                       )
                     ],
-                  )
+                  ),
+
                 ],
               ),
             ],
+          ),
+        ));
+  }
+
+  _showConfirm(){
+    showCupertinoDialog(
+        context: context,
+        builder: (context) => Theme(
+          data: ThemeData.dark(),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: CupertinoAlertDialog(
+                title: Text(
+                  "Add to credit",
+                  style: TextStyle(color: Colors.green),
+                ),
+                content: Card(
+                  elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                  child:Container(
+                    alignment: Alignment.centerLeft,
+                    decoration: kBoxDecorationStyle,
+                    child: TextField(
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.all(5),
+                        hintText: 'Input money',
+                        hintStyle: kHintTextStyle,
+                        fillColor: Colors.transparent
+                    ),
+                  ),
+                )),
+
+                actions: [
+                  CupertinoDialogAction(
+                      child: Text(
+                        "Yes",
+                        style: TextStyle(color: Colors.green),
+                      ),
+                      onPressed: () async{
+                        Navigator.pop(context);
+                        _showWarningMessagePay("213213124");
+
+                      }),
+                  CupertinoDialogAction(
+                      child: Text(
+                        "No",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () => Navigator.pop(context))
+                ]),
+          ),
+        ));
+  }
+
+  _showWarningMessagePay(String message,Future j) {
+    showCupertinoDialog(
+        context: context,
+        builder: (context) => Theme(
+          data: ThemeData.dark(),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: CupertinoAlertDialog(
+                title: Text(
+                  "Warning",
+                  style: TextStyle(color: Colors.red),
+                ),
+                content: Text(message),
+                actions: [
+                  CupertinoDialogAction(
+                      child: Text(
+                        "Yes",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      onPressed: () async{
+
+                        if(Deletecustomer.Delete_Customer_Succes==true){
+                          Fluttertoast.showToast(
+                              msg: "Delete customer successfully",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: App_Color.background_textfield,
+                              textColor: Colors.white,
+                              fontSize: 16.0
+                          );
+                          Navigator.pop(context);
+                        }else{
+                          Fluttertoast.showToast(
+                              msg: Deletecustomer.ContentError,
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: App_Color.background_textfield,
+                              textColor: Colors.white,
+                              fontSize: 16.0
+                          );
+                        }
+                        Navigator.pop(context);
+                      }),
+                  CupertinoDialogAction(
+                      child: Text(
+                        "No",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () => Navigator.pop(context))
+                ]),
           ),
         ));
   }
