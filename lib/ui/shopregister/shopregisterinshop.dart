@@ -3,19 +3,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/funtion_app/apiregistershop/registershop.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../funtion_app/apiregistershop/fn_registershop.dart';
 import '../../utilities/constants.dart';
 import '../home/home.dart';
+import '../shop/shop.dart';
 
-class ShopregisterScreen extends StatefulWidget {
+class ShopregisterScreeninShop extends StatefulWidget {
   @override
   _ShopregisterScreen createState() => _ShopregisterScreen();
 }
 
-class _ShopregisterScreen extends State<ShopregisterScreen> {
+class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
   bool _rememberMe = false;
   final TextEditingController name = TextEditingController();
   final TextEditingController phone = TextEditingController();
@@ -57,7 +59,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                 Icons.drive_file_rename_outline_outlined,
                 color: Colors.white,
               ),
-              hintText: 'Enter your fullname',
+              hintText: 'Enter your shop name',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -73,7 +75,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
         Row(
           children: [
             Text(
-              'Phone',
+              'House Number',
               style: kLabelStyle,
             ),
             Text(
@@ -88,7 +90,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
-            
+
             controller: phone,
             style: TextStyle(
               color: Colors.white,
@@ -101,7 +103,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                 Icons.phone_iphone_outlined,
                 color: Colors.white,
               ),
-              hintText: 'Enter your Phone',
+              hintText: 'Enter your house number',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -144,7 +146,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                 Icons.home_outlined,
                 color: Colors.white,
               ),
-              hintText: 'Enter your Adrress',
+              hintText: 'Enter your adrress',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -187,7 +189,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                 Icons.code,
                 color: Colors.white,
               ),
-              hintText: 'Enter your Post code',
+              hintText: 'Enter your post code',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -212,9 +214,9 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
         elevation: 5.0,
         onPressed: () async {
           if (name.text.isEmpty |
-              phone.text.isEmpty |
-              address.text.isEmpty |
-              postcode.text.isEmpty) {
+          phone.text.isEmpty |
+          address.text.isEmpty |
+          postcode.text.isEmpty) {
             _showErrorMessage(
                 "You have not entered enough information in the fields");
           } else {
@@ -253,33 +255,6 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
     );
   }
 
-  Widget _buildCRCustomerBtn() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 20.0),
-      width: double.infinity,
-      child: RaisedButton(
-        elevation: 5.0,
-        onPressed: () {
-          Navigator.pushNamed(context, '/registerCustome');
-        },
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        color: Colors.lightBlue,
-        child: Text(
-          'Creater Customer',
-          style: TextStyle(
-            color: Colors.white,
-            letterSpacing: 1.5,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget _buildDoneBtn() {
     return Container(
@@ -289,9 +264,9 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
         elevation: 5.0,
         onPressed: () async {
           if (name.text.isEmpty |
-              phone.text.isEmpty |
-              address.text.isEmpty |
-              postcode.text.isEmpty) {
+          phone.text.isEmpty |
+          address.text.isEmpty |
+          postcode.text.isEmpty) {
             _showErrorMessage(
                 "You have not entered enough information in the fields");
           } else {
@@ -306,8 +281,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                   backgroundColor: App_Color.green.withOpacity(0.9),
                   textColor: Colors.white,
                   fontSize: 16.0);
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/home', (Route<dynamic> route) => false);
+              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
             } else {
               _showErrorMessage(registershop.ContentError);
             }
@@ -339,13 +313,12 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-            Navigator.of(context).pushNamedAndRemoveUntil(
-                '/home', (Route<dynamic> route) => false);
+            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist()));
           },
         ),
         actions: [
           Container(
-              // padding: EdgeInsets.all(15),
+            // padding: EdgeInsets.all(15),
               decoration: BoxDecoration(
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(10),
@@ -367,14 +340,14 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
         backgroundColor: App_Color.background_search,
         title: Center(
             child: Text(
-          "Create Shop",
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: 'OpenSans',
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
-          ),
-        )),
+              "Create Shop",
+              style: TextStyle(
+                color: Colors.white,
+                fontFamily: 'OpenSans',
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            )),
       ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
@@ -382,9 +355,9 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
           onHorizontalDragUpdate: (details) async {
             if (details.delta.dx > 0) {
               if (name.text.isEmpty |
-                  phone.text.isEmpty |
-                  address.text.isEmpty |
-                  postcode.text.isEmpty) {
+              phone.text.isEmpty |
+              address.text.isEmpty |
+              postcode.text.isEmpty) {
                 _showErrorMessage(
                     "You have not entered enough information in the fields");
               } else {
@@ -399,13 +372,11 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                       backgroundColor: App_Color.green.withOpacity(0.9),
                       textColor: Colors.white,
                       fontSize: 16.0);
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/home', (Route<dynamic> route) => false);
+                  Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
                 } else {
                   _showErrorMessage(registershop.ContentError);
                 }
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    '/home', (Route<dynamic> route) => false);
+                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
               }
               // Right Swipe
             }
@@ -439,9 +410,8 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                       ),
                       _buildPostCodeTF(),
                       SizedBox(
-                        height: 88.0,
+                        height: 170.0,
                       ),
-                      _buildCRCustomerBtn(),
                       _buildAddShopBtn(),
                       _buildDoneBtn(),
                     ],
@@ -459,21 +429,21 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
     showCupertinoDialog(
         context: context,
         builder: (context) => Theme(
-              data: ThemeData.dark(),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-                child: CupertinoAlertDialog(
-                    title: Text("Warning"),
-                    content: Text("${content}"),
-                    actions: [
-                      CupertinoDialogAction(
-                          child: Text(
-                            "Close",
-                            style: TextStyle(color: App_Color.green),
-                          ),
-                          onPressed: () => Navigator.pop(context))
-                    ]),
-              ),
-            ));
+          data: ThemeData.dark(),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: CupertinoAlertDialog(
+                title: Text("Warning"),
+                content: Text("${content}"),
+                actions: [
+                  CupertinoDialogAction(
+                      child: Text(
+                        "Close",
+                        style: TextStyle(color: App_Color.green),
+                      ),
+                      onPressed: () => Navigator.pop(context))
+                ]),
+          ),
+        ));
   }
 }

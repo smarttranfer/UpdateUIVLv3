@@ -3,9 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apigetbill/fn_getbill.dart';
+import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
+import 'package:vldebitor/ui/createbill/fn_createbill/getshop.dart';
 import '../constants/constant_app.dart';
 import '../funtion_app/addtocredit/addtocreadit.dart';
 import '../funtion_app/addtocredit/fn_addtocredit.dart';
@@ -13,6 +16,11 @@ import '../funtion_app/apigetshopinformation/fn_getshopininformation.dart';
 import '../funtion_app/apiregistercustomer/delete/deletecustomer.dart';
 import '../funtion_app/apiregistercustomer/delete/fn_detelecustomer.dart';
 import '../theme/Color_app.dart';
+import '../ui/addbill/addbill.dart';
+import '../ui/createbill/createbill.dart';
+import '../ui/createbill/fn_createbill/getshopdata.dart';
+import '../ui/creatercredit/createcredit.dart';
+import '../ui/shop/shop.dart';
 import '../utilities/constants.dart';
 
 class customelistcard extends StatefulWidget {
@@ -355,6 +363,8 @@ class _ShopregisterScreen extends State<customelistcard> {
                         textColor: Colors.white, // foreground
                         onPressed: () async{
                           _showConfirm();
+                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreditScreen(ID: widget.ID_Custome,Total: widget.total_liabilities,Paid: widget.total_payment,Credit: double.parse(widget.unallocated),)));
+
                         },
                         child: Text("Add to credit",style: TextStyle(fontSize: 12),),
                       )
@@ -378,8 +388,9 @@ class _ShopregisterScreen extends State<customelistcard> {
                           String? token = await prefs.getString("token");
                           constant.indexcustomer = widget.ID_Custome;
                           await getshopinformation.getshopinformation_id( widget.ID_Custome, token!);
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/shoplist', (Route<dynamic> route) => false);
+                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist()));
+                          // Navigator.of(context).pushNamedAndRemoveUntil(
+                          //     '/shoplist', (Route<dynamic> route) => false);
                         },
                         child: Text("Shops",style: TextStyle(fontSize: 12)),
                       )
@@ -403,8 +414,9 @@ class _ShopregisterScreen extends State<customelistcard> {
                           String? token = await prefs.getString("token");
                           constant.indexcustomer = widget.ID_Custome;
                           await getbillinformation.getbill(widget.ID_Custome, token!);
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/billlist', (Route<dynamic> route) => false);
+                          await getshopinformation_createbills.getshopinformation_id(widget.ID_Custome, token);
+
+                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreen(Getshopinformation_createbill.data_shop)));
                         },
                         child: Text("Add Bill",style: TextStyle(fontSize: 12)),
                       )

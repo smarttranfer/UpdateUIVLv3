@@ -2,12 +2,16 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apigetshopinformation/delete/fn_delete.dart';
+import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
 import '../funtion_app/apigetbill/apigetbill.dart';
 import '../funtion_app/apigetbill/fn_getbill.dart';
 import '../theme/Color_app.dart';
+import '../ui/addbill/addbill.dart';
+import '../ui/shop/detail/detail.dart';
 import '../utilities/constants.dart';
 
 class Shoplistcard extends StatefulWidget {
@@ -273,8 +277,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                           String? token = await prefs.getString("token");
                           await getbillinformation.getbill(widget.id, token!);
                           if( Getbillinformation.GetbillinformationSucces == true){
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                '/shopdetail', (Route<dynamic> route) => false);
+                            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Billlist()));
                           }else{
                             _showMessage(Getbillinformation.ContentError);
                           }
@@ -297,7 +300,18 @@ class _Shoplistcard extends State<Shoplistcard> {
                         ),
                         color: App_Color.green, // background
                         textColor: Colors.white, // foreground
-                        onPressed: () {},
+                        onPressed: () async{
+                          constant.TitleApp_Bar = widget.name;
+                          final prefs = await SharedPreferences.getInstance();
+                          String? token = await prefs.getString("token");
+                          await getbillinformation.getbill(widget.id, token!);
+                          if( Getbillinformation.GetbillinformationSucces == true){
+                            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: DetailScreen()));
+                          }else{
+                            _showMessage(Getbillinformation.ContentError);
+                          }
+
+                        },
                         child: Text("Pay"),
                       )
                     ],

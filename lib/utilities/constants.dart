@@ -18,6 +18,14 @@ final kLabelStyle = TextStyle(
   
 );
 
+final kLabelStyleHistory = TextStyle(
+  fontSize: 20,
+  color: Colors.white,
+  fontWeight: FontWeight.bold,
+  fontFamily: 'OpenSans',
+
+);
+
 final kBoxDecorationStyle = BoxDecoration(
   color: App_Color.background_textfield,
   borderRadius: BorderRadius.circular(10.0),

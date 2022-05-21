@@ -2,12 +2,17 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apigetbill/apigetbill.dart';
 import 'package:vldebitor/theme/Color_app.dart';
+import 'package:vldebitor/ui/home/home.dart';
 import '../../utilities/constants.dart';
 import '../../widget/cardbill.dart';
+import '../createbill/createbill.dart';
+import '../shop/shop.dart';
+import '../shopregister/shopregisterinshop.dart';
 
 class Billlist extends StatefulWidget {
   Billlist({Key? key}) : super(key: key);
@@ -59,8 +64,7 @@ class _Billlist extends State<Billlist> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/home', (Route<dynamic> route) => false);
+              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist()));
             },
             icon: Icon(Icons.arrow_back_ios),
           ),
@@ -86,8 +90,7 @@ class _Billlist extends State<Billlist> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        '/registershopnew', (Route<dynamic> route) => false);
+                    // Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreen()));
                   },
                   child: Container(
                     child: Icon(
@@ -181,7 +184,7 @@ class _Billlist extends State<Billlist> {
                                           Getbillinformation.data_bill[index].original_amount.toString(),
                                           Getbillinformation.data_bill[index].payment.toString(),
                                           (Getbillinformation.data_bill[index].original_amount-Getbillinformation.data_bill[index].payment).toString(),
-                                          Getbillinformation.data_bill[index].create_date.toString()
+                                          Getbillinformation.data_bill[index].create_date.toString(),
                                       );
                                     })))),
               ))

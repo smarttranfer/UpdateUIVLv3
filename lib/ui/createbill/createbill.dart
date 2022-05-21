@@ -3,29 +3,30 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vldebitor/constants/constant_app.dart';
-import 'package:vldebitor/funtion_app/apiregistercustomer/registercustomer.dart';
-import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
 import 'package:vldebitor/theme/Color_app.dart';
-import '../../funtion_app/apiregistercustomer/fn_registercustomer.dart';
+import 'package:vldebitor/ui/createbill/fn_createbill/createbill_status.dart';
+import '../../model/sc_createbill/sc_createbill.dart';
 import '../../utilities/constants.dart';
-import '../../widget/process_loading.dart';
 import '../home/home.dart';
-import '../shop/detail/detail.dart';
-import '../shopregister/shopregister.dart';
+import 'fn_createbill/api_createbill.dart';
 
-class CustomeregisterScreen extends StatefulWidget {
+
+class CreateBillScreen extends StatefulWidget {
+  late List<sc_Create_bill> ListShop = [];
+  CreateBillScreen(this.ListShop);
   @override
-  _CustomeregisterScreen createState() => _CustomeregisterScreen();
+  _CreateBillScreen createState() => _CreateBillScreen();
 }
 
-class _CustomeregisterScreen extends State<CustomeregisterScreen> {
-  bool _rememberMe = false;
+class _CreateBillScreen extends State<CreateBillScreen> {
   bool _isLoaderVisible = false;
   final TextEditingController name = TextEditingController();
-  final TextEditingController phone = TextEditingController();
+  final TextEditingController Money = TextEditingController();
+  final TextEditingController Shop = TextEditingController();
+  final TextEditingController Note = TextEditingController();
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,7 +34,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
         Row(
           children: [
             Text(
-              'Fullname',
+              'Name',
               style: kLabelStyle,
             ),
             Text(
@@ -52,7 +53,6 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
             controller: name,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
-
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
@@ -63,7 +63,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
                 Icons.drive_file_rename_outline_outlined,
                 color: Colors.white,
               ),
-              hintText: 'Enter your fullname',
+              hintText: 'Enter name',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -71,7 +71,61 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
       ],
     );
   }
-
+  Widget _buildSelectCustomer() {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Text(
+              'Shop',
+              style: kLabelStyle,
+            ),
+            Text(
+              '*',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
+        SizedBox(height: 10.0),
+        Container(
+            alignment: Alignment.centerLeft,
+            decoration: kBoxDecorationStyle,
+            height: 60.0,
+            child: TextField(
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: 'OpenSans',
+          ),
+          controller: Shop,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.only(top: 14.0),
+            prefixIcon: Icon(
+              Icons.shop,
+              color: Colors.white,
+            ),
+            hintText: 'Enter shop name',
+            hintStyle: kHintTextStyle,
+            suffixIcon: PopupMenuButton<sc_Create_bill>(
+              icon: const Icon(
+                Icons.arrow_drop_down,
+                color: Colors.white,
+              ),
+              onSelected: (sc_Create_bill value) {
+                Shop.text = value.Name;
+              },
+              itemBuilder: (BuildContext context) {
+                return widget.ListShop.map<PopupMenuItem<sc_Create_bill>>((sc_Create_bill value) {
+                  return new PopupMenuItem(
+                      child: new Text(value.Name), value: value);
+                }).toList();
+              },
+            ),
+          ),
+        ))
+      ],
+    );
+  }
   Widget _buildPasswordTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +133,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
         Row(
           children: [
             Text(
-              'Phone',
+              'Money',
               style: kLabelStyle,
             ),
             Text(
@@ -94,7 +148,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
-            controller: phone,
+            controller: Money,
             keyboardType: TextInputType.number,
             style: TextStyle(
               color: Colors.white,
@@ -104,10 +158,10 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
-                Icons.phone_iphone_outlined,
+                Icons.money,
                 color: Colors.white,
               ),
-              hintText: 'Enter your Phone',
+              hintText: 'Enter money',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -115,17 +169,77 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
       ],
     );
   }
-
+  Widget _buildNoteTF() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Row(
+          children: [
+            Text(
+              'Note',
+              style: kLabelStyle,
+            ),
+            Text(
+              '*',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: kBoxDecorationStyle,
+          height: 60.0,
+          child: TextField(
+            controller: Note,
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'OpenSans',
+            ),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.note,
+                color: Colors.white,
+              ),
+              hintText: 'Enter note',
+              hintStyle: kHintTextStyle,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
   Future _CreaterCustomers(String Name, String Phone) async {
+    int ID = 0;
     final prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("token").toString();
-    await CreaterCustomer.CreaterCustomers(token,Name,Phone);
+    String token = await prefs.getString("token").toString();
+    for(var i in widget.ListShop){
+      if(i.Name==Shop.text){
+        ID = i.ID;
+        break;
+      }
+    }
+    String datetime = DateTime.now().toString();
+    if(Money.text.isNotEmpty|name.text.isNotEmpty|Note.text.isNotEmpty){
+      await Createbills.CreateBill(ID,token, double.parse(Money.text), name.text,Note.text,datetime);
+    }else{
+      Fluttertoast.showToast(
+          msg: "Create fail bill",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
+
 
   }
-
   Widget _buildContinueBtn() {
     return Container(
-
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: RaisedButton(
@@ -134,18 +248,32 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
           setState(() {
             _isLoaderVisible = true;
           });
-          await _CreaterCustomers(name.text,phone.text);
+          await _CreaterCustomers(name.text, Money.text);
           setState(() {
             _isLoaderVisible = false;
           });
-          if (registercustomer.Create_Customer_Succes == false && phone.value.text.toString().length != 11) {
-            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: ShopregisterScreen()));
+          if (createbill.Create_Bill_Succes==true) {
+            Fluttertoast.showToast(
+                msg: "Create successful bill",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.green,
+                textColor: Colors.white,
+                fontSize: 16.0
+            );
+            Navigator.pushReplacement(context,
+                PageTransition(type: PageTransitionType.rightToLeft, child: Home_page()));
           } else {
-            if(phone.value.text.toString().length > 11||phone.value.text.toString().length < 11){
-              _showErrorMessage("Your phone number is not 11 characters long");
-            }else{
-              _showErrorMessage("Your registration has a problem");
-            }
+            Fluttertoast.showToast(
+                msg: "Create fail bill",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.green,
+                textColor: Colors.white,
+                fontSize: 16.0
+            );
 
           }
         },
@@ -168,7 +296,6 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -188,7 +315,6 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
               ),
               child: InkWell(
                 onTap: () {
-
                   Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
                 },
                 child: Container(
@@ -203,7 +329,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
         backgroundColor: App_Color.background_search,
         title: Center(
             child: Text(
-          "Create Customer",
+          "Create Bill          ",
           style: TextStyle(
             color: Colors.white,
             fontFamily: 'OpenSans',
@@ -249,8 +375,11 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
             : GestureDetector(
                 onHorizontalDragUpdate: (details) {
                   if (details.delta.dx > 0) {
-                    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: Home_page()));
-
+                    Navigator.pushReplacement(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.rightToLeft,
+                            child: Home_page()));
                   }
                 },
                 onTap: () => FocusScope.of(context).unfocus(),
@@ -268,6 +397,14 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
+                            _buildSelectCustomer(),
+                            SizedBox(
+                              height: 6.0,
+                            ),
+                            _buildNoteTF(),
+                            SizedBox(
+                              height: 6.0,
+                            ),
                             _buildEmailTF(),
                             SizedBox(
                               height: 6.0,
@@ -275,7 +412,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
                             _buildPasswordTF(),
                             Container(
                               margin: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height / 1.85,
+                                  top: MediaQuery.of(context).size.height / 3.3,
                                   bottom: 10),
                               child: _buildContinueBtn(),
                             )
@@ -298,7 +435,10 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
                 child: CupertinoAlertDialog(
-                    title: Text("Warning",style: TextStyle(color: Colors.red),),
+                    title: Text(
+                      "Warning",
+                      style: TextStyle(color: Colors.red),
+                    ),
                     content: Text("${messenger}"),
                     actions: [
                       CupertinoDialogAction(

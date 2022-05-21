@@ -2,7 +2,13 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:page_transition/page_transition.dart';
+import '../funtion_app/transation_page/transation_page.dart';
 import '../theme/Color_app.dart';
+import '../ui/addbill/cardpayment.dart';
+import '../ui/addbill/payone.dart';
+import '../ui/home/home.dart';
+import '../ui/shop/detail/detail.dart';
 import '../utilities/constants.dart';
 
 class cardbill extends StatefulWidget {
@@ -266,8 +272,7 @@ class _cardbill extends State<cardbill> {
                         color: App_Color.orange, // background
                         textColor: Colors.white, // foreground
                         onPressed: () {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/shopdetail', (Route<dynamic> route) => false);
+                          transation_page.transation_router(DetailScreen(), 1);
                         },
                         child: Text("History"),
                       )
@@ -286,7 +291,10 @@ class _cardbill extends State<cardbill> {
                         ),
                         color: App_Color.green, // background
                         textColor: Colors.white, // foreground
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: PayoneScreen( ID: int.parse(widget.ID), Total: widget.Total, Paid: widget.Paid, Credit: double.parse(widget.Rest,))));
+
+                        },
                         child: Text("Pay"),
                       )
                     ],

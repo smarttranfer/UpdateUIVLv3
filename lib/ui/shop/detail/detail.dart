@@ -3,13 +3,14 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../../funtion_app/apigetbill/apigetbill.dart';
 import '../../../utilities/constants.dart';
-import '../../../widget/cardcheckbill.dart';
 import '../../../widget/cardshoppay.dart';
+import '../shop.dart';
 
 class DetailScreen extends StatefulWidget {
   DetailScreen({Key? key}) : super(key: key);
@@ -59,8 +60,7 @@ class _DetailScreen extends State<DetailScreen> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/home', (Route<dynamic> route) => false);
+              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist()));
             },
             icon: Icon(Icons.arrow_back_ios),
           ),
