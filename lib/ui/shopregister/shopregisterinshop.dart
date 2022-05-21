@@ -10,6 +10,7 @@ import 'package:vldebitor/theme/Color_app.dart';
 import '../../funtion_app/apiregistershop/fn_registershop.dart';
 import '../../utilities/constants.dart';
 import '../home/home.dart';
+import '../shop/shop.dart';
 
 class ShopregisterScreeninShop extends StatefulWidget {
   @override
@@ -312,7 +313,7 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
+            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist()));
           },
         ),
         actions: [

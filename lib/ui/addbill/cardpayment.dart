@@ -9,21 +9,21 @@ import 'package:vldebitor/funtion_app/addtocredit/fn_addtocredit.dart';
 import '../../theme/Color_app.dart';
 import '../../utilities/constants.dart';
 
-class CardCredit extends StatefulWidget {
+class CardPayment extends StatefulWidget {
   int ID ;
   String Total;
   String Paid;
   double Credit;
 
-  CardCredit(this.ID,this.Total, this.Paid, this.Credit);
+  CardPayment(this.ID,this.Total, this.Paid, this.Credit);
 
   @override
   State<StatefulWidget> createState() {
-    return _CardCredit();
+    return _CardPayment();
   }
 }
 
-class _CardCredit extends State<CardCredit> {
+class _CardPayment extends State<CardPayment> {
   final TextEditingController _money = TextEditingController();
   late bool checkactive = false;
   @override
@@ -101,7 +101,7 @@ class _CardCredit extends State<CardCredit> {
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   contentPadding:
-                                      EdgeInsets.only(bottom: 14, left: 5),
+                                  EdgeInsets.only(bottom: 14, left: 5),
                                   hintText: 'Enter Money',
                                   hintStyle: kHintTextStyle,
                                 ),
@@ -161,7 +161,7 @@ class _CardCredit extends State<CardCredit> {
                       onPressed: () async{
                         final prefs = await SharedPreferences.getInstance();
                         String? token =await prefs.getString("token").toString();
-                        await fn_AddToCredit.AddtoCredits(double.parse(_money.text), widget.ID, token!);
+                        // await fn_AddToCredit.AddtoCredits(double.parse(_money.text), widget.ID, token!);
                         if(AddCredit_check.AddCredit_Succes==true){
                           setState(() {
                             widget.Credit = widget.Credit + double.parse(_money.text);

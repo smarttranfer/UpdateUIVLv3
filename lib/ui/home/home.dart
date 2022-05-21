@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 
 import '../customelist/customelist.dart';
+import '../develop/develop.dart';
 import '../setting/setting.dart';
 
 class Home_page extends StatefulWidget {
@@ -21,8 +22,8 @@ class _Home_page extends State<Home_page> {
   Widget build(BuildContext context) {
     List<Widget> tabItems = <Widget>[
       Customelist(),
-      Customelist(),
-      SettingsPage(),
+      Develop(),
+      Develop(),
       SettingsPage()
     ];
     return Scaffold(
@@ -36,24 +37,24 @@ class _Home_page extends State<Home_page> {
           }, items: [
           BottomNavyBarItem(
             icon: Icon(Icons.home),
-            title: Text('Home'),
+            title: Text(""),
             activeColor: App_Color.green,
           ),
           BottomNavyBarItem(
             icon: Icon(Icons.people_alt_rounded),
-            title: Text('Staff'),
+            title: Text(''),
             activeColor: App_Color.green,
           ),
           BottomNavyBarItem(
             icon: Icon(Icons.bar_chart,),
-            title: Text('Statistical'),
+            title: Text(''),
             activeColor: App_Color.green,
           ),
           BottomNavyBarItem(
             icon: Icon(Icons.settings),
-            title: Text('Setting'),
+            title: Text(''),
             activeColor: App_Color.green,
-            inactiveColor: App_Color.orange,
+            inactiveColor: App_Color.green,
           ),
         ]),
         body: Container(

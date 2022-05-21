@@ -3,16 +3,22 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../../funtion_app/apigetbill/apigetbill.dart';
 import '../../../utilities/constants.dart';
 import '../../../widget/cardshoppay.dart';
+import '../home/home.dart';
 import 'cardcredit.dart';
 
 class CreditScreen extends StatefulWidget {
-  CreditScreen({Key? key}) : super(key: key);
+  int ID;
+  String Total;
+  String Paid;
+  double Credit;
+  CreditScreen({required this.ID,required this.Total,required this.Paid,required this.Credit,Key? key}) : super(key: key);
 
   @override
   _CreditScreen createState() => _CreditScreen();
@@ -59,8 +65,7 @@ class _CreditScreen extends State<CreditScreen> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/home', (Route<dynamic> route) => false);
+              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
             },
             icon: Icon(Icons.arrow_back_ios),
           ),
@@ -99,10 +104,10 @@ class _CreditScreen extends State<CreditScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(height: 15),
-              Expanded(
+              Container(
                   child: Column(
                 children: [
-                  CardCredit("", "", 0.0),
+                  CardCredit(widget.ID, widget.Total, widget.Paid,widget.Credit),
                   Row(
                       children: [
                     SizedBox(width: 10,),
@@ -112,7 +117,7 @@ class _CreditScreen extends State<CreditScreen> {
                       textDirection: TextDirection.ltr,
                     )
                   ]),
-                  SizedBox(height: 20,),
+                  SizedBox(height: 10,),
                   Container(
                     width: MediaQuery.of(context).size.width/1.05,
                     child: Divider(color: Colors.grey,),),
@@ -130,7 +135,7 @@ class _CreditScreen extends State<CreditScreen> {
                               ))
                             : Container(
                                 width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height,
+                                height: MediaQuery.of(context).size.height/1.9,
                                 child: SmartRefresher(
                                     physics: const BouncingScrollPhysics(),
                                     enablePullDown: true,
@@ -169,8 +174,8 @@ class _CreditScreen extends State<CreditScreen> {
                                     onLoading: _onLoading,
                                     onRefresh: _onRefresh,
                                     child: ListView.builder(
-                                        itemCount:
-                                            Getbillinformation.data_bill.length,
+                                        itemCount:0,
+                                            // Getbillinformation.data_bill.length,
                                         itemBuilder:
                                             (BuildContext context, int index) {
                                           return Shoplistcardpay(
@@ -214,4 +219,5 @@ class _CreditScreen extends State<CreditScreen> {
           ),
         ));
   }
+
 }

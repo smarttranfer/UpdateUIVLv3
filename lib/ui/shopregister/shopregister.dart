@@ -439,7 +439,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                       ),
                       _buildPostCodeTF(),
                       SizedBox(
-                        height: 80.0,
+                        height: 88.0,
                       ),
                       _buildCRCustomerBtn(),
                       _buildAddShopBtn(),

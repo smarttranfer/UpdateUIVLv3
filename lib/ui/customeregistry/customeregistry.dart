@@ -12,9 +12,9 @@ import 'package:vldebitor/theme/Color_app.dart';
 import '../../funtion_app/apiregistercustomer/fn_registercustomer.dart';
 import '../../utilities/constants.dart';
 import '../../widget/process_loading.dart';
-import '../create_new_shop/createnewshop.dart';
 import '../home/home.dart';
 import '../shop/detail/detail.dart';
+import '../shopregister/shopregister.dart';
 
 class CustomeregisterScreen extends StatefulWidget {
   @override
@@ -139,7 +139,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
             _isLoaderVisible = false;
           });
           if (registercustomer.Create_Customer_Succes == false && phone.value.text.toString().length != 11) {
-            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: ShopregisterScreens()));
+            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: ShopregisterScreen()));
           } else {
             if(phone.value.text.toString().length > 11||phone.value.text.toString().length < 11){
               _showErrorMessage("Your phone number is not 11 characters long");
@@ -176,7 +176,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-            transation_page.transation_router(Home_page(), 2);
+            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
           },
         ),
         actions: [
@@ -189,7 +189,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
               child: InkWell(
                 onTap: () {
 
-                  transation_page.transation_router(Home_page(), 1);
+                  Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
                 },
                 child: Container(
                   child: Icon(
@@ -275,7 +275,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
                             _buildPasswordTF(),
                             Container(
                               margin: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height / 2,
+                                  top: MediaQuery.of(context).size.height / 1.85,
                                   bottom: 10),
                               child: _buildContinueBtn(),
                             )

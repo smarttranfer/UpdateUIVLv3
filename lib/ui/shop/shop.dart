@@ -3,6 +3,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
@@ -11,6 +12,8 @@ import 'package:vldebitor/funtion_app/apigetshopinformation/getshopinformation.d
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../utilities/constants.dart';
 import '../../widget/cardshop.dart';
+import '../home/home.dart';
+import '../shopregister/shopregisterinshop.dart';
 
 class Shoplist extends StatefulWidget {
   Shoplist({Key? key}) : super(key: key);
@@ -91,8 +94,7 @@ class _Shoplist extends State<Shoplist> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/home', (Route<dynamic> route) => false);
+              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
             },
             icon: Icon(Icons.arrow_back_ios),
           ),
@@ -118,8 +120,7 @@ class _Shoplist extends State<Shoplist> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        '/registershopnew', (Route<dynamic> route) => false);
+                    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: ShopregisterScreeninShop()));
                   },
                   child: Container(
                     child: Icon(

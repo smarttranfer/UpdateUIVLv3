@@ -33,7 +33,6 @@ class MyApp extends StatelessWidget {
         '/shoplist':(context)=>Shoplist(),
         '/registershopnew':(context)=>ShopregisterScreeninShop(),
         '/shopdetail':(context)=>DetailScreen(),
-        '/billlist':(context)=>Billlist()
       },
     );
   }

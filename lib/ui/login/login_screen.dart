@@ -2,9 +2,11 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/funtion_app/apilogin/fn_login.dart';
 import 'package:vldebitor/funtion_app/apilogin/login.dart';
+import 'package:vldebitor/funtion_app/home/home.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../funtion_app/home/fn_getdatacutome.dart';
 import '../../funtion_app/transation_page/transation_page.dart';
@@ -49,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
-                Icons.email,
+                Icons.person,
                 color: Colors.white,
               ),
               hintText: 'Enter your Username',
@@ -145,9 +147,9 @@ class _LoginScreenState extends State<LoginScreen> {
           String token = prefs.getString("token").toString();
           await fn_DataCustomer.getDataCustomer(token);
           if(login.LoginSucces==true){
-            transation_page.transation_router(Home_page(),1);
+            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
           }else{
-            _showErrorMessage();
+            _showErrorMessage(home.dataerror);
           }
         } ,
         padding: EdgeInsets.all(15.0),
@@ -164,34 +166,6 @@ class _LoginScreenState extends State<LoginScreen> {
             fontWeight: FontWeight.bold,
             fontFamily: 'OpenSans',
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSignupBtn() {
-    return GestureDetector(
-      onTap: () => print('Sign Up Button Pressed'),
-      child: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: 'Don\'t have an Account? ',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            TextSpan(
-              text: 'Sign Up',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
         ),
       ),
     );
@@ -218,7 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Image.asset('assets/ic_app/icon_laucher.png',height: 100,width: 100,),
+                      Image.asset('assets/ic_app/icon_laucher.png',height: 200,width: 200,),
                       SizedBox(height: 30.0),
                       _buildEmailTF(),
                       SizedBox(
@@ -241,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
   }
-  _showErrorMessage() {
+  _showErrorMessage(String e) {
     showCupertinoDialog(
         context: context,
         builder: (context) => Theme(
@@ -251,7 +225,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: CupertinoAlertDialog(
                 title: Text(
                     "Warning"),
-                content: Text("Login failed, check information."),
+                content: Text(e),
                 actions: [
                   CupertinoDialogAction(
                       child: Text("Close",style: TextStyle(color: App_Color.green),),
