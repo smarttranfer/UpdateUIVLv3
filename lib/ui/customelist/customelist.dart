@@ -220,7 +220,7 @@ class _Customelist extends State<Customelist> {
                           ))
                         : Container(
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height/1.3,
+                            height: MediaQuery.of(context).size.height/1.4,
                             child: SmartRefresher(
                                 physics: const BouncingScrollPhysics(),
                                 enablePullDown: true,
