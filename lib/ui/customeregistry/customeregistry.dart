@@ -3,14 +3,18 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apiregistercustomer/registercustomer.dart';
+import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../funtion_app/apiregistercustomer/fn_registercustomer.dart';
 import '../../utilities/constants.dart';
 import '../../widget/process_loading.dart';
+import '../create_new_shop/createnewshop.dart';
 import '../home/home.dart';
+import '../shop/detail/detail.dart';
 
 class CustomeregisterScreen extends StatefulWidget {
   @override
@@ -121,6 +125,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
 
   Widget _buildContinueBtn() {
     return Container(
+
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: RaisedButton(
@@ -133,9 +138,8 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
           setState(() {
             _isLoaderVisible = false;
           });
-          if (registercustomer.Create_Customer_Succes == true && phone.value.text.toString().length == 11) {
-            Navigator.of(context).pushNamedAndRemoveUntil(
-                '/registerShop', (Route<dynamic> route) => false);
+          if (registercustomer.Create_Customer_Succes == false && phone.value.text.toString().length != 11) {
+            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: ShopregisterScreens()));
           } else {
             if(phone.value.text.toString().length > 11||phone.value.text.toString().length < 11){
               _showErrorMessage("Your phone number is not 11 characters long");
@@ -164,33 +168,6 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
     );
   }
 
-  Widget _buildSignupBtn() {
-    return GestureDetector(
-      onTap: () => print('Sign Up Button Pressed'),
-      child: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: 'Don\'t have an Account? ',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            TextSpan(
-              text: 'Sign Up',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -199,8 +176,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-            Navigator.of(context).pushNamedAndRemoveUntil(
-                '/home', (Route<dynamic> route) => false);
+            transation_page.transation_router(Home_page(), 2);
           },
         ),
         actions: [
@@ -212,8 +188,8 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
               ),
               child: InkWell(
                 onTap: () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/registerCustome', (Route<dynamic> route) => false);
+
+                  transation_page.transation_router(Home_page(), 1);
                 },
                 child: Container(
                   child: Icon(
@@ -227,7 +203,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
         backgroundColor: App_Color.background_search,
         title: Center(
             child: Text(
-          "Create Custome",
+          "Create Customer",
           style: TextStyle(
             color: Colors.white,
             fontFamily: 'OpenSans',
@@ -273,9 +249,8 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
             : GestureDetector(
                 onHorizontalDragUpdate: (details) {
                   if (details.delta.dx > 0) {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        '/home', (Route<dynamic> route) => false);
-                    // Right Swipe
+                    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: Home_page()));
+
                   }
                 },
                 onTap: () => FocusScope.of(context).unfocus(),

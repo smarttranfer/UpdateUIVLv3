@@ -2,12 +2,15 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apigetbill/apigetbill.dart';
 import 'package:vldebitor/theme/Color_app.dart';
+import 'package:vldebitor/ui/home/home.dart';
 import '../../utilities/constants.dart';
 import '../../widget/cardbill.dart';
+import '../shopregister/shopregisterinshop.dart';
 
 class Billlist extends StatefulWidget {
   Billlist({Key? key}) : super(key: key);
@@ -59,8 +62,7 @@ class _Billlist extends State<Billlist> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/home', (Route<dynamic> route) => false);
+              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
             },
             icon: Icon(Icons.arrow_back_ios),
           ),
@@ -86,8 +88,7 @@ class _Billlist extends State<Billlist> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        '/registershopnew', (Route<dynamic> route) => false);
+                    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: ShopregisterScreeninShop()));
                   },
                   child: Container(
                     child: Icon(

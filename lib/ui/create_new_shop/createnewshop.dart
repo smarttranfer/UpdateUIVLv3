@@ -6,12 +6,12 @@ import 'package:vldebitor/theme/Color_app.dart';
 import '../../utilities/constants.dart';
 import '../home/home.dart';
 
-class ShopregisterScreen extends StatefulWidget {
+class ShopregisterScreens extends StatefulWidget {
   @override
-  _ShopregisterScreen createState() => _ShopregisterScreen();
+  _ShopregisterScreens createState() => _ShopregisterScreens();
 }
 
-class _ShopregisterScreen extends State<ShopregisterScreen> {
+class _ShopregisterScreens extends State<ShopregisterScreens> {
   bool _rememberMe = false;
 
   Widget _buildEmailTF() {

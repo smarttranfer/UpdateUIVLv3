@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
 import '../theme/Color_app.dart';
+import '../ui/shop/detail/detail.dart';
 import '../utilities/constants.dart';
 
 class Shoplistcardpay extends StatefulWidget {
@@ -100,7 +102,6 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                                     setState(() {
                                       checkactive=false;
                                     });
-
                                     _showWarningMessage("The amount in the account is not enough");
                                   }else{
                                     setState(() {
@@ -142,8 +143,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                         color: App_Color.orange, // background
                         textColor: Colors.white, // foreground
                         onPressed: () {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/shopdetail', (Route<dynamic> route) => false);
+                          transation_page.transation_router(DetailScreen(), 1);
                         },
                         child: Text("History"),
                       )

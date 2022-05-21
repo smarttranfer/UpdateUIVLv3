@@ -21,7 +21,6 @@ class fn_DataCustomer{
     http.StreamedResponse response = await request.send();
     home.datacustomeall = await response.stream.bytesToString();
     if (json.decode(home.datacustomeall)["status"].toString() == "200") {
-      print(json.decode(home.datacustomeall)["data"]);
       for(var i in json.decode(home.datacustomeall)["data"]){
         sc_datahome_customer datahome_customer = new sc_datahome_customer();
         datahome_customer.ID = i["id"].toString();

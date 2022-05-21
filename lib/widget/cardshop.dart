@@ -5,9 +5,11 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apigetshopinformation/delete/fn_delete.dart';
+import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
 import '../funtion_app/apigetbill/apigetbill.dart';
 import '../funtion_app/apigetbill/fn_getbill.dart';
 import '../theme/Color_app.dart';
+import '../ui/shop/detail/detail.dart';
 import '../utilities/constants.dart';
 
 class Shoplistcard extends StatefulWidget {
@@ -273,8 +275,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                           String? token = await prefs.getString("token");
                           await getbillinformation.getbill(widget.id, token!);
                           if( Getbillinformation.GetbillinformationSucces == true){
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                '/shopdetail', (Route<dynamic> route) => false);
+                            transation_page.transation_router(DetailScreen(), 1);
                           }else{
                             _showMessage(Getbillinformation.ContentError);
                           }

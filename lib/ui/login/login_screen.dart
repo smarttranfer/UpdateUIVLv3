@@ -7,6 +7,7 @@ import 'package:vldebitor/funtion_app/apilogin/fn_login.dart';
 import 'package:vldebitor/funtion_app/apilogin/login.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../funtion_app/home/fn_getdatacutome.dart';
+import '../../funtion_app/transation_page/transation_page.dart';
 import '../../utilities/constants.dart';
 import '../home/home.dart';
 
@@ -144,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
           String token = prefs.getString("token").toString();
           await fn_DataCustomer.getDataCustomer(token);
           if(login.LoginSucces==true){
-            Navigator.pushNamed(context, '/home');
+            transation_page.transation_router(Home_page(),1);
           }else{
             _showErrorMessage();
           }

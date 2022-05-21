@@ -8,7 +8,6 @@ import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../../funtion_app/apigetbill/apigetbill.dart';
 import '../../../utilities/constants.dart';
-import '../../../widget/cardcheckbill.dart';
 import '../../../widget/cardshoppay.dart';
 
 class DetailScreen extends StatefulWidget {
