@@ -138,7 +138,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
           setState(() {
             _isLoaderVisible = false;
           });
-          if (registercustomer.Create_Customer_Succes == false && phone.value.text.toString().length != 11) {
+          if (registercustomer.Create_Customer_Succes == true && phone.value.text.toString().length == 11) {
             Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: ShopregisterScreen()));
           } else {
             if(phone.value.text.toString().length > 11||phone.value.text.toString().length < 11){
