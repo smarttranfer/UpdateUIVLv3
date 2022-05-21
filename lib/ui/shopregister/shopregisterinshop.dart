@@ -20,7 +20,7 @@ class ShopregisterScreeninShop extends StatefulWidget {
 class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
   bool _rememberMe = false;
   final TextEditingController name = TextEditingController();
-  final TextEditingController phone = TextEditingController();
+  final TextEditingController house = TextEditingController();
   final TextEditingController address = TextEditingController();
   final TextEditingController postcode = TextEditingController();
   Widget _buildEmailTF() {
@@ -90,8 +90,7 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
-
-            controller: phone,
+            controller: house,
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
@@ -100,7 +99,7 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
-                Icons.phone_iphone_outlined,
+                Icons.house,
                 color: Colors.white,
               ),
               hintText: 'Enter your house number',
@@ -214,14 +213,14 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
         elevation: 5.0,
         onPressed: () async {
           if (name.text.isEmpty |
-          phone.text.isEmpty |
+          house.text.isEmpty |
           address.text.isEmpty |
           postcode.text.isEmpty) {
             _showErrorMessage(
                 "You have not entered enough information in the fields");
           } else {
             await _CreaterShop(
-                name.text, phone.text, address.text, postcode.text);
+                name.text, house.text, address.text, postcode.text);
             if (registershop.Create_Shop_Succes == true) {
               Fluttertoast.showToast(
                   msg: "Create Shop Done",
@@ -264,14 +263,14 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
         elevation: 5.0,
         onPressed: () async {
           if (name.text.isEmpty |
-          phone.text.isEmpty |
+          house.text.isEmpty |
           address.text.isEmpty |
           postcode.text.isEmpty) {
             _showErrorMessage(
                 "You have not entered enough information in the fields");
           } else {
             await _CreaterShop(
-                name.text, phone.text, address.text, postcode.text);
+                name.text, house.text, address.text, postcode.text);
             if (registershop.Create_Shop_Succes == true) {
               Fluttertoast.showToast(
                   msg: "Create Shop Done",
@@ -355,14 +354,14 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
           onHorizontalDragUpdate: (details) async {
             if (details.delta.dx > 0) {
               if (name.text.isEmpty |
-              phone.text.isEmpty |
+              house.text.isEmpty |
               address.text.isEmpty |
               postcode.text.isEmpty) {
                 _showErrorMessage(
                     "You have not entered enough information in the fields");
               } else {
                 await _CreaterShop(
-                    name.text, phone.text, address.text, postcode.text);
+                    name.text, house.text, address.text, postcode.text);
                 if (registershop.Create_Shop_Succes == true) {
                   Fluttertoast.showToast(
                       msg: "Create Shop Done",

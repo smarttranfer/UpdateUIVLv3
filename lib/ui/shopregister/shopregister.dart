@@ -18,7 +18,7 @@ class ShopregisterScreen extends StatefulWidget {
 class _ShopregisterScreen extends State<ShopregisterScreen> {
   bool _rememberMe = false;
   final TextEditingController name = TextEditingController();
-  final TextEditingController phone = TextEditingController();
+  final TextEditingController House = TextEditingController();
   final TextEditingController address = TextEditingController();
   final TextEditingController postcode = TextEditingController();
   Widget _buildEmailTF() {
@@ -57,7 +57,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                 Icons.drive_file_rename_outline_outlined,
                 color: Colors.white,
               ),
-              hintText: 'Enter your fullname',
+              hintText: 'Enter name shop',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -73,7 +73,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
         Row(
           children: [
             Text(
-              'Phone',
+              'House Number',
               style: kLabelStyle,
             ),
             Text(
@@ -88,8 +88,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
-            
-            controller: phone,
+            controller: House,
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
@@ -98,10 +97,10 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
-                Icons.phone_iphone_outlined,
+                Icons.numbers_sharp,
                 color: Colors.white,
               ),
-              hintText: 'Enter your Phone',
+              hintText: 'Enter house number',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -144,7 +143,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                 Icons.home_outlined,
                 color: Colors.white,
               ),
-              hintText: 'Enter your Adrress',
+              hintText: 'Enter your address',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -187,7 +186,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                 Icons.code,
                 color: Colors.white,
               ),
-              hintText: 'Enter your Post code',
+              hintText: 'Enter your post code',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -212,14 +211,14 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
         elevation: 5.0,
         onPressed: () async {
           if (name.text.isEmpty |
-              phone.text.isEmpty |
+          House.text.isEmpty |
               address.text.isEmpty |
               postcode.text.isEmpty) {
             _showErrorMessage(
                 "You have not entered enough information in the fields");
           } else {
             await _CreaterShop(
-                name.text, phone.text, address.text, postcode.text);
+                name.text, House.text, address.text, postcode.text);
             if (registershop.Create_Shop_Succes == true) {
               Fluttertoast.showToast(
                   msg: "Create Shop Done",
@@ -259,8 +258,30 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () {
-          Navigator.pushNamed(context, '/registerCustome');
+        onPressed: () async {
+          if (name.text.isEmpty |
+          House.text.isEmpty |
+              address.text.isEmpty |
+              postcode.text.isEmpty) {
+            _showErrorMessage(
+                "You have not entered enough information in the fields");
+          } else {
+            await _CreaterShop(
+                name.text, House.text, address.text, postcode.text);
+            if (registershop.Create_Shop_Succes == true) {
+              Fluttertoast.showToast(
+                  msg: "Create Shop Done",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: App_Color.green.withOpacity(0.9),
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+              Navigator.pushNamed(context, '/registerCustome');
+            } else {
+              _showErrorMessage(registershop.ContentError);
+            }
+          }
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -289,14 +310,14 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
         elevation: 5.0,
         onPressed: () async {
           if (name.text.isEmpty |
-              phone.text.isEmpty |
+          House.text.isEmpty |
               address.text.isEmpty |
               postcode.text.isEmpty) {
             _showErrorMessage(
                 "You have not entered enough information in the fields");
           } else {
             await _CreaterShop(
-                name.text, phone.text, address.text, postcode.text);
+                name.text, House.text, address.text, postcode.text);
             if (registershop.Create_Shop_Succes == true) {
               Fluttertoast.showToast(
                   msg: "Create Shop Done",
@@ -338,9 +359,30 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () {
-            Navigator.of(context).pushNamedAndRemoveUntil(
-                '/home', (Route<dynamic> route) => false);
+          onPressed: () async {
+            if (name.text.isEmpty |
+            House.text.isEmpty |
+                address.text.isEmpty |
+                postcode.text.isEmpty) {
+              _showErrorMessage(
+                  "You have not entered enough information in the fields");
+            } else {
+              await _CreaterShop(
+                  name.text, House.text, address.text, postcode.text);
+              if (registershop.Create_Shop_Succes == true) {
+                Fluttertoast.showToast(
+                    msg: "Create Shop Done",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: App_Color.green.withOpacity(0.9),
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+                Navigator.pushNamed(context, '/registerCustome');
+              } else {
+                _showErrorMessage(registershop.ContentError);
+              }
+            }
           },
         ),
         actions: [
@@ -352,8 +394,6 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
               ),
               child: InkWell(
                 onTap: () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/registerCustome', (Route<dynamic> route) => false);
                 },
                 child: Container(
                   child: Icon(
@@ -382,14 +422,14 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
           onHorizontalDragUpdate: (details) async {
             if (details.delta.dx > 0) {
               if (name.text.isEmpty |
-                  phone.text.isEmpty |
+              House.text.isEmpty |
                   address.text.isEmpty |
                   postcode.text.isEmpty) {
                 _showErrorMessage(
                     "You have not entered enough information in the fields");
               } else {
                 await _CreaterShop(
-                    name.text, phone.text, address.text, postcode.text);
+                    name.text, House.text, address.text, postcode.text);
                 if (registershop.Create_Shop_Succes == true) {
                   Fluttertoast.showToast(
                       msg: "Create Shop Done",
