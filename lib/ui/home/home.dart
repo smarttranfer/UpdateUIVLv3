@@ -37,22 +37,22 @@ class _Home_page extends State<Home_page> {
           }, items: [
           BottomNavyBarItem(
             icon: Icon(Icons.home),
-            title: Text(""),
+            title: Text("Home"),
             activeColor: App_Color.green,
           ),
           BottomNavyBarItem(
             icon: Icon(Icons.people_alt_rounded),
-            title: Text(''),
+            title: Text('Staff'),
             activeColor: App_Color.green,
           ),
           BottomNavyBarItem(
             icon: Icon(Icons.bar_chart,),
-            title: Text(''),
+            title: Text('Statistical'),
             activeColor: App_Color.green,
           ),
           BottomNavyBarItem(
             icon: Icon(Icons.settings),
-            title: Text(''),
+            title: Text('Setting'),
             activeColor: App_Color.green,
             inactiveColor: App_Color.green,
           ),
