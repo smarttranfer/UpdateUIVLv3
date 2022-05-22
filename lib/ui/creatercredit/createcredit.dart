@@ -84,7 +84,7 @@ class _CreditScreen extends State<CreditScreen> {
           automaticallyImplyLeading: false,
           title: Center(
               child: Text(
-            "Credit",
+            "Nạp Tiền",
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
@@ -199,38 +199,15 @@ class _CreditScreen extends State<CreditScreen> {
                                         itemBuilder:
                                             (BuildContext context, int index) {
                                           return Shoplistcardpay(
-                                              Getbillinformation
-                                                  .data_bill[index].create_date,
-                                              Getbillinformation
-                                                  .data_bill[index]
-                                                  .original_amount
-                                                  .toString(),
-                                              Getbillinformation
-                                                  .data_bill[index].payment
-                                                  .toString(),
+                                              Getbillinformation.data_bill[index].ID,
+                                              Getbillinformation.data_bill[index].create_date,
+                                              Getbillinformation.data_bill[index].original_amount.toString(),
+                                              Getbillinformation.data_bill[index].payment.toString(),
                                               0.0,
-                                              constant.credit > 0
-                                                  ? ((constant.credit -
-                                                              (Getbillinformation
-                                                                      .data_bill[
-                                                                          index]
-                                                                      .original_amount -
-                                                                  Getbillinformation
-                                                                      .data_bill[
-                                                                          index]
-                                                                      .payment)) >
-                                                          0
-                                                      ? double.parse((Getbillinformation
-                                                                  .data_bill[
-                                                                      index]
-                                                                  .original_amount -
-                                                              Getbillinformation
-                                                                  .data_bill[
-                                                                      index]
-                                                                  .payment)
-                                                          .toStringAsFixed(2))
-                                                      : 0.0)
-                                                  : 0.0);
+                                              constant.credit > 0 ? ((constant.credit - (Getbillinformation.data_bill[index].original_amount - Getbillinformation.data_bill[index].payment)) > 0 ? double.parse((Getbillinformation.data_bill[index].original_amount - Getbillinformation.data_bill[index].payment).toStringAsFixed(2)) : 0.0): 0.0,
+                                              (constant.credit > 0 ? ((constant.credit - (Getbillinformation.data_bill[index].original_amount - Getbillinformation.data_bill[index].payment)) > 0 ? double.parse((Getbillinformation.data_bill[index].original_amount - Getbillinformation.data_bill[index].payment).toStringAsFixed(2)) : 0.0): 0.0)>0.0 ? true:false
+                                          );
+
                                         })))),
                   )
                 ],

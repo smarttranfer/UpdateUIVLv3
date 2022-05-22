@@ -13,6 +13,7 @@ class constant {
   static int indexshop = 0;
   static int indexcustomer = 0;
   static String TitleApp_Bar = "";
+  static String  TitleApp_Shop = "";
   static double credit = 1000.0;
   static String user = "";
   static List<sc_datahome_customer> ListCustomer_infor_all = [];

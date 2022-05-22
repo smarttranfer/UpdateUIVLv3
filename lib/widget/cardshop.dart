@@ -216,7 +216,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Name: ${widget.name}",
+                          "Tên: ${widget.name}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -224,7 +224,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                           height: 5,
                         ),
                         Text(
-                          "Address: ${widget.address}",
+                          "Địa chỉ: ${widget.address}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -232,7 +232,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                           height: 5,
                         ),
                         Text(
-                          "Bill: ${widget.total_invoice_paid}/${widget.total_invoice}",
+                          "Hóa đơn: ${widget.total_invoice_paid}/${widget.total_invoice}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -240,7 +240,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                           height: 5,
                         ),
                         Text(
-                          "Money: ${widget.total_payment}/${widget.total_liabilities}",
+                          "Số tiền: ${widget.total_payment}/${widget.total_liabilities}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -248,7 +248,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                           height: 5,
                         ),
                         Text(
-                          "Date created: ${widget.date_create}",
+                          "Ngày tạo : ${widget.date_create}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -264,7 +264,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                   Row(
                     children: [
                       MaterialButton(
-                        minWidth: 10,
+                        minWidth: 100,
                         height: 30,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -283,7 +283,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                           }
 
                         },
-                        child: Text("Detail"),
+                        child: Text("Chi tiết"),
                       )
                     ],
                   ),
@@ -312,7 +312,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                           }
 
                         },
-                        child: Text("Pay"),
+                        child: Text("Thanh toán"),
                       )
                     ],
                   )

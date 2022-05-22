@@ -224,7 +224,7 @@ class _cardbill extends State<cardbill> {
                           height: 5,
                         ),
                         Text(
-                          "Total: ${widget.Total}",
+                          "Tổng nợ: ${widget.Total}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -232,7 +232,7 @@ class _cardbill extends State<cardbill> {
                           height: 5,
                         ),
                         Text(
-                          "Paid: ${widget.Paid}",
+                          "Số đã trả: ${widget.Paid}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -248,7 +248,7 @@ class _cardbill extends State<cardbill> {
                           height: 5,
                         ),
                         Text(
-                          "Date created: ${widget.date_create}",
+                          "Ngày tạo: ${widget.date_create}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -264,7 +264,7 @@ class _cardbill extends State<cardbill> {
                   Row(
                     children: [
                       MaterialButton(
-                        minWidth: 10,
+                        minWidth: 100,
                         height: 30,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -274,7 +274,7 @@ class _cardbill extends State<cardbill> {
                         onPressed: () {
                           transation_page.transation_router(DetailScreen(), 1);
                         },
-                        child: Text("History"),
+                        child: Text("Lịch sử"),
                       )
                     ],
                   ),
@@ -295,7 +295,7 @@ class _cardbill extends State<cardbill> {
                           Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: PayoneScreen( ID: int.parse(widget.ID), Total: widget.Total, Paid: widget.Paid, Credit: double.parse(widget.Rest,))));
 
                         },
-                        child: Text("Pay"),
+                        child: Text("Thanh toán"),
                       )
                     ],
                   )

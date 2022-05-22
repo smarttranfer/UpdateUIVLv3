@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget {
         '/liscustome': (context) => Customelist(),
         '/registerCustome': (context) => CustomeregisterScreen(),
         '/registerShop': (context) => ShopregisterScreen(),
-        '/shoplist':(context)=>Shoplist(),
         '/registershopnew':(context)=>ShopregisterScreeninShop(),
         '/shopdetail':(context)=>DetailScreen(),
       },

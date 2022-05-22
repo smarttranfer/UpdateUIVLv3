@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/apigetbill/apigetbill.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../../utilities/constants.dart';
 import '../home/home.dart';
@@ -71,7 +73,7 @@ class _PayoneScreen extends State<PayoneScreen> {
           automaticallyImplyLeading: false,
           title: Center(
               child: Text(
-                "Credit",
+                "Thanh Toán",
                 style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'OpenSans',
@@ -104,7 +106,7 @@ class _PayoneScreen extends State<PayoneScreen> {
               Expanded(
                   child: Column(
                     children: [
-                      CardPayment(widget.ID, widget.Total, widget.Paid,widget.Credit),
+                      CardPayment(widget.ID, widget.Total, widget.Paid,widget.Credit,(constant.credit > 0 ? ((constant.credit - (double.parse(widget.Total) - double.parse( widget.Paid)) > 0 ? double.parse((double.parse(widget.Total) - double.parse( widget.Paid)).toStringAsFixed(2)) : 0.0)): 0.0)>0.0 ? true:false),
                     ],
                   ))
             ],

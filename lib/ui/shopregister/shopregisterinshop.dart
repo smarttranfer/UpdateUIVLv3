@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apiregistershop/registershop.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../funtion_app/apiregistershop/fn_registershop.dart';
@@ -264,7 +265,7 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist()));
+            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist(title: constant.TitleApp_Shop,)));
           },
         ),
         actions: [

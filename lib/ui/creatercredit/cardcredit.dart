@@ -24,6 +24,12 @@ class CardCredit extends StatefulWidget {
 }
 
 class _CardCredit extends State<CardCredit> {
+  double creditcopy = 0.0;
+  @override
+  void initState() {
+    creditcopy = widget.Credit;
+    super.initState();
+  }
   final TextEditingController _money = TextEditingController();
   late bool checkactive = false;
   @override
@@ -52,7 +58,7 @@ class _CardCredit extends State<CardCredit> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Total: ${widget.Total}",
+                          "Tổng nợ: ${widget.Total}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -61,7 +67,7 @@ class _CardCredit extends State<CardCredit> {
                           width: 20,
                         ),
                         Text(
-                          "Paid: ${widget.Paid}",
+                          "Đã trả: ${widget.Paid}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -70,7 +76,7 @@ class _CardCredit extends State<CardCredit> {
                           width: 20,
                         ),
                         Text(
-                          "Credit: ${widget.Credit}",
+                          "Số dư: ${creditcopy}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -81,7 +87,7 @@ class _CardCredit extends State<CardCredit> {
                         Row(
                           children: [
                             Text(
-                              "Add to Credit:",
+                              "Nạp tiền:",
                               style: kLabelStyle,
                               textDirection: TextDirection.ltr,
                             ),
@@ -164,7 +170,7 @@ class _CardCredit extends State<CardCredit> {
                         await fn_AddToCredit.AddtoCredits(double.parse(_money.text), widget.ID, token!);
                         if(AddCredit_check.AddCredit_Succes==true){
                           setState(() {
-                            widget.Credit = widget.Credit + double.parse(_money.text);
+                            creditcopy = creditcopy + double.parse(_money.text);
                           });
                           Fluttertoast.showToast(
                               msg: "Add Credit succesfull.",

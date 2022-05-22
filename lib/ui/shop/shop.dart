@@ -16,7 +16,8 @@ import '../home/home.dart';
 import '../shopregister/shopregisterinshop.dart';
 
 class Shoplist extends StatefulWidget {
-  Shoplist({Key? key}) : super(key: key);
+  late String title;
+  Shoplist({Key? key,required this.title}) : super(key: key);
 
   @override
   _Shoplist createState() => _Shoplist();
@@ -103,7 +104,7 @@ class _Shoplist extends State<Shoplist> {
           automaticallyImplyLeading: false,
           title: Center(
               child: Text(
-            "Shops List",
+            widget.title,
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',

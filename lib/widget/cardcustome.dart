@@ -225,7 +225,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                       children: <Widget>[
                         Row(children: [
                           Text(
-                            "Name:",
+                            "Tên : ",
                             style: kLabelStyle,
                             textDirection: TextDirection.ltr,
                           ),
@@ -246,7 +246,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                         Row(
                           children: [
                             Text(
-                              "Phone: ",
+                              "Số điện thoại : ",
                               style: kLabelStyle,
                               textDirection: TextDirection.ltr,
                             ),
@@ -266,7 +266,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                         ),
                         Row(children: [
                           Text(
-                            "Shop: ",
+                            "Cửa hàng : ",
                             style: kLabelStyle,
                             textDirection: TextDirection.ltr,
                           ),
@@ -286,7 +286,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                         ),
                         Row(children: [
                           Text(
-                            "Bill: ",
+                            "Hóa đơn : ",
                             style: kLabelStyle,
                             textDirection: TextDirection.ltr,
                           ),
@@ -307,7 +307,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                         Row(
                           children: [
                           Text(
-                            "Total: ",
+                            "Tổng : ",
                             style: kLabelStyle,
                             textDirection: TextDirection.ltr,
                           ),
@@ -328,7 +328,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                         ),
                         Row(children: [
                           Text(
-                            "Credit: ",
+                            "Tài khoản: ",
                             style: kLabelStyle,
                             textDirection: TextDirection.ltr,
                           ),
@@ -354,7 +354,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                   Row(
                     children: [
                       MaterialButton(
-                        minWidth: 10,
+                        minWidth: 100,
                         height: 30,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -362,11 +362,14 @@ class _ShopregisterScreen extends State<customelistcard> {
                         color: Colors.lightBlue, // background
                         textColor: Colors.white, // foreground
                         onPressed: () async{
+                          setState(() {
+                            constant.indexcustomer = widget.ID_Custome;
+                          });
                           _showConfirm();
                           Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreditScreen(ID: widget.ID_Custome,Total: widget.total_liabilities,Paid: widget.total_payment,Credit: double.parse(widget.unallocated),)));
 
                         },
-                        child: Text("Add to credit",style: TextStyle(fontSize: 12),),
+                        child: Text("Nap tiền",style: TextStyle(fontSize: 12),),
                       )
                     ],
                   ),
@@ -386,13 +389,15 @@ class _ShopregisterScreen extends State<customelistcard> {
                         onPressed: () async{
                           final prefs = await SharedPreferences.getInstance();
                           String? token = await prefs.getString("token");
-                          constant.indexcustomer = widget.ID_Custome;
+                          setState(() {
+                            constant.TitleApp_Shop = widget.name;
+                            constant.indexcustomer = widget.ID_Custome;
+                            constant.credit = double.parse(widget.unallocated);
+                          });
                           await getshopinformation.getshopinformation_id( widget.ID_Custome, token!);
-                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist()));
-                          // Navigator.of(context).pushNamedAndRemoveUntil(
-                          //     '/shoplist', (Route<dynamic> route) => false);
+                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist(title: constant.TitleApp_Shop,)));
                         },
-                        child: Text("Shops",style: TextStyle(fontSize: 12)),
+                        child: Text("Của hàng",style: TextStyle(fontSize: 12)),
                       )
                     ],
                   ),
@@ -418,7 +423,7 @@ class _ShopregisterScreen extends State<customelistcard> {
 
                           Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreen(Getshopinformation_createbill.data_shop)));
                         },
-                        child: Text("Add Bill",style: TextStyle(fontSize: 12)),
+                        child: Text("Thêm hóa đơn",style: TextStyle(fontSize: 12)),
                       )
                     ],
                   ),
