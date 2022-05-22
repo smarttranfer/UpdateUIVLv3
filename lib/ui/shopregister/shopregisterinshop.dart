@@ -27,18 +27,6 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
-          children: [
-            Text(
-              'Name',
-              style: kLabelStyle,
-            ),
-            Text(
-              '*',
-              style: TextStyle(color: Colors.red),
-            ),
-          ],
-        ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
@@ -72,18 +60,6 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
-          children: [
-            Text(
-              'House Number',
-              style: kLabelStyle,
-            ),
-            Text(
-              '*',
-              style: TextStyle(color: Colors.red),
-            ),
-          ],
-        ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
@@ -115,18 +91,6 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
-          children: [
-            Text(
-              'Address',
-              style: kLabelStyle,
-            ),
-            Text(
-              '*',
-              style: TextStyle(color: Colors.red),
-            ),
-          ],
-        ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
@@ -158,18 +122,6 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
-          children: [
-            Text(
-              'Post Code',
-              style: kLabelStyle,
-            ),
-            Text(
-              '*',
-              style: TextStyle(color: Colors.red),
-            ),
-          ],
-        ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
@@ -409,7 +361,7 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
                       ),
                       _buildPostCodeTF(),
                       SizedBox(
-                        height: 170.0,
+                        height: 249.0,
                       ),
                       _buildAddShopBtn(),
                       _buildDoneBtn(),

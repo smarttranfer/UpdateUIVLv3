@@ -31,18 +31,6 @@ class _CreateBillScreen extends State<CreateBillScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
-          children: [
-            Text(
-              'Name',
-              style: kLabelStyle,
-            ),
-            Text(
-              '*',
-              style: TextStyle(color: Colors.red),
-            ),
-          ],
-        ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
@@ -74,18 +62,6 @@ class _CreateBillScreen extends State<CreateBillScreen> {
   Widget _buildSelectCustomer() {
     return Column(
       children: [
-        Row(
-          children: [
-            Text(
-              'Shop',
-              style: kLabelStyle,
-            ),
-            Text(
-              '*',
-              style: TextStyle(color: Colors.red),
-            ),
-          ],
-        ),
         SizedBox(height: 10.0),
         Container(
             alignment: Alignment.centerLeft,
@@ -130,18 +106,6 @@ class _CreateBillScreen extends State<CreateBillScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
-          children: [
-            Text(
-              'Money',
-              style: kLabelStyle,
-            ),
-            Text(
-              '*',
-              style: TextStyle(color: Colors.red),
-            ),
-          ],
-        ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
@@ -173,18 +137,6 @@ class _CreateBillScreen extends State<CreateBillScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
-          children: [
-            Text(
-              'Note',
-              style: kLabelStyle,
-            ),
-            Text(
-              '*',
-              style: TextStyle(color: Colors.red),
-            ),
-          ],
-        ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
@@ -412,7 +364,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
                             _buildPasswordTF(),
                             Container(
                               margin: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height / 3.3,
+                                  top: MediaQuery.of(context).size.height / 2.6,
                                   bottom: 10),
                               child: _buildContinueBtn(),
                             )

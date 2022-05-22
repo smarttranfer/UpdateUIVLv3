@@ -30,18 +30,6 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
-          children: [
-            Text(
-              'Fullname',
-              style: kLabelStyle,
-            ),
-            Text(
-              '*',
-              style: TextStyle(color: Colors.red),
-            ),
-          ],
-        ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
@@ -76,18 +64,6 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
-          children: [
-            Text(
-              'Phone',
-              style: kLabelStyle,
-            ),
-            Text(
-              '*',
-              style: TextStyle(color: Colors.red),
-            ),
-          ],
-        ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
@@ -275,7 +251,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
                             _buildPasswordTF(),
                             Container(
                               margin: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height / 1.85,
+                                  top: MediaQuery.of(context).size.height / 1.7,
                                   bottom: 10),
                               child: _buildContinueBtn(),
                             )

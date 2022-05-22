@@ -18,7 +18,13 @@ class CreditScreen extends StatefulWidget {
   String Total;
   String Paid;
   double Credit;
-  CreditScreen({required this.ID,required this.Total,required this.Paid,required this.Credit,Key? key}) : super(key: key);
+  CreditScreen(
+      {required this.ID,
+      required this.Total,
+      required this.Paid,
+      required this.Credit,
+      Key? key})
+      : super(key: key);
 
   @override
   _CreditScreen createState() => _CreditScreen();
@@ -65,7 +71,11 @@ class _CreditScreen extends State<CreditScreen> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
+              Navigator.pushReplacement(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: Home_page()));
             },
             icon: Icon(Icons.arrow_back_ios),
           ),
@@ -97,30 +107,40 @@ class _CreditScreen extends State<CreditScreen> {
                 ))
           ],
         ),
-        body: Container(
+        body: SingleChildScrollView(
+            child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
           padding: EdgeInsets.all(2),
           color: App_Color.Background,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(height: 15),
               Container(
                   child: Column(
                 children: [
-                  CardCredit(widget.ID, widget.Total, widget.Paid,widget.Credit),
-                  Row(
-                      children: [
-                    SizedBox(width: 10,),
+                  CardCredit(
+                      widget.ID, widget.Total, widget.Paid, widget.Credit),
+                  Row(children: [
+                    SizedBox(
+                      width: 10,
+                    ),
                     Text(
                       "History",
                       style: kLabelStyleHistory,
                       textDirection: TextDirection.ltr,
                     )
                   ]),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Container(
-                    width: MediaQuery.of(context).size.width/1.05,
-                    child: Divider(color: Colors.grey,),),
+                    width: MediaQuery.of(context).size.width / 1.05,
+                    child: Divider(
+                      color: Colors.grey,
+                    ),
+                  ),
                   SingleChildScrollView(
                     child: Container(
                         child: Getbillinformation.data_bill.isEmpty
@@ -135,7 +155,7 @@ class _CreditScreen extends State<CreditScreen> {
                               ))
                             : Container(
                                 width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height/1.9,
+                                height: MediaQuery.of(context).size.height / 3,
                                 child: SmartRefresher(
                                     physics: const BouncingScrollPhysics(),
                                     enablePullDown: true,
@@ -174,8 +194,8 @@ class _CreditScreen extends State<CreditScreen> {
                                     onLoading: _onLoading,
                                     onRefresh: _onRefresh,
                                     child: ListView.builder(
-                                        itemCount:0,
-                                            // Getbillinformation.data_bill.length,
+                                        itemCount: 0,
+                                        // Getbillinformation.data_bill.length,
                                         itemBuilder:
                                             (BuildContext context, int index) {
                                           return Shoplistcardpay(
@@ -217,7 +237,6 @@ class _CreditScreen extends State<CreditScreen> {
               ))
             ],
           ),
-        ));
+        )));
   }
-
 }

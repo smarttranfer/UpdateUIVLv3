@@ -31,10 +31,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          'Username',
-          style: kLabelStyle,
-        ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
@@ -67,12 +63,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          'Password',
-          style: kLabelStyle,
-        ),
-        SizedBox(height: 10.0
-        ),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -101,40 +91,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
 
-  Widget _buildRememberMeCheckbox() {
-    return Container(
-      padding: EdgeInsets.only(right: 10),
-      height: 20.0,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          Theme(
-            data: ThemeData(unselectedWidgetColor: Colors.white),
-            child: Checkbox(
-              value: _rememberMe,
-              checkColor: Colors.green,
-              activeColor: Colors.white,
-              onChanged: (value){
-                setState(() {
-                  _rememberMe = value!;
-                  if(_rememberMe==true){
-                    saveuser(username.text,password.text);
-                  }else{
-                    saveuser("","");
-                  }
-                });
-              },
-            ),
-          ),
-          Text(
-            'Remember me',
-            style: kLabelStyle,
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildLoginBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
@@ -147,6 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
           String token = prefs.getString("token").toString();
           await fn_DataCustomer.getDataCustomer(token);
           if(login.LoginSucces==true){
+            saveuser(username.text,password.text);
             Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
           }else{
             _showErrorMessage(home.dataerror);
@@ -200,9 +157,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       _buildPasswordTF(),
                       SizedBox(
-                        height: 30.0,
+                        height: 10.0,
                       ),
-                      _buildRememberMeCheckbox(),
                       _buildLoginBtn(),
                     ],
                   ),
