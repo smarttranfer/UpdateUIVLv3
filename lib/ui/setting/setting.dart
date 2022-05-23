@@ -33,43 +33,30 @@ class SettingsPage extends StatelessWidget {
           padding: const EdgeInsets.all(10),
           child: ListView(
             children: [
-              // User card
-              BigUserCard(
-                cardColor: App_Color.background_textfield,
-                userName: constant.user,
-                userProfilePic: AssetImage("assets/ic_app/ic_avata.jpg"),
-              ),
               SettingsGroup(
                 items: [
                   SettingsItem(
                     onTap: () {},
-                    icons: Icons.dark_mode_rounded,
-                    iconStyle: IconStyle(
-                      iconsColor: Colors.white,
-                      withBackground: true,
-                      backgroundColor: Colors.red,
-                    ),
-                    title: 'Dark mode',
-                    subtitle: "Automatic",
-                    trailing: Switch.adaptive(
-                      value: true,
-                      onChanged: (value) {},
-                    ),
-                  ),
-                  SettingsItem(
-                    onTap: () {},
                     icons: Icons.language_outlined,
                     iconStyle: IconStyle(
-                      iconsColor: Colors.white,
-                      withBackground: true,
                       backgroundColor: Colors.red,
                     ),
-                    title: 'Language',
-                    subtitle: "Switch language",
-                    trailing: Switch.adaptive(
-                      value: true,
-                      onChanged: (value) {},
+                    title: 'Đổi Ngôn Ngữ',
+                    subtitle: "Dổi ngôn ngữ.",
+                  ),
+                ],
+              ),
+              SettingsGroup(
+
+                items: [
+                  SettingsItem(
+                    onTap: () {},
+                    icons: Icons.monetization_on_outlined,
+                    iconStyle: IconStyle(
+                      backgroundColor: Colors.red,
                     ),
+                    title: 'Đổi Đơn Vị Tiền Tệ',
+                    subtitle: "Đơn vị tiền tệ sẽ được đổi sang loại khác.",
                   ),
                 ],
               ),
@@ -81,8 +68,8 @@ class SettingsPage extends StatelessWidget {
                     iconStyle: IconStyle(
                       backgroundColor: Colors.red,
                     ),
-                    title: 'About',
-                    subtitle: "Learn more about Vihu",
+                    title: 'Thông Tin Phần Mềm',
+                    subtitle: "Các chi tiết về thông tin app và nhà vận hành.",
                   ),
                 ],
               ),
@@ -90,7 +77,12 @@ class SettingsPage extends StatelessWidget {
               SettingsGroup(
                 items: [
                   SettingsItem(
+                    icons: Icons.logout,
+                    iconStyle: IconStyle(
+                      backgroundColor: Colors.red,
+                    ),
                     onTap: () {
+
                       showCupertinoDialog(
                           context: context,
                           builder: (context) => Theme(
@@ -127,8 +119,8 @@ class SettingsPage extends StatelessWidget {
 
 
                     },
-                    icons: Icons.exit_to_app_rounded,
-                    title: "Sign Out",
+                    title: "Đăng suất",
+                    subtitle: "Thoát app",
                   ),
                 ],
               ),

@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apigetbill/apigetbill.dart';
+import 'package:vldebitor/funtion_app/apigetshopinformation/fn_getshopininformation.dart';
 import 'package:vldebitor/theme/Color_app.dart';
-import 'package:vldebitor/ui/home/home.dart';
 import '../../utilities/constants.dart';
 import '../../widget/cardbill.dart';
-import '../createbill/createbill.dart';
 import '../shop/shop.dart';
-import '../shopregister/shopregisterinshop.dart';
+
 
 class Billlist extends StatefulWidget {
   Billlist({Key? key}) : super(key: key);
@@ -63,8 +63,11 @@ class _Billlist extends State<Billlist> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            onPressed: () {
-              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist()));
+            onPressed: () async{
+              final prefs = await SharedPreferences.getInstance();
+              String? token = await prefs.getString("token");
+              await getshopinformation.getshopinformation_id( constant.indexcustomer, token!);
+              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist(title: constant.TitleApp_Shop,)));
             },
             icon: Icon(Icons.arrow_back_ios),
           ),
@@ -73,7 +76,7 @@ class _Billlist extends State<Billlist> {
           automaticallyImplyLeading: false,
           title: Center(
               child: Text(
-            "Bills",
+            "Hóa Đơn",
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',

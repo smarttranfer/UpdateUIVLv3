@@ -1,21 +1,29 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/apipayment/Payment.dart';
+import 'package:vldebitor/funtion_app/apipayment/fn_payment.dart';
 import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
+import '../provider/manager_credit.dart';
 import '../theme/Color_app.dart';
 import '../ui/shop/detail/detail.dart';
 import '../utilities/constants.dart';
 
 class Shoplistcardpay extends StatefulWidget {
+  int ID;
   String Date;
   String Total;
   String Paid;
   double Credit;
   double suggest;
+  bool checkactive;
 
-  Shoplistcardpay(this.Date, this.Total, this.Paid,this.Credit,this.suggest);
+  Shoplistcardpay(this.ID,this.Date, this.Total, this.Paid,this.Credit,this.suggest,this.checkactive,);
 
   @override
   State<StatefulWidget> createState() {
@@ -25,7 +33,16 @@ class Shoplistcardpay extends StatefulWidget {
 
 class _Shoplistcardpay extends State<Shoplistcardpay> {
   final TextEditingController _money = TextEditingController();
-  late  bool checkactive = false;
+  bool checkdone = false;
+  bool checkenable = false;
+  String status = 'Enter money';
+
+  @override
+  void initState() {
+    _money..text = "${widget.suggest}";
+    checkdone = widget.checkactive;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -51,7 +68,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Date: ${widget.Date}",
+                          "Ngày tạo : ${widget.Date}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -59,7 +76,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                           height: 5,
                         ),
                         Text(
-                          "Total: ${widget.Total}",
+                          "Tổng : ${widget.Total}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -67,7 +84,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                           height: 5,
                         ),
                         Text(
-                          "Paid: ${widget.Paid}",
+                          "Đã trả: ${widget.Paid}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -75,7 +92,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                           height: 5,
                         ),
                         Text(
-                          "Credit: ${constant.credit}",
+                          "Số dư: ${constant.credit}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -84,7 +101,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                         ),
                         Row(
                           children: [
-                            Text("Total pay:",
+                            Text("Thanh toán:",
                               style: kLabelStyle,
                               textDirection: TextDirection.ltr,
                             ),
@@ -95,19 +112,19 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                               width: MediaQuery.of(context).size.width/1.5,
                               height: 30,
                               child: TextField(
-                                controller: _money..text = "${widget.suggest}",
+                                readOnly: checkenable,
+                                controller: _money,
                                 keyboardType: TextInputType.number,
                                 onChanged: (value){
                                   if(double.parse(value.toString())>constant.credit){
                                     setState(() {
-                                      checkactive=false;
+                                      checkdone=false;
                                     });
                                     _showWarningMessage("The amount in the account is not enough");
                                   }else{
                                     setState(() {
-                                      checkactive = true;
+                                      checkdone = true;
                                     });
-
                                   }
                                 },
                                 style: TextStyle(
@@ -117,7 +134,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   contentPadding: EdgeInsets.only(bottom: 14,left: 5),
-                                  hintText: 'Enter Money',
+                                  hintText: status,
                                   hintStyle: kHintTextStyle,
                                 ),
                               ),
@@ -145,7 +162,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                         onPressed: () {
                           transation_page.transation_router(DetailScreen(), 1);
                         },
-                        child: Text("History"),
+                        child: Text("Lịch sử"),
                       )
                     ],
                   ),
@@ -163,8 +180,40 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                         ),
                         color: App_Color.green, // background
                         textColor: Colors.white, // foreground
-                        onPressed:checkactive?() {}:null,
-                        child: Text("Pay"),
+                        onPressed: checkdone?() async{
+                          final prefs = await SharedPreferences.getInstance();
+                          String? token = await prefs.getString("token");
+                          await fn_payment.Payment(double.parse(_money.text), constant.indexcustomer, token!, widget.ID);
+                          if(payments.Create_payment_Succes==true){
+                            Provider.of<managen_credit>(context,listen:false).decrease(double.parse(_money.text));
+                            Fluttertoast.showToast(
+                                msg: "Thanh toán hóa đơn thanh công.",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0
+                            );
+                            setState(() {
+                              checkdone = false;
+                              checkenable = true;
+                              _money..text = "";
+                              status = "Disable";
+                            });
+                          }else{
+                            Fluttertoast.showToast(
+                                msg: payments.ContentError,
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.CENTER,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0
+                            );
+                          }
+                        }:null,
+                        child: Text("Thanh toán"),
                       )
                     ],
                   )
@@ -184,7 +233,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                 filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
                 child: CupertinoAlertDialog(
                     title: Text(
-                      "Warning",
+                      "Cảnh báo",
                       style: TextStyle(color: Colors.red),
                     ),
                     content: Text(message),

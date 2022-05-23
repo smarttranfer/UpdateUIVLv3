@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/apigetshopinformation/fn_getshopininformation.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../../funtion_app/apigetbill/apigetbill.dart';
 import '../../../utilities/constants.dart';
@@ -59,8 +61,11 @@ class _DetailScreen extends State<DetailScreen> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            onPressed: () {
-              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist()));
+            onPressed: () async{
+              final prefs = await SharedPreferences.getInstance();
+              String? token = await prefs.getString("token");
+              await getshopinformation.getshopinformation_id( constant.indexcustomer, token!);
+              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist(title: constant.TitleApp_Shop)));
             },
             icon: Icon(Icons.arrow_back_ios),
           ),
@@ -155,11 +160,14 @@ class _DetailScreen extends State<DetailScreen> {
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return Shoplistcardpay(
+                                          Getbillinformation.data_bill[index].ID,
                                           Getbillinformation.data_bill[index].create_date,
                                           Getbillinformation.data_bill[index].original_amount.toString(),
                                           Getbillinformation.data_bill[index].payment.toString(),
                                           0.0,
-                                          constant.credit > 0 ? ((constant.credit - (Getbillinformation.data_bill[index].original_amount - Getbillinformation.data_bill[index].payment)) > 0 ? double.parse((Getbillinformation.data_bill[index].original_amount - Getbillinformation.data_bill[index].payment).toStringAsFixed(2)) : 0.0): 0.0);
+                                          constant.credit > 0 ? ((constant.credit - (Getbillinformation.data_bill[index].original_amount - Getbillinformation.data_bill[index].payment)) > 0 ? double.parse((Getbillinformation.data_bill[index].original_amount - Getbillinformation.data_bill[index].payment).toStringAsFixed(2)) : 0.0): 0.0,
+                                          (constant.credit > 0 ? ((constant.credit - (Getbillinformation.data_bill[index].original_amount - Getbillinformation.data_bill[index].payment)) > 0 ? double.parse((Getbillinformation.data_bill[index].original_amount - Getbillinformation.data_bill[index].payment).toStringAsFixed(2)) : 0.0): 0.0)>0.0 ? true:false
+                                      );
                                     })))),
               ))
             ],

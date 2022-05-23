@@ -76,7 +76,7 @@ class _Develop extends State<Develop> {
     await Future.delayed(Duration(milliseconds: 1000));
     final prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString("token").toString();
-    await getshopinformation.getshopinformation_id(constant.indexcustomer,token!);
+    await getshopinformation.getshopinformation_id(constant.indexcustomer,token);
     if(Getshopinformation.GetshopinformationSucces==true){
       setState(() {
         status = "Get Data";

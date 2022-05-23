@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:vldebitor/ui/develop/develop.dart';
 import '../funtion_app/transation_page/transation_page.dart';
 import '../theme/Color_app.dart';
 import '../ui/addbill/cardpayment.dart';
@@ -224,7 +225,7 @@ class _cardbill extends State<cardbill> {
                           height: 5,
                         ),
                         Text(
-                          "Total: ${widget.Total}",
+                          "Tổng nợ: ${widget.Total}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -232,7 +233,7 @@ class _cardbill extends State<cardbill> {
                           height: 5,
                         ),
                         Text(
-                          "Paid: ${widget.Paid}",
+                          "Số đã trả: ${widget.Paid}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -248,7 +249,7 @@ class _cardbill extends State<cardbill> {
                           height: 5,
                         ),
                         Text(
-                          "Date created: ${widget.date_create}",
+                          "Ngày tạo: ${widget.date_create}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -264,7 +265,7 @@ class _cardbill extends State<cardbill> {
                   Row(
                     children: [
                       MaterialButton(
-                        minWidth: 10,
+                        minWidth: 100,
                         height: 30,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -272,9 +273,10 @@ class _cardbill extends State<cardbill> {
                         color: App_Color.orange, // background
                         textColor: Colors.white, // foreground
                         onPressed: () {
-                          transation_page.transation_router(DetailScreen(), 1);
+                          // Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Develop()));
+                          // transation_page.transation_router(Develop(), 2);
                         },
-                        child: Text("History"),
+                        child: Text("Lịch sử"),
                       )
                     ],
                   ),
@@ -295,7 +297,7 @@ class _cardbill extends State<cardbill> {
                           Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: PayoneScreen( ID: int.parse(widget.ID), Total: widget.Total, Paid: widget.Paid, Credit: double.parse(widget.Rest,))));
 
                         },
-                        child: Text("Pay"),
+                        child: Text("Thanh toán"),
                       )
                     ],
                   )

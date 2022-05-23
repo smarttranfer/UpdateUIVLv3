@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/addtocredit/addtocreadit.dart';
 import 'package:vldebitor/funtion_app/addtocredit/fn_addtocredit.dart';
+import 'package:vldebitor/funtion_app/apipayment/fn_payment.dart';
 import '../../theme/Color_app.dart';
 import '../../utilities/constants.dart';
 
@@ -14,8 +15,8 @@ class CardPayment extends StatefulWidget {
   String Total;
   String Paid;
   double Credit;
-
-  CardPayment(this.ID,this.Total, this.Paid, this.Credit);
+  bool check ;
+  CardPayment(this.ID,this.Total, this.Paid, this.Credit,this.check);
 
   @override
   State<StatefulWidget> createState() {
@@ -26,6 +27,17 @@ class CardPayment extends StatefulWidget {
 class _CardPayment extends State<CardPayment> {
   final TextEditingController _money = TextEditingController();
   late bool checkactive = false;
+  late double credit = 0.0;
+  late double total = 0.0;
+  late double paid = 0.0;
+  @override
+  void initState() {
+    credit = widget.Credit;
+    total = double.parse(widget.Total);
+    checkactive = widget.check;
+    paid = double.parse(widget.Paid);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -52,7 +64,7 @@ class _CardPayment extends State<CardPayment> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Total: ${widget.Total}",
+                          "Tổng nợ: ${total}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -61,7 +73,7 @@ class _CardPayment extends State<CardPayment> {
                           width: 20,
                         ),
                         Text(
-                          "Paid: ${widget.Paid}",
+                          "Đã trả: ${paid}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -70,7 +82,7 @@ class _CardPayment extends State<CardPayment> {
                           width: 20,
                         ),
                         Text(
-                          "Credit: ${widget.Credit}",
+                          "Số dư: ${credit}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -81,7 +93,7 @@ class _CardPayment extends State<CardPayment> {
                         Row(
                           children: [
                             Text(
-                              "Add to Credit:",
+                              "Thanh toán:",
                               style: kLabelStyle,
                               textDirection: TextDirection.ltr,
                             ),
@@ -92,6 +104,27 @@ class _CardPayment extends State<CardPayment> {
                               width: MediaQuery.of(context).size.width / 1.6,
                               height: 30,
                               child: TextField(
+                                onChanged: (e){
+                                  if(double.parse(e)>credit){
+                                    setState(() {
+                                      checkactive=false;
+                                    });
+                                    Fluttertoast.showToast(
+                                        msg: "Số tiêng không đủ để thực hiện",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.CENTER,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.red,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0
+                                    );
+                                  }else{
+                                    setState(() {
+                                      checkactive = widget.check;
+                                    });
+
+                                  }
+                                },
                                 controller: _money,
                                 keyboardType: TextInputType.number,
                                 style: TextStyle(
@@ -121,15 +154,16 @@ class _CardPayment extends State<CardPayment> {
                             ),
                             color: App_Color.green, // background
                             textColor: Colors.white, // foreground
-                            onPressed:  () {
+                            onPressed: checkactive? () async{
+
                               if(_money.text.isNotEmpty){
                                 _showErrorMessage("Do you want to deposit the amount ${_money.text} into your account.");
                               }else{
                                 _showErrorMessage("You have not entered the amount.");
                               }
 
-                            },
-                            child: Text(" Add "),
+                            }:null,
+                            child: Text(" Thanh toán "),
                           ),
                         ),
 
@@ -161,10 +195,13 @@ class _CardPayment extends State<CardPayment> {
                       onPressed: () async{
                         final prefs = await SharedPreferences.getInstance();
                         String? token =await prefs.getString("token").toString();
-                        // await fn_AddToCredit.AddtoCredits(double.parse(_money.text), widget.ID, token!);
+                        await fn_payment.Payment(double.parse(_money.text), constant.indexcustomer, token,widget.ID);
                         if(AddCredit_check.AddCredit_Succes==true){
                           setState(() {
-                            widget.Credit = widget.Credit + double.parse(_money.text);
+                            checkactive = false;
+                            paid = paid + double.parse(_money.text);
+                            credit = credit - double.parse(_money.text);
+                            total = total - double.parse(_money.text);
                           });
                           Fluttertoast.showToast(
                               msg: "Add Credit succesfull.",

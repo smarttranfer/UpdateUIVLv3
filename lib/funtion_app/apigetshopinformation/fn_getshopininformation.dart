@@ -24,7 +24,6 @@ class getshopinformation{
           sc_Infor_Shop shops = new sc_Infor_Shop();
           shops.Shop_ID = shop["id"];
           shops.Name = shop["name"];
-          shops.Phone = shop["phone"];
           shops.Building_number = shop["building_number"];
           shops.street_name = shop["street_name"];
           shops.Post_code = shop["post_code"];
