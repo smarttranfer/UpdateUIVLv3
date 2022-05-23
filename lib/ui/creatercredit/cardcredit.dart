@@ -76,6 +76,15 @@ class _CardCredit extends State<CardCredit> {
                           width: 20,
                         ),
                         Text(
+                          "Phải trả: ${double.parse(widget.Total)-double.parse(widget.Paid)}",
+                          style: kLabelStyle,
+                          textDirection: TextDirection.ltr,
+                        ),
+                        SizedBox(
+                          height: 10,
+                          width: 20,
+                        ),
+                        Text(
                           "Số dư: ${creditcopy}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
@@ -87,7 +96,7 @@ class _CardCredit extends State<CardCredit> {
                         Row(
                           children: [
                             Text(
-                              "Nạp tiền:",
+                              "Số tiền:",
                               style: kLabelStyle,
                               textDirection: TextDirection.ltr,
                             ),
@@ -108,7 +117,7 @@ class _CardCredit extends State<CardCredit> {
                                   border: InputBorder.none,
                                   contentPadding:
                                       EdgeInsets.only(bottom: 14, left: 5),
-                                  hintText: 'Enter Money',
+                                  hintText: '0.0',
                                   hintStyle: kHintTextStyle,
                                 ),
                               ),
@@ -129,13 +138,13 @@ class _CardCredit extends State<CardCredit> {
                             textColor: Colors.white, // foreground
                             onPressed:  () {
                               if(_money.text.isNotEmpty){
-                                _showErrorMessage("Do you want to deposit the amount ${_money.text} into your account.");
+                                _showErrorMessage("Bạn có chắc chắn muốn nạp ${_money.text} vào tài khoản này không ? ");
                               }else{
                                 _showErrorMessage("You have not entered the amount.");
                               }
 
                             },
-                            child: Text(" Add "),
+                            child: Text(" Nạp tiền "),
                           ),
                         ),
 
@@ -156,12 +165,11 @@ class _CardCredit extends State<CardCredit> {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
             child: CupertinoAlertDialog(
-                title: Text("Warning",style: TextStyle(color: Colors.white),),
                 content: Text("${messenger}"),
                 actions: [
                   CupertinoDialogAction(
                       child: Text(
-                        "yes",
+                        "Đồng ý",
                         style: TextStyle(color: Colors.green),
                       ),
                       onPressed: () async{
@@ -196,7 +204,7 @@ class _CardCredit extends State<CardCredit> {
                       }),
                   CupertinoDialogAction(
                       child: Text(
-                        "Close",
+                        "Hủy",
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () => Navigator.pop(context))

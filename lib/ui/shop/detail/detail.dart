@@ -22,8 +22,32 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreen extends State<DetailScreen> {
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+
+
+  @override
+  void initState() {
+    Hind_pay();
+    super.initState();
+  }
+
+  void Hind_pay(){
+    double temp = constant.credit;
+    for(var bill in  Getbillinformation.data_bill){
+
+      if(temp>0){
+        temp = constant.credit - (bill.original_amount - bill.payment);
+        if(temp<=0){
+          bill.hint_pay=constant.credit;
+        }else{
+          bill.hint_pay = (bill.original_amount - bill.payment);
+        }
+      }else{
+        bill.hint_pay = 0;
+      }
+    }
+  }
+
+  final RefreshController _refreshController = RefreshController(initialRefresh: false);
   final List<Map<String, dynamic>> _allUsers = [];
   List<Map<String, dynamic>> _foundUsers = [];
   String searchString = "";
@@ -55,6 +79,8 @@ class _DetailScreen extends State<DetailScreen> {
     if (mounted) setState(() {});
     _refreshController.loadComplete();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -165,8 +191,8 @@ class _DetailScreen extends State<DetailScreen> {
                                           Getbillinformation.data_bill[index].original_amount.toString(),
                                           Getbillinformation.data_bill[index].payment.toString(),
                                           0.0,
-                                          constant.credit > 0 ? ((constant.credit - (Getbillinformation.data_bill[index].original_amount - Getbillinformation.data_bill[index].payment)) > 0 ? double.parse((Getbillinformation.data_bill[index].original_amount - Getbillinformation.data_bill[index].payment).toStringAsFixed(2)) : 0.0): 0.0,
-                                          (constant.credit > 0 ? ((constant.credit - (Getbillinformation.data_bill[index].original_amount - Getbillinformation.data_bill[index].payment)) > 0 ? double.parse((Getbillinformation.data_bill[index].original_amount - Getbillinformation.data_bill[index].payment).toStringAsFixed(2)) : 0.0): 0.0)>0.0 ? true:false
+                                          Getbillinformation.data_bill[index].hint_pay,
+                                          Getbillinformation.data_bill[index].hint_pay>0? true:false
                                       );
                                     })))),
               ))

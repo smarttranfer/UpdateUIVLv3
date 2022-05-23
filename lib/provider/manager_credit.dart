@@ -9,7 +9,7 @@ class managen_credit extends ChangeNotifier{
     }
 
     void decrease(double decrease_number){
-      constant.credit+=decrease_number;
+      constant.credit-=decrease_number;
       notifyListeners();
     }
 }

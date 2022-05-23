@@ -9,7 +9,15 @@ class sc_data_bill {
   late String status;
   late String transaction_status;
   late String create_date;
+  late double hint_pay = 0;
 
+  double get Hint_pay{
+    return hint_pay ;
+  }
+
+  void set Hint_pay(double hint_pay){
+    hint_pay = hint_pay;
+  }
 
   int get ID_detail {
     return ID;

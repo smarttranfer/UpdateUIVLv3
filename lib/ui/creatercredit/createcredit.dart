@@ -84,7 +84,7 @@ class _CreditScreen extends State<CreditScreen> {
           automaticallyImplyLeading: false,
           title: Center(
               child: Text(
-            "Nạp Tiền",
+            "Nạp tiền",
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
@@ -127,7 +127,7 @@ class _CreditScreen extends State<CreditScreen> {
                       width: 10,
                     ),
                     Text(
-                      "History",
+                      "Lịch sử",
                       style: kLabelStyleHistory,
                       textDirection: TextDirection.ltr,
                     )

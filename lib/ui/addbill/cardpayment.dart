@@ -135,7 +135,7 @@ class _CardPayment extends State<CardPayment> {
                                   border: InputBorder.none,
                                   contentPadding:
                                   EdgeInsets.only(bottom: 14, left: 5),
-                                  hintText: 'Enter Money',
+                                  hintText: '0.0',
                                   hintStyle: kHintTextStyle,
                                 ),
                               ),

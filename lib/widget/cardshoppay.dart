@@ -35,7 +35,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
   final TextEditingController _money = TextEditingController();
   bool checkdone = false;
   bool checkenable = false;
-  String status = 'Enter money';
+  String status = '0.0';
 
   @override
   void initState() {
@@ -76,7 +76,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                           height: 5,
                         ),
                         Text(
-                          "Tổng : ${widget.Total}",
+                          "Số nợ : ${widget.Total}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -85,6 +85,14 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                         ),
                         Text(
                           "Đã trả: ${widget.Paid}",
+                          style: kLabelStyle,
+                          textDirection: TextDirection.ltr,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "Phải trả: ${double.parse(widget.Total)-double.parse(widget.Paid)}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -199,7 +207,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                               checkdone = false;
                               checkenable = true;
                               _money..text = "";
-                              status = "Disable";
+                              status = "Đã hoàn thành thanh toán";
                             });
                           }else{
                             Fluttertoast.showToast(

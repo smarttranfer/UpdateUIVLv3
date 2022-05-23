@@ -51,7 +51,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
                 Icons.drive_file_rename_outline_outlined,
                 color: Colors.white,
               ),
-              hintText: 'Enter your fullname',
+              hintText: 'Nhập tên',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -83,7 +83,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
                 Icons.phone_iphone_outlined,
                 color: Colors.white,
               ),
-              hintText: 'Enter your Phone',
+              hintText: 'Nhập số điện thoại',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -118,9 +118,9 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
             Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: ShopregisterScreen()));
           } else {
             if(phone.value.text.toString().length > 11||phone.value.text.toString().length < 11){
-              _showErrorMessage("Your phone number is not 11 characters long");
+              _showErrorMessage("Số điện thoại phải 11 số");
             }else{
-              _showErrorMessage("Your registration has a problem");
+              _showErrorMessage("Xảy ra lỗi khi thực hiện giao dịch");
             }
 
           }
@@ -131,7 +131,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
         ),
         color: App_Color.green,
         child: Text(
-          'Continue',
+          'Tiếp tục',
           style: TextStyle(
             color: Colors.white,
             letterSpacing: 1.5,
@@ -179,7 +179,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
         backgroundColor: App_Color.background_search,
         title: Center(
             child: Text(
-          "Create Customer",
+          "Tạo khách hàng",
           style: TextStyle(
             color: Colors.white,
             fontFamily: 'OpenSans',

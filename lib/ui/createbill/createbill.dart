@@ -51,7 +51,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
                 Icons.drive_file_rename_outline_outlined,
                 color: Colors.white,
               ),
-              hintText: 'Enter name',
+              hintText: 'Nhập tên đơn',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -68,6 +68,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
             decoration: kBoxDecorationStyle,
             height: 60.0,
             child: TextField(
+              readOnly: true,
           style: TextStyle(
             color: Colors.white,
             fontFamily: 'OpenSans',
@@ -80,7 +81,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
               Icons.shop,
               color: Colors.white,
             ),
-            hintText: 'Enter shop name',
+            hintText: widget.ListShop[0].Name,
             hintStyle: kHintTextStyle,
             suffixIcon: PopupMenuButton<sc_Create_bill>(
               icon: const Icon(
@@ -125,7 +126,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
                 Icons.money,
                 color: Colors.white,
               ),
-              hintText: 'Enter money',
+              hintText: '0.0',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -155,7 +156,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
                 Icons.note,
                 color: Colors.white,
               ),
-              hintText: 'Enter note',
+              hintText: 'Nhập ghi chú',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -178,7 +179,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
       await Createbills.CreateBill(ID,token, double.parse(Money.text), name.text,Note.text,datetime);
     }else{
       Fluttertoast.showToast(
-          msg: "Create fail bill",
+          msg: "Tạo đơn thất bại",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
@@ -206,7 +207,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
           });
           if (createbill.Create_Bill_Succes==true) {
             Fluttertoast.showToast(
-                msg: "Create successful bill",
+                msg: "Tạo đơn thành công",
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.CENTER,
                 timeInSecForIosWeb: 1,
@@ -218,7 +219,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
                 PageTransition(type: PageTransitionType.rightToLeft, child: Home_page()));
           } else {
             Fluttertoast.showToast(
-                msg: "Create fail bill",
+                msg: "Tạo đơn thất bại",
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.CENTER,
                 timeInSecForIosWeb: 1,
@@ -235,7 +236,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
         ),
         color: App_Color.green,
         child: Text(
-          'Continue',
+          'Tạo đơn',
           style: TextStyle(
             color: Colors.white,
             letterSpacing: 1.5,
@@ -281,7 +282,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
         backgroundColor: App_Color.background_search,
         title: Center(
             child: Text(
-          "Create Bill          ",
+          "Tạo đơn          ",
           style: TextStyle(
             color: Colors.white,
             fontFamily: 'OpenSans',
