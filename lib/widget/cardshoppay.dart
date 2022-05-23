@@ -201,8 +201,6 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                               _money..text = "";
                               status = "Disable";
                             });
-
-
                           }else{
                             Fluttertoast.showToast(
                                 msg: payments.ContentError,
@@ -213,7 +211,6 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                                 textColor: Colors.white,
                                 fontSize: 16.0
                             );
-
                           }
                         }:null,
                         child: Text("Thanh toán"),
