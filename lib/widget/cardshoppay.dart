@@ -3,11 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apipayment/Payment.dart';
 import 'package:vldebitor/funtion_app/apipayment/fn_payment.dart';
 import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
+import '../provider/manager_credit.dart';
 import '../theme/Color_app.dart';
 import '../ui/shop/detail/detail.dart';
 import '../utilities/constants.dart';
@@ -89,12 +91,17 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                         SizedBox(
                           height: 5,
                         ),
+                        Text(
+                          "Số dư: ${constant.credit}",
+                          style: kLabelStyle,
+                          textDirection: TextDirection.ltr,
+                        ),
                         SizedBox(
                           height: 5,
                         ),
                         Row(
                           children: [
-                            Text("Tổng trả:",
+                            Text("Thanh toán:",
                               style: kLabelStyle,
                               textDirection: TextDirection.ltr,
                             ),
@@ -118,7 +125,6 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                                     setState(() {
                                       checkdone = true;
                                     });
-
                                   }
                                 },
                                 style: TextStyle(
@@ -156,7 +162,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                         onPressed: () {
                           transation_page.transation_router(DetailScreen(), 1);
                         },
-                        child: Text("History"),
+                        child: Text("Lịch sử"),
                       )
                     ],
                   ),
@@ -179,6 +185,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                           String? token = await prefs.getString("token");
                           await fn_payment.Payment(double.parse(_money.text), constant.indexcustomer, token!, widget.ID);
                           if(payments.Create_payment_Succes==true){
+                            Provider.of<managen_credit>(context,listen:false).decrease(double.parse(_money.text));
                             Fluttertoast.showToast(
                                 msg: "Thanh toán hóa đơn thanh công.",
                                 toastLength: Toast.LENGTH_SHORT,
@@ -209,7 +216,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
 
                           }
                         }:null,
-                        child: Text("Pay"),
+                        child: Text("Thanh toán"),
                       )
                     ],
                   )
@@ -229,7 +236,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                 filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
                 child: CupertinoAlertDialog(
                     title: Text(
-                      "Warning",
+                      "Cảnh báo",
                       style: TextStyle(color: Colors.red),
                     ),
                     content: Text(message),

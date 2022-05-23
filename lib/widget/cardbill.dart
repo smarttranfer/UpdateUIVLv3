@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:vldebitor/ui/develop/develop.dart';
 import '../funtion_app/transation_page/transation_page.dart';
 import '../theme/Color_app.dart';
 import '../ui/addbill/cardpayment.dart';
@@ -272,7 +273,8 @@ class _cardbill extends State<cardbill> {
                         color: App_Color.orange, // background
                         textColor: Colors.white, // foreground
                         onPressed: () {
-                          transation_page.transation_router(DetailScreen(), 1);
+                          // Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Develop()));
+                          // transation_page.transation_router(Develop(), 2);
                         },
                         child: Text("Lịch sử"),
                       )

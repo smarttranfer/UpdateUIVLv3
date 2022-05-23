@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:vldebitor/provider/manager_credit.dart';
 import 'package:vldebitor/ui/addbill/addbill.dart';
 import 'package:vldebitor/ui/customelist/customelist.dart';
 import 'package:vldebitor/ui/customeregistry/customeregistry.dart';
@@ -9,10 +11,14 @@ import 'package:vldebitor/ui/shop/shop.dart';
 import 'package:vldebitor/ui/shopregister/shopregister.dart';
 import 'package:vldebitor/ui/shopregister/shopregisterinshop.dart';
 import 'package:vldebitor/ui/splash/splash.dart';
-
 import 'funtion_app/transation_page/app_router.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(
+    ChangeNotifierProvider(
+      create: (context) => managen_credit(),
+      child: MyApp(),
+    )
+);
 
 class MyApp extends StatelessWidget {
   static final navigatorKey = GlobalKey<NavigatorState>();

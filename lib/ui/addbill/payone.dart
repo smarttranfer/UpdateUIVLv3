@@ -106,7 +106,7 @@ class _PayoneScreen extends State<PayoneScreen> {
               Expanded(
                   child: Column(
                     children: [
-                      CardPayment(widget.ID, widget.Total, widget.Paid,widget.Credit,(constant.credit > 0 ? ((constant.credit - (double.parse(widget.Total) - double.parse( widget.Paid)) > 0 ? double.parse((double.parse(widget.Total) - double.parse( widget.Paid)).toStringAsFixed(2)) : 0.0)): 0.0)>0.0 ? true:false),
+                      CardPayment(widget.ID, widget.Total, widget.Paid,constant.credit,(constant.credit>0 ? true:false)),
                     ],
                   ))
             ],

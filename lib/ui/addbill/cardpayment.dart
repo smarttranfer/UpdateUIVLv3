@@ -195,7 +195,7 @@ class _CardPayment extends State<CardPayment> {
                       onPressed: () async{
                         final prefs = await SharedPreferences.getInstance();
                         String? token =await prefs.getString("token").toString();
-                        await fn_payment.Payment(double.parse(_money.text), constant.indexcustomer, token!,widget.ID);
+                        await fn_payment.Payment(double.parse(_money.text), constant.indexcustomer, token,widget.ID);
                         if(AddCredit_check.AddCredit_Succes==true){
                           setState(() {
                             checkactive = false;
