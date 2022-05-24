@@ -155,7 +155,7 @@ class _Shoplist extends State<Shoplist> {
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.all(10),
-                    hintText: 'Search',
+                    hintText: 'Tìm kiếm',
                     hintStyle: kHintTextStyle,
                   ),
                 ),
@@ -175,7 +175,7 @@ class _Shoplist extends State<Shoplist> {
                       ))
                     : Container(
                         width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height,
+                        height: MediaQuery.of(context).size.height/1.3,
                         child: SmartRefresher(
                             physics: const BouncingScrollPhysics(),
                             enablePullDown: true,
@@ -213,6 +213,7 @@ class _Shoplist extends State<Shoplist> {
                                 itemCount: Getshopinformation.data_shop.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Shoplistcard(
+                                      index,
                                       Getshopinformation.data_shop[index].Shop_ID,
                                       Getshopinformation.data_shop[index].Name,
                                       Getshopinformation.data_shop[index].street_name,

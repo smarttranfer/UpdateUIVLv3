@@ -176,8 +176,9 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
             await _CreaterShop(
                 name.text, House.text, address.text, postcode.text);
             if (registershop.Create_Shop_Succes == true) {
+              name.text = "";  House.text = ""; address.text = ""; postcode.text = "";
               Fluttertoast.showToast(
-                  msg: "Create Shop Done",
+                  msg: "Tạo cửa hàng thành công.",
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.CENTER,
                   timeInSecForIosWeb: 1,
@@ -195,7 +196,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
         ),
         color: App_Color.orange,
         child: Text(
-          'Thêm của hàng mới',
+          'Thêm cửa hàng mới',
           style: TextStyle(
             color: Colors.white,
             letterSpacing: 1.5,
@@ -276,7 +277,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                 name.text, House.text, address.text, postcode.text);
             if (registershop.Create_Shop_Succes == true) {
               Fluttertoast.showToast(
-                  msg: "Create Shop Done",
+                  msg: "Tạo cửa hàng thành công",
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.CENTER,
                   timeInSecForIosWeb: 1,

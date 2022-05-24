@@ -21,9 +21,11 @@ class Shoplistcardpay extends StatefulWidget {
   String Paid;
   double Credit;
   double suggest;
+  double surplus;
   bool checkactive;
 
-  Shoplistcardpay(this.ID,this.Date, this.Total, this.Paid,this.Credit,this.suggest,this.checkactive,);
+
+  Shoplistcardpay(this.ID,this.Date, this.Total, this.Paid,this.Credit,this.suggest,this.checkactive,this.surplus);
 
   @override
   State<StatefulWidget> createState() {
@@ -100,7 +102,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                           height: 5,
                         ),
                         Text(
-                          "Số dư: ${constant.credit}",
+                          "Số dư: ${widget.surplus}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),

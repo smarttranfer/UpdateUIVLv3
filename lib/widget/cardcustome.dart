@@ -457,8 +457,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                           constant.indexcustomer = widget.ID_Custome;
                           await getbillinformation.getbill(widget.ID_Custome, token!);
                           await getshopinformation_createbills.getshopinformation_id(widget.ID_Custome, token);
-
-                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreen(Getshopinformation_createbill.data_shop)));
+                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreen(Getshopinformation_createbill.data_shop,true)));
                         },
                         child: Text("Thêm hóa đơn",style: TextStyle(fontSize: 12)),
                       )

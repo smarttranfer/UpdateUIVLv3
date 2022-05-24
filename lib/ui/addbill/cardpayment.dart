@@ -30,12 +30,14 @@ class _CardPayment extends State<CardPayment> {
   late double credit = 0.0;
   late double total = 0.0;
   late double paid = 0.0;
+  late double mustpay = 0.0;
   @override
   void initState() {
     credit = widget.Credit;
     total = double.parse(widget.Total);
     checkactive = widget.check;
     paid = double.parse(widget.Paid);
+    mustpay = double.parse(widget.Total) - double.parse(widget.Paid);
     super.initState();
   }
   @override
@@ -74,6 +76,15 @@ class _CardPayment extends State<CardPayment> {
                         ),
                         Text(
                           "Đã trả: ${paid}",
+                          style: kLabelStyle,
+                          textDirection: TextDirection.ltr,
+                        ),
+                        SizedBox(
+                          height: 10,
+                          width: 20,
+                        ),
+                        Text(
+                          "Phải trả: ${mustpay}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -157,9 +168,40 @@ class _CardPayment extends State<CardPayment> {
                             onPressed: checkactive? () async{
 
                               if(_money.text.isNotEmpty){
-                                _showErrorMessage("Do you want to deposit the amount ${_money.text} into your account.");
+                                final prefs = await SharedPreferences.getInstance();
+                                String? token =await prefs.getString("token").toString();
+                                await fn_payment.Payment(double.parse(_money.text), constant.indexcustomer, token,widget.ID);
+                                if(AddCredit_check.AddCredit_Succes==true){
+                                  setState(() {
+                                    checkactive = false;
+                                    constant.credit = constant.credit - double.parse(_money.text);
+                                    paid = paid + double.parse(_money.text);
+                                    credit = credit - double.parse(_money.text);
+                                    total = total - double.parse(_money.text);
+                                    mustpay = mustpay - double.parse(_money.text);
+                                  });
+                                  Fluttertoast.showToast(
+                                      msg: "Thanh toán thành công.",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.green,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0
+                                  );
+                                }else{
+                                  Fluttertoast.showToast(
+                                      msg: AddCredit_check.ContentError,
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.red,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0
+                                  );
+                                }
                               }else{
-                                _showErrorMessage("You have not entered the amount.");
+                                _showErrorMessage("Số tiền trong tài khoản không đủ");
                               }
 
                             }:null,

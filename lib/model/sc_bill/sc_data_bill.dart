@@ -9,7 +9,18 @@ class sc_data_bill {
   late String status;
   late String transaction_status;
   late String create_date;
-  late double hint_pay = 0;
+  late double hint_pay = 0.0;
+  late double surplus=0.0;
+
+
+
+  double get Surplus{
+    return surplus ;
+  }
+
+  void set Surplus(double surplus){
+    surplus = surplus;
+  }
 
   double get Hint_pay{
     return hint_pay ;

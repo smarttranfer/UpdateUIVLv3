@@ -23,10 +23,11 @@ class Shoplistcard extends StatefulWidget {
   String total_payment;
   String total_liabilities;
   String date_create;
+  int index_bill;
 
 
   Shoplistcard(
-      this.id,this.name, this.address, this.total_invoice_paid, this.total_invoice, this.total_payment, this.total_liabilities, this.date_create);
+      this.index_bill,this.id,this.name, this.address, this.total_invoice_paid, this.total_invoice, this.total_payment, this.total_liabilities, this.date_create);
 
   @override
   State<StatefulWidget> createState() {
@@ -301,6 +302,8 @@ class _Shoplistcard extends State<Shoplistcard> {
                           final prefs = await SharedPreferences.getInstance();
                           String? token = await prefs.getString("token");
                           await getbillinformation.getbill(widget.id, token!);
+                          constant.index_bill = widget.index_bill;
+                          print(constant.index_bill);
                           if( Getbillinformation.GetbillinformationSucces == true){
                             Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Billlist()));
                           }else{
@@ -308,7 +311,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                           }
 
                         },
-                        child: Text("Chi tiết"),
+                        child: Text("Hoá đơn"),
                       )
                     ],
                   ),

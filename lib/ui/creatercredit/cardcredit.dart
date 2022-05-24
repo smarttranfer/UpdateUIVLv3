@@ -139,6 +139,7 @@ class _CardCredit extends State<CardCredit> {
                             onPressed:  () {
                               if(_money.text.isNotEmpty){
                                 _showErrorMessage("Bạn có chắc chắn muốn nạp ${_money.text} vào tài khoản này không ? ");
+
                               }else{
                                 _showErrorMessage("You have not entered the amount.");
                               }
@@ -185,11 +186,12 @@ class _CardCredit extends State<CardCredit> {
                               toastLength: Toast.LENGTH_SHORT,
                               gravity: ToastGravity.CENTER,
                               timeInSecForIosWeb: 1,
-                              backgroundColor: Colors.red,
+                              backgroundColor: Colors.green,
                               textColor: Colors.white,
                               fontSize: 16.0
                           );
                           Navigator.pop(context);
+                          Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
                         }else{
                           Fluttertoast.showToast(
                               msg: AddCredit_check.ContentError,
