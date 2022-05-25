@@ -66,7 +66,7 @@ class _CardPayment extends State<CardPayment> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Tổng nợ: ${total}",
+                          "Số nợ: ${total}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -116,7 +116,7 @@ class _CardPayment extends State<CardPayment> {
                               height: 30,
                               child: TextField(
                                 onChanged: (e){
-                                  if(double.parse(e)>credit){
+                                  if(double.parse(e.toString())>credit){
                                     setState(() {
                                       checkactive=false;
                                     });
@@ -177,7 +177,6 @@ class _CardPayment extends State<CardPayment> {
                                     constant.credit = constant.credit - double.parse(_money.text);
                                     paid = paid + double.parse(_money.text);
                                     credit = credit - double.parse(_money.text);
-                                    total = total - double.parse(_money.text);
                                     mustpay = mustpay - double.parse(_money.text);
                                   });
                                   Fluttertoast.showToast(

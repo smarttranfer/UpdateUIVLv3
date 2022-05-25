@@ -15,6 +15,7 @@ class constant {
   static int index_bill = 0;
   static String TitleApp_Bar = "";
   static String  TitleApp_Shop = "";
+  static String TitleApp_Bill = "";
   static double credit = 1000.0;
   static String user = "";
   static List<sc_datahome_customer> ListCustomer_infor_all = [];

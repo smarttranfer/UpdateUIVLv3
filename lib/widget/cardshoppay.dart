@@ -21,11 +21,10 @@ class Shoplistcardpay extends StatefulWidget {
   String Paid;
   double Credit;
   double suggest;
-  double surplus;
   bool checkactive;
 
 
-  Shoplistcardpay(this.ID,this.Date, this.Total, this.Paid,this.Credit,this.suggest,this.checkactive,this.surplus);
+  Shoplistcardpay(this.ID,this.Date, this.Total, this.Paid,this.Credit,this.suggest,this.checkactive);
 
   @override
   State<StatefulWidget> createState() {
@@ -37,12 +36,20 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
   final TextEditingController _money = TextEditingController();
   bool checkdone = false;
   bool checkenable = false;
+  late double credit = 0.0;
+  late double total = 0.0;
+  late double paid = 0.0;
+  late double mustpay = 0.0;
   String status = '0.0';
 
   @override
   void initState() {
     _money..text = "${widget.suggest}";
     checkdone = widget.checkactive;
+    credit = constant.credit;
+    total = double.parse(widget.Total);
+    paid = double.parse(widget.Paid);
+    mustpay = double.parse(widget.Total) - double.parse(widget.Paid);
     super.initState();
   }
   @override
@@ -78,7 +85,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                           height: 5,
                         ),
                         Text(
-                          "Số nợ : ${widget.Total}",
+                          "Số nợ : ${total}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -86,7 +93,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                           height: 5,
                         ),
                         Text(
-                          "Đã trả: ${widget.Paid}",
+                          "Đã trả: ${paid}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -94,18 +101,18 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                           height: 5,
                         ),
                         Text(
-                          "Phải trả: ${double.parse(widget.Total)-double.parse(widget.Paid)}",
+                          "Phải trả: ${mustpay}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "Số dư: ${widget.surplus}",
-                          style: kLabelStyle,
-                          textDirection: TextDirection.ltr,
-                        ),
+                        // SizedBox(
+                        //   height: 5,
+                        // ),
+                        // Text(
+                        //   "Số dư: ${credit}",
+                        //   style: kLabelStyle,
+                        //   textDirection: TextDirection.ltr,
+                        // ),
                         SizedBox(
                           height: 5,
                         ),
@@ -208,8 +215,12 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                             setState(() {
                               checkdone = false;
                               checkenable = true;
-                              _money..text = "";
-                              status = "Đã hoàn thành thanh toán";
+                              constant.credit = credit - double.parse(_money.text);
+                              paid = paid + double.parse(_money.text);
+                              credit = credit - double.parse(_money.text);
+                              mustpay = mustpay - double.parse(_money.text);
+                              _money..text = _money.text.toString();
+                              status = _money.text.toString();
                             });
                           }else{
                             Fluttertoast.showToast(
