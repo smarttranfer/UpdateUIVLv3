@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/ui/develop/develop.dart';
 import '../funtion_app/transation_page/transation_page.dart';
 import '../theme/Color_app.dart';
@@ -21,7 +22,7 @@ class cardbill extends StatefulWidget {
   String date_create;
 
   cardbill(
-      this.name, this.ID, this.Total, this.Paid, this.Rest,this.date_create);
+      this.name, this.ID, this.Total, this.Paid, this.Rest, this.date_create);
 
   @override
   State<StatefulWidget> createState() {
@@ -82,7 +83,7 @@ class _cardbill extends State<cardbill> {
                                   children: [
                                     Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: [
                                         SizedBox(
                                           width: 30,
@@ -97,37 +98,40 @@ class _cardbill extends State<cardbill> {
                                         ),
                                         Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             TextButton(
-                                              onPressed: () {
-
-                                              },
+                                              onPressed: () {},
                                               child: Column(
-                                                crossAxisAlignment:CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  Text("Edit  ",
+                                                  Text(
+                                                    "Edit  ",
                                                     style: TextStyle(
                                                       color: Colors.white,
-                                                      fontWeight: FontWeight.w400,
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                       decoration:
-                                                      TextDecoration.none,
+                                                          TextDecoration.none,
                                                       fontSize: 17,
                                                       fontFamily: 'OpenSans',
-                                                    ),),
-                                                  Text("Edit information of shop",
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                      "Edit information of shop",
                                                       style: TextStyle(
                                                         color: Colors.grey,
                                                         decoration:
-                                                        TextDecoration.none,
-                                                        fontWeight: FontWeight.w300,
+                                                            TextDecoration.none,
+                                                        fontWeight:
+                                                            FontWeight.w300,
                                                         fontSize: 15,
                                                         fontFamily: 'OpenSans',
                                                       )),
                                                 ],
                                               ),
                                             ),
-
                                           ],
                                         )
                                       ],
@@ -152,29 +156,31 @@ class _cardbill extends State<cardbill> {
                                   width: 20,
                                 ),
                                 Column(
-                                  crossAxisAlignment:CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     TextButton(
                                       onPressed: () {
-                                        _showWarningMessage("Do you want delete customer ?");
+                                        _showWarningMessage(
+                                            "Do you want delete customer ?");
                                       },
                                       child: Column(
-                                        crossAxisAlignment:CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text("Delete",
+                                          Text(
+                                            "Delete",
                                             style: TextStyle(
                                               color: Colors.red,
                                               fontWeight: FontWeight.w400,
-                                              decoration:
-                                              TextDecoration.none,
+                                              decoration: TextDecoration.none,
                                               fontSize: 17,
                                               fontFamily: 'OpenSans',
-                                            ),),
+                                            ),
+                                          ),
                                           Text("Delete Shop",
                                               style: TextStyle(
                                                 color: Colors.grey,
-                                                decoration:
-                                                TextDecoration.none,
+                                                decoration: TextDecoration.none,
                                                 fontWeight: FontWeight.w300,
                                                 fontSize: 15,
                                                 fontFamily: 'OpenSans',
@@ -209,7 +215,7 @@ class _cardbill extends State<cardbill> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Name: ${widget.name}",
+                          "Tên hóa đơn: ${widget.name}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -217,7 +223,7 @@ class _cardbill extends State<cardbill> {
                           height: 5,
                         ),
                         Text(
-                          "ID: ${widget.ID}",
+                          "Id: ${widget.ID}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -225,7 +231,7 @@ class _cardbill extends State<cardbill> {
                           height: 5,
                         ),
                         Text(
-                          "Tổng nợ: ${widget.Total}",
+                          "Số nợ: ${widget.Total}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -233,7 +239,7 @@ class _cardbill extends State<cardbill> {
                           height: 5,
                         ),
                         Text(
-                          "Số đã trả: ${widget.Paid}",
+                          "Đã trả: ${widget.Paid}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -253,7 +259,6 @@ class _cardbill extends State<cardbill> {
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
-
                       ],
                     ),
                   )
@@ -294,8 +299,21 @@ class _cardbill extends State<cardbill> {
                         color: App_Color.green, // background
                         textColor: Colors.white, // foreground
                         onPressed: () {
-                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: PayoneScreen( ID: int.parse(widget.ID), Total: widget.Total, Paid: widget.Paid, Credit: double.parse(widget.Rest,))));
-
+                          constant.credit > 0
+                              ? Navigator.pushReplacement(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.rightToLeft,
+                                      child: PayoneScreen(
+                                        ID: int.parse(widget.ID),
+                                        Total: widget.Total,
+                                        Paid: widget.Paid,
+                                        Credit: double.parse(
+                                          widget.Rest,
+                                        ),
+                                        Name: widget.name,
+                                      )))
+                              : _showWarningMessage("Số dư hiện tại của khách hàng đang là 0. Bạn cần yêu cầu khách hàng nạp tiền để thực hiện thanh toán");
                         },
                         child: Text("Thanh toán"),
                       )
@@ -312,27 +330,20 @@ class _cardbill extends State<cardbill> {
     showCupertinoDialog(
         context: context,
         builder: (context) => Theme(
-          data: ThemeData.dark(),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-            child: CupertinoAlertDialog(
-                title: Text("Warning" ,style: TextStyle(color: Colors.red),),
-                content: Text(message),
-                actions: [
-                  CupertinoDialogAction(
-                      child: Text(
-                        "Yes",
-                        style: TextStyle(color: Colors.red),
-                      ),
-                      onPressed: () => Navigator.pop(context)),
-                  CupertinoDialogAction(
-                      child: Text(
-                        "No",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () => Navigator.pop(context))
-                ]),
-          ),
-        ));
+              data: ThemeData.dark(),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                child: CupertinoAlertDialog(
+                    content: Text(message),
+                    actions: [
+                      CupertinoDialogAction(
+                          child: Text(
+                            "Yes",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          onPressed: () => Navigator.pop(context)),
+                    ]),
+              ),
+            ));
   }
 }

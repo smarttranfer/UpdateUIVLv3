@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/theme/Color_app.dart';
@@ -175,10 +176,10 @@ class _CreateBillScreen extends State<CreateBillScreen> {
         break;
       }
     }
-    String datetime = DateTime.now().toString();
-    print(Shop.text);
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('yyyy-MM-dd  HH:mm:ss').format(now);
     if(Money.text.isNotEmpty|name.text.isNotEmpty|Note.text.isNotEmpty|Shop.text.isNotEmpty){
-      await Createbills.CreateBill(ID,token, double.parse(Money.text), name.text,Note.text,datetime);
+      await Createbills.CreateBill(ID,token, double.parse(Money.text), name.text,Note.text,formattedDate);
     }else{
       Fluttertoast.showToast(
           msg: "Tạo đơn thất bại",

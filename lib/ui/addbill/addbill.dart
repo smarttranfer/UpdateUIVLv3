@@ -79,7 +79,7 @@ class _Billlist extends State<Billlist> {
           automaticallyImplyLeading: false,
           title: Center(
               child: Text(
-            "Hóa Đơn",
+            constant.TitleApp_Bar,
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',

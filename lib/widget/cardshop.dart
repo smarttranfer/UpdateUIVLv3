@@ -25,9 +25,16 @@ class Shoplistcard extends StatefulWidget {
   String date_create;
   int index_bill;
 
-
   Shoplistcard(
-      this.index_bill,this.id,this.name, this.address, this.total_invoice_paid, this.total_invoice, this.total_payment, this.total_liabilities, this.date_create);
+      this.index_bill,
+      this.id,
+      this.name,
+      this.address,
+      this.total_invoice_paid,
+      this.total_invoice,
+      this.total_payment,
+      this.total_liabilities,
+      this.date_create);
 
   @override
   State<StatefulWidget> createState() {
@@ -88,7 +95,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                                   children: [
                                     Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: [
                                         SizedBox(
                                           width: 30,
@@ -103,37 +110,40 @@ class _Shoplistcard extends State<Shoplistcard> {
                                         ),
                                         Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             TextButton(
-                                              onPressed: () {
-
-                                              },
+                                              onPressed: () {},
                                               child: Column(
-                                                crossAxisAlignment:CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  Text("Edit  ",
+                                                  Text(
+                                                    "Edit  ",
                                                     style: TextStyle(
                                                       color: Colors.white,
-                                                      fontWeight: FontWeight.w400,
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                       decoration:
-                                                      TextDecoration.none,
+                                                          TextDecoration.none,
                                                       fontSize: 17,
                                                       fontFamily: 'OpenSans',
-                                                    ),),
-                                                  Text("Edit information of shop",
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                      "Edit information of shop",
                                                       style: TextStyle(
                                                         color: Colors.grey,
                                                         decoration:
-                                                        TextDecoration.none,
-                                                        fontWeight: FontWeight.w300,
+                                                            TextDecoration.none,
+                                                        fontWeight:
+                                                            FontWeight.w300,
                                                         fontSize: 15,
                                                         fontFamily: 'OpenSans',
                                                       )),
                                                 ],
                                               ),
                                             ),
-
                                           ],
                                         )
                                       ],
@@ -158,32 +168,38 @@ class _Shoplistcard extends State<Shoplistcard> {
                                   width: 20,
                                 ),
                                 Column(
-                                  crossAxisAlignment:CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     TextButton(
-                                      onPressed: () async{
+                                      onPressed: () async {
                                         constant.indexshop = widget.id;
-                                        final prefs = await SharedPreferences.getInstance();
-                                        String? token = await prefs.getString("token");
-                                        _showWarningMessage("Do you want delete customer ?",Deleteshops.Deleteshopfuntion(widget.id, token!));
+                                        final prefs = await SharedPreferences
+                                            .getInstance();
+                                        String? token =
+                                            await prefs.getString("token");
+                                        _showWarningMessage(
+                                            "Do you want delete customer ?",
+                                            Deleteshops.Deleteshopfuntion(
+                                                widget.id, token!));
                                       },
                                       child: Column(
-                                        crossAxisAlignment:CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text("Delete",
+                                          Text(
+                                            "Delete",
                                             style: TextStyle(
                                               color: Colors.red,
                                               fontWeight: FontWeight.w400,
-                                              decoration:
-                                              TextDecoration.none,
+                                              decoration: TextDecoration.none,
                                               fontSize: 17,
                                               fontFamily: 'OpenSans',
-                                            ),),
+                                            ),
+                                          ),
                                           Text("Delete Shop",
                                               style: TextStyle(
                                                 color: Colors.grey,
-                                                decoration:
-                                                TextDecoration.none,
+                                                decoration: TextDecoration.none,
                                                 fontWeight: FontWeight.w300,
                                                 fontSize: 15,
                                                 fontFamily: 'OpenSans',
@@ -218,7 +234,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Tên: ${widget.name}",
+                          "Tên cửa hàng: ${widget.name}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -258,7 +274,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                           height: 5,
                         ),
                         Text(
-                          "Phải trả: ${double.parse(widget.total_liabilities)-double.parse(widget.total_payment)}",
+                          "Phải trả: ${double.parse(widget.total_liabilities) - double.parse(widget.total_payment)}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -278,7 +294,6 @@ class _Shoplistcard extends State<Shoplistcard> {
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
-
                       ],
                     ),
                   )
@@ -297,19 +312,23 @@ class _Shoplistcard extends State<Shoplistcard> {
                         ),
                         color: App_Color.orange, // background
                         textColor: Colors.white, // foreground
-                        onPressed: () async{
+                        onPressed: () async {
                           constant.TitleApp_Bar = widget.name;
                           final prefs = await SharedPreferences.getInstance();
                           String? token = await prefs.getString("token");
                           await getbillinformation.getbill(widget.id, token!);
                           constant.index_bill = widget.index_bill;
                           print(constant.index_bill);
-                          if( Getbillinformation.GetbillinformationSucces == true){
-                            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Billlist()));
-                          }else{
+                          if (Getbillinformation.GetbillinformationSucces ==
+                              true) {
+                            Navigator.pushReplacement(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child: Billlist()));
+                          } else {
                             _showMessage(Getbillinformation.ContentError);
                           }
-
                         },
                         child: Text("Hoá đơn"),
                       )
@@ -328,17 +347,24 @@ class _Shoplistcard extends State<Shoplistcard> {
                         ),
                         color: App_Color.green, // background
                         textColor: Colors.white, // foreground
-                        onPressed: () async{
+                        onPressed: () async {
                           constant.TitleApp_Bar = widget.name;
                           final prefs = await SharedPreferences.getInstance();
                           String? token = await prefs.getString("token");
                           await getbillinformation.getbill(widget.id, token!);
-                          if( Getbillinformation.GetbillinformationSucces == true){
-                            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: DetailScreen()));
-                          }else{
+                          if (Getbillinformation.GetbillinformationSucces ==
+                              true) {
+                            constant.credit > 0
+                                ? Navigator.pushReplacement(
+                                    context,
+                                    PageTransition(
+                                        type: PageTransitionType.rightToLeft,
+                                        child: DetailScreen()))
+                                : _showWarningMessages(
+                                    "Số dư hiện tại của khách hàng đang là 0. Bạn cần yêu cầu khách hàng nạp tiền để thực hiện thanh toán");
+                          } else {
                             _showMessage(Getbillinformation.ContentError);
                           }
-
                         },
                         child: Text("Thanh toán"),
                       )
@@ -355,60 +381,87 @@ class _Shoplistcard extends State<Shoplistcard> {
     showCupertinoDialog(
         context: context,
         builder: (context) => Theme(
-          data: ThemeData.dark(),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-            child: CupertinoAlertDialog(
-                title: Text("Warning" ,style: TextStyle(color: Colors.red),),
-                content: Text(message),
-                actions: [
-                  CupertinoDialogAction(
-                      child: Text(
-                        "Yes",
-                        style: TextStyle(color: Colors.red),
-                      ),
-                      onPressed: (){
-                        Navigator.of(context).pop();
-                      }),
-                  CupertinoDialogAction(
-                      child: Text(
-                        "No",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () => Navigator.pop(context))
-                ]),
-          ),
-        ));
+              data: ThemeData.dark(),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                child: CupertinoAlertDialog(
+                    title: Text(
+                      "Warning",
+                      style: TextStyle(color: Colors.red),
+                    ),
+                    content: Text(message),
+                    actions: [
+                      CupertinoDialogAction(
+                          child: Text(
+                            "Yes",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          }),
+                      CupertinoDialogAction(
+                          child: Text(
+                            "No",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () => Navigator.pop(context))
+                    ]),
+              ),
+            ));
   }
 
-  _showWarningMessage(String message,Future funtions) {
+  _showWarningMessage(String message, Future funtions) {
     showCupertinoDialog(
         context: context,
         builder: (context) => Theme(
-          data: ThemeData.dark(),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-            child: CupertinoAlertDialog(
-                title: Text("Warning" ,style: TextStyle(color: Colors.red),),
-                content: Text(message),
-                actions: [
+              data: ThemeData.dark(),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                child: CupertinoAlertDialog(
+                    title: Text(
+                      "Warning",
+                      style: TextStyle(color: Colors.red),
+                    ),
+                    content: Text(message),
+                    actions: [
+                      CupertinoDialogAction(
+                          child: Text(
+                            "Yes",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          onPressed: () async {
+                            await funtions;
+                            Navigator.of(context).pop();
+                          }),
+                      CupertinoDialogAction(
+                          child: Text(
+                            "No",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () => Navigator.pop(context))
+                    ]),
+              ),
+            ));
+  }
+
+  _showWarningMessages(String message) {
+    showCupertinoDialog(
+        context: context,
+        builder: (context) => Theme(
+              data: ThemeData.dark(),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                child: CupertinoAlertDialog(content: Text(message), actions: [
                   CupertinoDialogAction(
                       child: Text(
                         "Yes",
                         style: TextStyle(color: Colors.red),
                       ),
-                      onPressed: () async{
-                        await funtions;
+                      onPressed: () async {
                         Navigator.of(context).pop();
                       }),
-                  CupertinoDialogAction(
-                      child: Text(
-                        "No",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () => Navigator.pop(context))
                 ]),
-          ),
-        ));
+              ),
+            ));
   }
 }

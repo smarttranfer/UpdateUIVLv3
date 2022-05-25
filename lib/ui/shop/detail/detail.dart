@@ -32,18 +32,17 @@ class _DetailScreen extends State<DetailScreen> {
 
   void Hind_pay(){
     double temp = constant.credit;
+    double temp2 = temp;
     for(var bill in  Getbillinformation.data_bill){
       if(temp>0){
-        temp = constant.credit - (bill.original_amount - bill.payment);
+        temp2 =temp;
+        temp = temp - (bill.original_amount - bill.payment);
         if(temp<=0){
-          bill.surplus = 0;
-          bill.hint_pay=constant.credit;
+          bill.hint_pay = temp2;
         }else{
-          bill.surplus = constant.credit - (bill.original_amount - bill.payment);
           bill.hint_pay = (bill.original_amount - bill.payment);
         }
       }else{
-        bill.surplus = 0;
         bill.hint_pay = 0;
       }
     }
@@ -195,7 +194,6 @@ class _DetailScreen extends State<DetailScreen> {
                                           0.0,
                                           Getbillinformation.data_bill[index].hint_pay,
                                           Getbillinformation.data_bill[index].hint_pay>0? true:false,
-                                          Getbillinformation.data_bill[index].surplus
                                       );
                                     })))),
               ))

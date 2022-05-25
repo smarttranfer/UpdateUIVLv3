@@ -13,7 +13,7 @@ final kHintTextStyle = TextStyle(
 
 final kLabelStyle = TextStyle(
   color: Colors.white,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.normal,
   fontFamily: 'OpenSans',
   
 );
@@ -21,7 +21,7 @@ final kLabelStyle = TextStyle(
 final kLabelStyleHistory = TextStyle(
   fontSize: 20,
   color: Colors.white,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.normal,
   fontFamily: 'OpenSans',
 
 );

@@ -10,6 +10,7 @@ import 'package:vldebitor/theme/Color_app.dart';
 import 'package:vldebitor/ui/createbill/fn_createbill/createbill_status.dart';
 import '../../model/sc_createbill/sc_createbill.dart';
 import '../../utilities/constants.dart';
+import '../addbill/addbill.dart';
 import '../createbill/fn_createbill/api_createbill.dart';
 import '../home/home.dart';
 
@@ -203,7 +204,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
                 fontSize: 16.0
             );
             Navigator.pushReplacement(context,
-                PageTransition(type: PageTransitionType.rightToLeft, child: Home_page()));
+                PageTransition(type: PageTransitionType.rightToLeft, child: Billlist()));
           } else {
             Fluttertoast.showToast(
                 msg: "Tạo đơn thất bại",
@@ -243,7 +244,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
+            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Billlist()));
           },
         ),
         actions: [
@@ -255,7 +256,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
               ),
               child: InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
+                  Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Billlist()));
                 },
                 child: Container(
                   child: Icon(

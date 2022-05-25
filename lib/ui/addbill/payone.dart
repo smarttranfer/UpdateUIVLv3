@@ -13,11 +13,12 @@ import 'addbill.dart';
 import 'cardpayment.dart';
 
 class PayoneScreen extends StatefulWidget {
+  String Name;
   int ID;
   String Total;
   String Paid;
   double Credit;
-  PayoneScreen({required this.ID,required this.Total,required this.Paid,required this.Credit,Key? key}) : super(key: key);
+  PayoneScreen({required this.ID,required this.Total,required this.Paid,required this.Credit,required this.Name,Key? key}) : super(key: key);
 
   @override
   _PayoneScreen createState() => _PayoneScreen();
@@ -73,7 +74,7 @@ class _PayoneScreen extends State<PayoneScreen> {
           automaticallyImplyLeading: false,
           title: Center(
               child: Text(
-                "Thanh Toán",
+                widget.Name,
                 style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'OpenSans',

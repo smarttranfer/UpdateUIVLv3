@@ -233,7 +233,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                             "${widget.name}",
                             style: TextStyle(
                               color: Colors.white,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.normal,
                               fontFamily: 'OpenSans',
                             ),
                             textDirection: TextDirection.ltr,
@@ -254,7 +254,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                               "${widget.Phone}",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.normal,
                                 fontFamily: 'OpenSans',
                               ),
                               textDirection: TextDirection.ltr,
@@ -274,7 +274,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                             "${widget.NameShop}",
                             style: TextStyle(
                               color: Colors.white,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.normal,
                               fontFamily: 'OpenSans',
                             ),
                             textDirection: TextDirection.ltr,
@@ -294,7 +294,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                             "${widget.total_invoice_paid}/${widget.total_invoice}",
                             style: TextStyle(
                               color: Colors.white,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.normal,
                               fontFamily: 'OpenSans',
                             ),
                             textDirection: TextDirection.ltr,
@@ -315,7 +315,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                             "${widget.total_liabilities}",
                             style: TextStyle(
                               color: Colors.white,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.normal,
                               fontFamily: 'OpenSans',
                             ),
                             textDirection: TextDirection.ltr,
@@ -335,7 +335,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                             "${widget.total_payment}",
                             style: TextStyle(
                               color: Colors.white,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.normal,
                               fontFamily: 'OpenSans',
                             ),
                             textDirection: TextDirection.ltr,
@@ -354,7 +354,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                             "${double.parse(widget.total_liabilities)-double.parse(widget.total_payment)}",
                             style: TextStyle(
                               color: Colors.white,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.normal,
                               fontFamily: 'OpenSans',
                             ),
                             textDirection: TextDirection.ltr,
@@ -373,7 +373,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                             "${widget.unallocated}",
                             style: TextStyle(
                               color: Colors.white,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.normal,
                               fontFamily: 'OpenSans',
                             ),
                             textDirection: TextDirection.ltr,
@@ -431,7 +431,10 @@ class _ShopregisterScreen extends State<customelistcard> {
                             constant.indexcustomer = widget.ID_Custome;
                             constant.credit = double.parse(widget.unallocated);
                           });
-                          await getshopinformation.getshopinformation_id( widget.ID_Custome, token!);
+                          constant.indexcustomer = widget.ID_Custome;
+                          await getbillinformation.getbill(widget.ID_Custome, token!);
+                          await getshopinformation_createbills.getshopinformation_id(widget.ID_Custome, token);
+                          await getshopinformation.getshopinformation_id( widget.ID_Custome, token);
                           Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist(title: constant.TitleApp_Shop,)));
                         },
                         child: Text("Của hàng",style: TextStyle(fontSize: 12)),
