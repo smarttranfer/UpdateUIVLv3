@@ -225,7 +225,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                       children: <Widget>[
                         Row(children: [
                           Text(
-                            "Tên : ",
+                            "Tên khách hàng : ",
                             style: kLabelStyle,
                             textDirection: TextDirection.ltr,
                           ),
@@ -266,7 +266,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                         ),
                         Row(children: [
                           Text(
-                            "Cửa hàng : ",
+                            "Số cửa hàng : ",
                             style: kLabelStyle,
                             textDirection: TextDirection.ltr,
                           ),
@@ -286,7 +286,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                         ),
                         Row(children: [
                           Text(
-                            "Hóa đơn : ",
+                            "Số hóa đơn : ",
                             style: kLabelStyle,
                             textDirection: TextDirection.ltr,
                           ),
@@ -307,12 +307,12 @@ class _ShopregisterScreen extends State<customelistcard> {
                         Row(
                           children: [
                           Text(
-                            "Tổng : ",
+                            "Tổng nợ : ",
                             style: kLabelStyle,
                             textDirection: TextDirection.ltr,
                           ),
                           Text(
-                            "${widget.total_payment}/${widget.total_liabilities}",
+                            "${widget.total_liabilities}",
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
@@ -322,13 +322,50 @@ class _ShopregisterScreen extends State<customelistcard> {
                           ),
 
                         ],),
-
                         SizedBox(
                           height: 5,
                         ),
                         Row(children: [
                           Text(
-                            "Tài khoản: ",
+                            "Đã trả : ",
+                            style: kLabelStyle,
+                            textDirection: TextDirection.ltr,
+                          ),
+                          Text(
+                            "${widget.total_payment}",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'OpenSans',
+                            ),
+                            textDirection: TextDirection.ltr,
+                          ),
+                        ],),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(children: [
+                          Text(
+                            "Phải trả : ",
+                            style: kLabelStyle,
+                            textDirection: TextDirection.ltr,
+                          ),
+                          Text(
+                            "${double.parse(widget.total_liabilities)-double.parse(widget.total_payment)}",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'OpenSans',
+                            ),
+                            textDirection: TextDirection.ltr,
+                          ),
+                        ],),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(children: [
+                          Text(
+                            "Số dư : ",
                             style: kLabelStyle,
                             textDirection: TextDirection.ltr,
                           ),
@@ -420,8 +457,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                           constant.indexcustomer = widget.ID_Custome;
                           await getbillinformation.getbill(widget.ID_Custome, token!);
                           await getshopinformation_createbills.getshopinformation_id(widget.ID_Custome, token);
-
-                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreen(Getshopinformation_createbill.data_shop)));
+                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreen(Getshopinformation_createbill.data_shop,true)));
                         },
                         child: Text("Thêm hóa đơn",style: TextStyle(fontSize: 12)),
                       )

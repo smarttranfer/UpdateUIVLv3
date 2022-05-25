@@ -16,15 +16,16 @@ class CreaterShop {
       var request = http.Request('POST', Uri.parse('${DC_address}/shop'));
       request.body = json.encode({
         "name": "${name}",
-        "building_number": "VL build",
+        "building_number": "${phone}",
         "street_name": "${Address}",
-        "phone": "${phone}",
+        "phone": "",
         "post_code": "${Postcode}",
         "customer_id": Ct_id
       });
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       registershop.Jsondata = await response.stream.bytesToString();
+      print(registershop.Jsondata);
       if (json.decode(registershop.Jsondata )["status"].toString() == "200") {
         registershop.Create_Shop_Succes = true;
       } else {

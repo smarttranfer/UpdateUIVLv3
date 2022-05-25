@@ -241,7 +241,7 @@ class _cardbill extends State<cardbill> {
                           height: 5,
                         ),
                         Text(
-                          "Rest: ${widget.Rest}",
+                          "Phải trả: ${widget.Rest}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),

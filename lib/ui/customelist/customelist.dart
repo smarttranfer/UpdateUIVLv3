@@ -125,7 +125,7 @@ class _Customelist extends State<Customelist> {
           automaticallyImplyLeading: false,
           title: Center(
               child: Text(
-            "Customer List",
+            "Khách hàng",
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
@@ -176,7 +176,7 @@ class _Customelist extends State<Customelist> {
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.all(10),
-                    hintText: 'Search',
+                    hintText: 'Tìm kiếm',
                     hintStyle: kHintTextStyle,
                   ),
                 ),

@@ -9,13 +9,16 @@ import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apigetbill/apigetbill.dart';
 import 'package:vldebitor/funtion_app/apigetshopinformation/fn_getshopininformation.dart';
 import 'package:vldebitor/theme/Color_app.dart';
+import 'package:vldebitor/ui/creatercredit/createbillmore.dart';
 import '../../utilities/constants.dart';
 import '../../widget/cardbill.dart';
+import '../createbill/createbill.dart';
+import '../createbill/fn_createbill/getshopdata.dart';
 import '../shop/shop.dart';
 
 
 class Billlist extends StatefulWidget {
-  Billlist({Key? key}) : super(key: key);
+  Billlist({Key? key,}) : super(key: key);
 
   @override
   _Billlist createState() => _Billlist();
@@ -93,7 +96,7 @@ class _Billlist extends State<Billlist> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    // Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreen()));
+                    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreenMore(Getshopinformation_createbill.data_shop,constant.index_bill)));
                   },
                   child: Container(
                     child: Icon(
@@ -111,6 +114,7 @@ class _Billlist extends State<Billlist> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+
               Container(
                 margin: EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 8),
                 alignment: Alignment.centerLeft,
@@ -127,7 +131,7 @@ class _Billlist extends State<Billlist> {
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.all(10),
-                    hintText: 'Search',
+                    hintText: 'Tìm kiếm',
                     hintStyle: kHintTextStyle,
                   ),
                 ),
@@ -145,7 +149,7 @@ class _Billlist extends State<Billlist> {
                           )
                         : Container(
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height,
+                            height: MediaQuery.of(context).size.height/1.3,
                             child: SmartRefresher(
                                 physics: const BouncingScrollPhysics(),
                                 enablePullDown: true,

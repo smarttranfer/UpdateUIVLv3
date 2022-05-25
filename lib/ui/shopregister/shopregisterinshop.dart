@@ -48,7 +48,7 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
                 Icons.drive_file_rename_outline_outlined,
                 color: Colors.white,
               ),
-              hintText: 'Enter your shop name',
+              hintText: 'Nhập tên cửa hàng',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -79,7 +79,7 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
                 Icons.house,
                 color: Colors.white,
               ),
-              hintText: 'Enter your house number',
+              hintText: 'Nhập số nhà',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -110,7 +110,7 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
                 Icons.home_outlined,
                 color: Colors.white,
               ),
-              hintText: 'Enter your adrress',
+              hintText: 'Nhập địa chỉ',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -141,7 +141,7 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
                 Icons.code,
                 color: Colors.white,
               ),
-              hintText: 'Enter your post code',
+              hintText: 'Nhập mã bưu chính',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -170,13 +170,13 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
           address.text.isEmpty |
           postcode.text.isEmpty) {
             _showErrorMessage(
-                "You have not entered enough information in the fields");
+                "Bàn cần điền đầy đử thông tin");
           } else {
             await _CreaterShop(
                 name.text, house.text, address.text, postcode.text);
             if (registershop.Create_Shop_Succes == true) {
               Fluttertoast.showToast(
-                  msg: "Create Shop Done",
+                  msg: "Tạo của hành thành công",
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.CENTER,
                   timeInSecForIosWeb: 1,
@@ -194,7 +194,7 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
         ),
         color: App_Color.orange,
         child: Text(
-          'Add more shop',
+          'Thêm cửa hàng',
           style: TextStyle(
             color: Colors.white,
             letterSpacing: 1.5,
@@ -220,13 +220,13 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
           address.text.isEmpty |
           postcode.text.isEmpty) {
             _showErrorMessage(
-                "You have not entered enough information in the fields");
+                "Bạn cần điền đầy đủ các trường");
           } else {
             await _CreaterShop(
                 name.text, house.text, address.text, postcode.text);
             if (registershop.Create_Shop_Succes == true) {
               Fluttertoast.showToast(
-                  msg: "Create Shop Done",
+                  msg: "Tạo của hành thành công",
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.CENTER,
                   timeInSecForIosWeb: 1,
@@ -245,7 +245,7 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
         ),
         color: App_Color.green,
         child: Text(
-          'Done',
+          'Hoàn thành',
           style: TextStyle(
             color: Colors.white,
             letterSpacing: 1.5,
@@ -292,7 +292,7 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
         backgroundColor: App_Color.background_search,
         title: Center(
             child: Text(
-              "Create Shop",
+              "Tạo cửa hàng",
               style: TextStyle(
                 color: Colors.white,
                 fontFamily: 'OpenSans',
@@ -311,13 +311,13 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
               address.text.isEmpty |
               postcode.text.isEmpty) {
                 _showErrorMessage(
-                    "You have not entered enough information in the fields");
+                    "Bạn cần điền đầy đủ thông tin");
               } else {
                 await _CreaterShop(
                     name.text, house.text, address.text, postcode.text);
                 if (registershop.Create_Shop_Succes == true) {
                   Fluttertoast.showToast(
-                      msg: "Create Shop Done",
+                      msg: "Tạo của hàng thành công",
                       toastLength: Toast.LENGTH_SHORT,
                       gravity: ToastGravity.CENTER,
                       timeInSecForIosWeb: 1,
@@ -385,12 +385,12 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
             child: CupertinoAlertDialog(
-                title: Text("Warning"),
+                title: Text("Cảnh báo"),
                 content: Text("${content}"),
                 actions: [
                   CupertinoDialogAction(
                       child: Text(
-                        "Close",
+                        "Đóng",
                         style: TextStyle(color: App_Color.green),
                       ),
                       onPressed: () => Navigator.pop(context))
