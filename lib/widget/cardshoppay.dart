@@ -222,17 +222,17 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                                 textColor: Colors.white,
                                 fontSize: 16.0
                             );
+                            Provider.of<managen_credit>(context,listen:false).decrease(double.parse(_money.text));
                             setState(() {
                               checkdone = false;
                               checkenable = true;
-                              // constant.credit = credit - double.parse(_money.text);
                               paid = paid + double.parse(_money.text);
                               credit = credit - double.parse(_money.text);
                               mustpay = mustpay - double.parse(_money.text);
                               _money..text = _money.text.toString();
                               status = _money.text.toString();
                             });
-                            Provider.of<managen_credit>(context,listen:false).decrease(double.parse(_money.text));
+
                           }else{
                             Fluttertoast.showToast(
                                 msg: payments.ContentError,

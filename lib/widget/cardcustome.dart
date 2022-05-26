@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apigetbill/fn_getbill.dart';
@@ -15,6 +16,7 @@ import '../funtion_app/addtocredit/fn_addtocredit.dart';
 import '../funtion_app/apigetshopinformation/fn_getshopininformation.dart';
 import '../funtion_app/apiregistercustomer/delete/deletecustomer.dart';
 import '../funtion_app/apiregistercustomer/delete/fn_detelecustomer.dart';
+import '../provider/manager_credit.dart';
 import '../theme/Color_app.dart';
 import '../ui/addbill/addbill.dart';
 import '../ui/createbill/createbill.dart';
@@ -370,7 +372,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                             textDirection: TextDirection.ltr,
                           ),
                           Text(
-                            "${widget.unallocated}",
+                            "${double.parse(widget.unallocated).toStringAsFixed(2)}",
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.normal,
@@ -430,7 +432,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                           setState(() {
                             constant.TitleApp_Shop = widget.name;
                             constant.indexcustomer = widget.ID_Custome;
-                            constant.credit = double.parse(widget.unallocated);
+                            Provider.of<managen_credit>(context, listen: false).increase(double.parse(widget.unallocated));
                           });
                           constant.indexcustomer = widget.ID_Custome;
                           await getbillinformation.getbill(widget.ID_Custome, token!);

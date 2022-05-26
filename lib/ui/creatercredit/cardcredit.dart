@@ -4,10 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/addtocredit/addtocreadit.dart';
 import 'package:vldebitor/funtion_app/addtocredit/fn_addtocredit.dart';
+import '../../provider/manager_credit.dart';
 import '../../theme/Color_app.dart';
 import '../../utilities/constants.dart';
 
@@ -87,7 +89,7 @@ class _CardCredit extends State<CardCredit> {
                           width: 20,
                         ),
                         Text(
-                          "Số dư: ${creditcopy}",
+                          "Số dư: ${Provider.of<managen_credit>(context, listen: true).CreditResult()}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -188,9 +190,7 @@ class _CardCredit extends State<CardCredit> {
                         String? token =await prefs.getString("token").toString();
                         await fn_AddToCredit.AddtoCredits(double.parse(_money.text), widget.ID, token);
                         if(AddCredit_check.AddCredit_Succes==true){
-                          setState(() {
-                            creditcopy = creditcopy + double.parse(_money.text);
-                          });
+                          Provider.of<managen_credit>(context, listen: false).increase(double.parse(_money.text));
                           Fluttertoast.showToast(
                               msg: "Add Credit succesfull.",
                               toastLength: Toast.LENGTH_SHORT,

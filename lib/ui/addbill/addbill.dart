@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
@@ -10,6 +11,7 @@ import 'package:vldebitor/funtion_app/apigetbill/apigetbill.dart';
 import 'package:vldebitor/funtion_app/apigetshopinformation/fn_getshopininformation.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import 'package:vldebitor/ui/creatercredit/createbillmore.dart';
+import '../../provider/manager_credit.dart';
 import '../../utilities/constants.dart';
 import '../../widget/cardbill.dart';
 import '../createbill/createbill.dart';
@@ -159,11 +161,11 @@ class _Billlist extends State<Billlist> {
                                 fontSize: 15,
                                 fontFamily: 'OpenSans',
                               )),
-                          Text("£ ${constant.credit.toString()}",style: TextStyle(
-                            color: Colors.grey,
+                          Text("£ ${Provider.of<managen_credit>(context, listen: true).CreditResult()}",style: TextStyle(
+                            color: double.parse(Provider.of<managen_credit>(context, listen: true).CreditResult())>0?App_Color.green:Colors.red,
                             decoration: TextDecoration.none,
                             fontWeight: FontWeight.bold,
-                            fontSize: 15,
+                            fontSize: 20,
                             fontFamily: 'OpenSans',
                           ))
                         ],

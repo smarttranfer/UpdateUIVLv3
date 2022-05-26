@@ -188,7 +188,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd  HH:mm:ss').format(now);
     if(Money.text.isNotEmpty|name.text.isNotEmpty|Note.text.isNotEmpty|Shop.text.isNotEmpty){
-      await Createbills.CreateBill(ID,token, double.parse(Money.text), name.text,Note.text,formattedDate);
+      await Createbills.CreateBill(ID,token, double.parse(Money.text.toString().replaceAll(",", "")), name.text,Note.text,formattedDate);
     }else{
       Fluttertoast.showToast(
           msg: "Tạo đơn thất bại",
