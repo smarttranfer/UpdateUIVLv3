@@ -22,33 +22,32 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreen extends State<DetailScreen> {
-
-
   @override
   void initState() {
     Hind_pay();
     super.initState();
   }
 
-  void Hind_pay(){
+  void Hind_pay() {
     double temp = constant.credit;
     double temp2 = temp;
-    for(var bill in  Getbillinformation.data_bill){
-      if(temp>0){
-        temp2 =temp;
+    for (var bill in Getbillinformation.data_bill) {
+      if (temp > 0) {
+        temp2 = temp;
         temp = temp - (bill.original_amount - bill.payment);
-        if(temp<=0){
+        if (temp <= 0) {
           bill.hint_pay = temp2;
-        }else{
+        } else {
           bill.hint_pay = (bill.original_amount - bill.payment);
         }
-      }else{
+      } else {
         bill.hint_pay = 0;
       }
     }
   }
 
-  final RefreshController _refreshController = RefreshController(initialRefresh: false);
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
   final List<Map<String, dynamic>> _allUsers = [];
   List<Map<String, dynamic>> _foundUsers = [];
   String searchString = "";
@@ -81,18 +80,21 @@ class _DetailScreen extends State<DetailScreen> {
     _refreshController.loadComplete();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            onPressed: () async{
+            onPressed: () async {
               final prefs = await SharedPreferences.getInstance();
               String? token = await prefs.getString("token");
-              await getshopinformation.getshopinformation_id( constant.indexcustomer, token!);
-              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist(title: constant.TitleApp_Shop)));
+              await getshopinformation.getshopinformation_id(
+                  constant.indexcustomer, token!);
+              Navigator.pushReplacement(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: Shoplist(title: constant.TitleApp_Shop)));
             },
             icon: Icon(Icons.arrow_back_ios),
           ),
@@ -124,81 +126,147 @@ class _DetailScreen extends State<DetailScreen> {
                 ))
           ],
         ),
-        body: Container(
-          padding: EdgeInsets.all(2),
-          color: App_Color.Background,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(height: 15),
-              Expanded(
-                  child: SingleChildScrollView(
-                child: Container(
-                    child: Getbillinformation.data_bill.isEmpty
-                        ? Center(
-                            child: AnimatedTextKit(
-                            animatedTexts: [
-                              WavyAnimatedText("Not Data",
-                                  textStyle: TextStyle(color: App_Color.green)),
-                            ],
-                            isRepeatingAnimation: true,
-                          ))
-                        : Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height,
-                            child: SmartRefresher(
-                                physics: const BouncingScrollPhysics(),
-                                enablePullDown: true,
-                                enablePullUp: true,
-                                header: WaterDropHeader(
-                                  waterDropColor: App_Color.green,
-                                  complete: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      const Icon(Icons.done,
-                                          color: Colors.green),
-                                      const SizedBox(width: 15.0),
-                                      Text(
-                                        update_SC,
-                                        style:
-                                            TextStyle(color: App_Color.green),
-                                      )
-                                    ],
-                                  ),
-                                  failed: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      const Icon(Icons.error_outline,
-                                          color: Colors.red),
-                                      const SizedBox(width: 15.0),
-                                      Text(
-                                        update_F,
-                                        style: TextStyle(color: Colors.red),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                controller: _refreshController,
-                                onLoading: _onLoading,
-                                onRefresh: _onRefresh,
-                                child: ListView.builder(
-                                    itemCount:
-                                        Getbillinformation.data_bill.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Shoplistcardpay(
-                                          Getbillinformation.data_bill[index].ID,
-                                          Getbillinformation.data_bill[index].create_date,
-                                          Getbillinformation.data_bill[index].original_amount.toString(),
-                                          Getbillinformation.data_bill[index].payment.toString(),
-                                          0.0,
-                                          Getbillinformation.data_bill[index].hint_pay,
-                                          Getbillinformation.data_bill[index].hint_pay>0? true:false,
-                                      );
-                                    })))),
-              ))
-            ],
-          ),
-        ));
+        body: SingleChildScrollView(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+              Container(
+                  decoration: BoxDecoration(
+                    color: App_Color.Background,
+                  ),
+                  padding: EdgeInsets.all(8),
+                  child: Container(
+                      decoration: kBoxDecorationStyle_credit,
+                      height: 80.0,
+                      // width: MediaQuery.of(context).size.width/1.19,
+                      margin: EdgeInsets.only(
+                        bottom: 8,
+                      ),
+                      alignment: Alignment.center,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Số dư tài khoản",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                decoration: TextDecoration.none,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                fontFamily: 'OpenSans',
+                              )),
+                          Text("£ ${constant.credit.toString()}",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                decoration: TextDecoration.none,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                fontFamily: 'OpenSans',
+                              ))
+                        ],
+                      ))),
+              Container(
+                color: App_Color.background_textfield,
+                padding: EdgeInsets.only(left: 10,right: 10),
+                child: Divider(
+                  color: Colors.grey,
+                  height: 1,
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height / 1.32,
+                padding: EdgeInsets.all(1),
+                color: App_Color.Background,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(height: 15),
+                    Expanded(
+                        child: SingleChildScrollView(
+                      child: Container(
+                          child: Getbillinformation.data_bill.isEmpty
+                              ? Center(
+                                  child: AnimatedTextKit(
+                                  animatedTexts: [
+                                    WavyAnimatedText("Not Data",
+                                        textStyle:
+                                            TextStyle(color: App_Color.green)),
+                                  ],
+                                  isRepeatingAnimation: true,
+                                ))
+                              : Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: MediaQuery.of(context).size.height,
+                                  child: SmartRefresher(
+                                      physics: const BouncingScrollPhysics(),
+                                      enablePullDown: true,
+                                      enablePullUp: true,
+                                      header: WaterDropHeader(
+                                        waterDropColor: App_Color.green,
+                                        complete: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            const Icon(Icons.done,
+                                                color: Colors.green),
+                                            const SizedBox(width: 15.0),
+                                            Text(
+                                              update_SC,
+                                              style: TextStyle(
+                                                  color: App_Color.green),
+                                            )
+                                          ],
+                                        ),
+                                        failed: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            const Icon(Icons.error_outline,
+                                                color: Colors.red),
+                                            const SizedBox(width: 15.0),
+                                            Text(
+                                              update_F,
+                                              style:
+                                                  TextStyle(color: Colors.red),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      controller: _refreshController,
+                                      onLoading: _onLoading,
+                                      onRefresh: _onRefresh,
+                                      child: ListView.builder(
+                                          itemCount: Getbillinformation
+                                              .data_bill.length,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return Shoplistcardpay(
+                                              Getbillinformation
+                                                  .data_bill[index].ID,
+                                              Getbillinformation
+                                                  .data_bill[index].create_date,
+                                              Getbillinformation
+                                                  .data_bill[index]
+                                                  .original_amount
+                                                  .toString(),
+                                              Getbillinformation
+                                                  .data_bill[index].payment
+                                                  .toString(),
+                                              0.0,
+                                              Getbillinformation
+                                                  .data_bill[index].hint_pay,
+                                              Getbillinformation
+                                                          .data_bill[index]
+                                                          .hint_pay >
+                                                      0
+                                                  ? true
+                                                  : false,
+                                            );
+                                          })))),
+                    ))
+                  ],
+                ),
+              )
+            ])));
   }
 }

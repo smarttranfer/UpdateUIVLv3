@@ -414,6 +414,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                     width: 10,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       MaterialButton(
                         minWidth: 100,
@@ -445,9 +446,10 @@ class _ShopregisterScreen extends State<customelistcard> {
                     width: 10,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       MaterialButton(
-                        minWidth: 100,
+                        minWidth: 10,
                         height: 30,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),

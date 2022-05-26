@@ -9,7 +9,6 @@ import 'package:vldebitor/funtion_app/apilogin/login.dart';
 import 'package:vldebitor/funtion_app/home/home.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../funtion_app/home/fn_getdatacutome.dart';
-import '../../funtion_app/transation_page/transation_page.dart';
 import '../../utilities/constants.dart';
 import '../home/home.dart';
 

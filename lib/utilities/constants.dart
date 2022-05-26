@@ -38,6 +38,22 @@ final kBoxDecorationStyle = BoxDecoration(
   ],
 );
 
+final kBoxDecorationStyle_credit = BoxDecoration(
+  color: App_Color.background_textfield,
+  border: Border.all(
+    color: App_Color.green,
+    width: 2.0,
+  ),
+  borderRadius: BorderRadius.circular(10.0),
+  boxShadow: [
+    BoxShadow(
+      color: Colors.black12,
+      blurRadius: 6.0,
+      offset: Offset(0, 2),
+    ),
+  ],
+);
+
 final kBoxDecorationMoneyStyle = BoxDecoration(
   color: Colors.grey,
   borderRadius: BorderRadius.circular(10.0),

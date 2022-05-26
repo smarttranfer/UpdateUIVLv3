@@ -18,7 +18,14 @@ class PayoneScreen extends StatefulWidget {
   String Total;
   String Paid;
   double Credit;
-  PayoneScreen({required this.ID,required this.Total,required this.Paid,required this.Credit,required this.Name,Key? key}) : super(key: key);
+  PayoneScreen(
+      {required this.ID,
+      required this.Total,
+      required this.Paid,
+      required this.Credit,
+      required this.Name,
+      Key? key})
+      : super(key: key);
 
   @override
   _PayoneScreen createState() => _PayoneScreen();
@@ -26,7 +33,7 @@ class PayoneScreen extends StatefulWidget {
 
 class _PayoneScreen extends State<PayoneScreen> {
   final RefreshController _refreshController =
-  RefreshController(initialRefresh: false);
+      RefreshController(initialRefresh: false);
   final List<Map<String, dynamic>> _allUsers = [];
   List<Map<String, dynamic>> _foundUsers = [];
   String searchString = "";
@@ -40,7 +47,7 @@ class _PayoneScreen extends State<PayoneScreen> {
     } else {
       results = _allUsers
           .where((user) =>
-          user["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
+              user["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
           .toList();
     }
     setState(() {
@@ -65,7 +72,10 @@ class _PayoneScreen extends State<PayoneScreen> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Billlist()));
+              Navigator.pushReplacement(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.rightToLeft, child: Billlist()));
             },
             icon: Icon(Icons.arrow_back_ios),
           ),
@@ -74,14 +84,14 @@ class _PayoneScreen extends State<PayoneScreen> {
           automaticallyImplyLeading: false,
           title: Center(
               child: Text(
-                widget.Name,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'OpenSans',
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              )),
+            widget.Name,
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'OpenSans',
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
+          )),
           actions: [
             Container(
                 padding: EdgeInsets.all(15),
@@ -103,16 +113,52 @@ class _PayoneScreen extends State<PayoneScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(height: 15),
+              Container(
+                  decoration: kBoxDecorationStyle_credit,
+                  height: 80.0,
+                  margin: EdgeInsets.all(
+                    10,
+                  ),
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Số dư tài khoản",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            decoration: TextDecoration.none,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            fontFamily: 'OpenSans',
+                          )),
+                      Text("£ ${constant.credit.toString()}",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            decoration: TextDecoration.none,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            fontFamily: 'OpenSans',
+                          ))
+                    ],
+                  )),
+              Container(
+                color: App_Color.background_textfield,
+                padding: EdgeInsets.only(left: 10, right: 10),
+                child: Divider(
+                  color: Colors.grey,
+                  height: 1,
+                ),
+              ),
+              SizedBox(height: 10),
               Expanded(
                   child: Column(
-                    children: [
-                      CardPayment(widget.ID, widget.Total, widget.Paid,constant.credit,(constant.credit>0 ? true:false)),
-                    ],
-                  ))
+                children: [
+                  CardPayment(widget.ID, widget.Total, widget.Paid,
+                      constant.credit, (constant.credit > 0 ? true : false)),
+                ],
+              ))
             ],
           ),
         ));
   }
-
 }

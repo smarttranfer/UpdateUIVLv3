@@ -137,6 +137,37 @@ class _Billlist extends State<Billlist> {
                 ),
               ),
               SizedBox(height: 5),
+              Container(
+                  decoration:  BoxDecoration(
+                    color: App_Color.Background,
+                  ),
+                  padding: EdgeInsets.all(8),
+                  child: Container(
+                      decoration: kBoxDecorationStyle_credit,
+                      height: 80.0,
+                      // width: MediaQuery.of(context).size.width/1.19,
+                      margin: EdgeInsets.only(bottom: 8,),
+                      alignment: Alignment.center,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Số dư tài khoản",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                decoration: TextDecoration.none,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                fontFamily: 'OpenSans',
+                              )),
+                          Text("£ ${constant.credit.toString()}",style: TextStyle(
+                            color: Colors.grey,
+                            decoration: TextDecoration.none,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            fontFamily: 'OpenSans',
+                          ))
+                        ],
+                      ))),
               Expanded(
                   child: SingleChildScrollView(
                 child: Container(
@@ -149,7 +180,7 @@ class _Billlist extends State<Billlist> {
                           )
                         : Container(
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height/1.3,
+                            height: MediaQuery.of(context).size.height/1.55,
                             child: SmartRefresher(
                                 physics: const BouncingScrollPhysics(),
                                 enablePullDown: true,
