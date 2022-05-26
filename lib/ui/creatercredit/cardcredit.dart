@@ -1,6 +1,8 @@
 import 'dart:ui';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
@@ -107,6 +109,14 @@ class _CardCredit extends State<CardCredit> {
                               width: MediaQuery.of(context).size.width / 1.6,
                               height: 30,
                               child: TextField(
+                                inputFormatters: <TextInputFormatter>[
+                                  CurrencyTextInputFormatter(
+                                    locale: 'EN',
+                                    decimalDigits: 2,
+                                    symbol: '',
+                                  ),
+                                  // formatter,
+                                ],
                                 controller: _money,
                                 keyboardType: TextInputType.number,
                                 style: TextStyle(

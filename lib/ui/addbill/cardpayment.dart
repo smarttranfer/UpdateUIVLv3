@@ -1,6 +1,8 @@
 import 'dart:ui';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
@@ -26,6 +28,7 @@ class CardPayment extends StatefulWidget {
 
 class _CardPayment extends State<CardPayment> {
   final TextEditingController _money = TextEditingController();
+  final CurrencyTextInputFormatter formatter = CurrencyTextInputFormatter();
   late bool checkactive = false;
   late double credit = 0.0;
   late double total = 0.0;
@@ -92,15 +95,15 @@ class _CardPayment extends State<CardPayment> {
                           height: 10,
                           width: 20,
                         ),
-                        Text(
-                          "Số dư: ${credit}",
-                          style: kLabelStyle,
-                          textDirection: TextDirection.ltr,
-                        ),
-                        SizedBox(
-                          height: 10,
-                          width: 10,
-                        ),
+                        // Text(
+                        //   "Số dư: ${credit}",
+                        //   style: kLabelStyle,
+                        //   textDirection: TextDirection.ltr,
+                        // ),
+                        // SizedBox(
+                        //   height: 10,
+                        //   width: 10,
+                        // ),
                         Row(
                           children: [
                             Text(
@@ -115,6 +118,13 @@ class _CardPayment extends State<CardPayment> {
                               width: MediaQuery.of(context).size.width / 1.6,
                               height: 30,
                               child: TextField(
+                                inputFormatters: <TextInputFormatter>[
+                                  CurrencyTextInputFormatter(
+                                    locale: 'EN',
+                                    decimalDigits: 2,
+                                    symbol: '',
+                                  ),
+                                ],
                                 onChanged: (e){
                                   if(double.parse(e.toString())>credit){
                                     setState(() {

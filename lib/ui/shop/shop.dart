@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -17,18 +18,19 @@ import '../shopregister/shopregisterinshop.dart';
 
 class Shoplist extends StatefulWidget {
   late String title;
-  Shoplist({Key? key,required this.title}) : super(key: key);
+  Shoplist({Key? key, required this.title}) : super(key: key);
 
   @override
   _Shoplist createState() => _Shoplist();
 }
 
 class _Shoplist extends State<Shoplist> {
-  final RefreshController _refreshController = RefreshController(initialRefresh: false);
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
   final List<Map<String, dynamic>> _allUsers = [];
   List<Map<String, dynamic>> _foundUsers = [];
   String searchString = "";
-  String status= "No Data";
+  String status = "No Data";
   bool checknull = false;
   bool check_loding_data = true;
 
@@ -50,41 +52,41 @@ class _Shoplist extends State<Shoplist> {
   void _onRefresh() async {
     setState(() {
       status = "Get Data";
-      Getshopinformation.data_shop=[];
+      Getshopinformation.data_shop = [];
     });
     await Future.delayed(Duration(milliseconds: 1000));
     final prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token").toString();
-    await getshopinformation.getshopinformation_id(constant.indexcustomer,token);
-    if (Getshopinformation.GetshopinformationSucces==true){
-
+    await getshopinformation.getshopinformation_id(
+        constant.indexcustomer, token);
+    if (Getshopinformation.GetshopinformationSucces == true) {
       setState(() {
         status = "Get Data";
-        Getshopinformation.data_shop=Getshopinformation.data_shop;
+        Getshopinformation.data_shop = Getshopinformation.data_shop;
       });
       _refreshController.refreshCompleted();
-    }else{
+    } else {
       _refreshController.refreshFailed();
     }
-
   }
 
   void _onLoading() async {
     setState(() {
       status = "Get Data";
-      Getshopinformation.data_shop=[];
+      Getshopinformation.data_shop = [];
     });
     await Future.delayed(Duration(milliseconds: 1000));
     final prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString("token").toString();
-    await getshopinformation.getshopinformation_id(constant.indexcustomer,token);
-    if(Getshopinformation.GetshopinformationSucces==true){
+    await getshopinformation.getshopinformation_id(
+        constant.indexcustomer, token);
+    if (Getshopinformation.GetshopinformationSucces == true) {
       setState(() {
         status = "Get Data";
-        Getshopinformation.data_shop=Getshopinformation.data_shop;
+        Getshopinformation.data_shop = Getshopinformation.data_shop;
       });
       _refreshController.loadComplete();
-    }else{
+    } else {
       _refreshController.loadFailed();
     }
   }
@@ -95,7 +97,11 @@ class _Shoplist extends State<Shoplist> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
+              Navigator.pushReplacement(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: Home_page()));
             },
             icon: Icon(Icons.arrow_back_ios),
           ),
@@ -121,7 +127,11 @@ class _Shoplist extends State<Shoplist> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: ShopregisterScreeninShop()));
+                    Navigator.pushReplacement(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.rightToLeft,
+                            child: ShopregisterScreeninShop()));
                   },
                   child: Container(
                     child: Icon(
@@ -161,6 +171,37 @@ class _Shoplist extends State<Shoplist> {
                 ),
               ),
               SizedBox(height: 5),
+              Container(
+                    decoration:  BoxDecoration(
+                      color: App_Color.Background,
+                    ),
+                  padding: EdgeInsets.all(8),
+                  child: Container(
+                      decoration: kBoxDecorationStyle_credit,
+                      height: 80.0,
+                      // width: MediaQuery.of(context).size.width/1.19,
+                      margin: EdgeInsets.only(bottom: 8,),
+                      alignment: Alignment.center,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Số dư tài khoản",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                decoration: TextDecoration.none,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                fontFamily: 'OpenSans',
+                              )),
+                          Text("£ ${constant.credit.toString()}",style: TextStyle(
+                            color: Colors.grey,
+                            decoration: TextDecoration.none,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            fontFamily: 'OpenSans',
+                          ))
+                        ],
+                      ))),
               Expanded(
                   child: SingleChildScrollView(
                       child: Container(
@@ -175,7 +216,7 @@ class _Shoplist extends State<Shoplist> {
                       ))
                     : Container(
                         width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height/1.3,
+                        height: MediaQuery.of(context).size.height / 1.55,
                         child: SmartRefresher(
                             physics: const BouncingScrollPhysics(),
                             enablePullDown: true,
@@ -214,14 +255,26 @@ class _Shoplist extends State<Shoplist> {
                                 itemBuilder: (BuildContext context, int index) {
                                   return Shoplistcard(
                                       index,
-                                      Getshopinformation.data_shop[index].Shop_ID,
+                                      Getshopinformation
+                                          .data_shop[index].Shop_ID,
                                       Getshopinformation.data_shop[index].Name,
-                                      Getshopinformation.data_shop[index].street_name,
-                                      Getshopinformation.data_shop[index].Total_invoice_paid.toString(),
-                                      Getshopinformation.data_shop[index].Total_invoice.toString(),
-                                      Getshopinformation.data_shop[index].Total_payment.toString(),
-                                      Getshopinformation.data_shop[index].Total_liabilities.toString(),
-                                      Getshopinformation.data_shop[index].Create_date.toString());
+                                      Getshopinformation
+                                          .data_shop[index].street_name,
+                                      Getshopinformation
+                                          .data_shop[index].Total_invoice_paid
+                                          .toString(),
+                                      Getshopinformation
+                                          .data_shop[index].Total_invoice
+                                          .toString(),
+                                      Getshopinformation
+                                          .data_shop[index].Total_payment
+                                          .toString(),
+                                      Getshopinformation
+                                          .data_shop[index].Total_liabilities
+                                          .toString(),
+                                      Getshopinformation
+                                          .data_shop[index].Create_date
+                                          .toString());
                                 }))),
               )))
             ],

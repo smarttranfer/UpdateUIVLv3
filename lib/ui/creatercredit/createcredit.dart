@@ -28,39 +28,9 @@ class CreditScreen extends StatefulWidget {
 }
 
 class _CreditScreen extends State<CreditScreen> {
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
-  final List<Map<String, dynamic>> _allUsers = [];
-  List<Map<String, dynamic>> _foundUsers = [];
-  String searchString = "";
   bool checknull = false;
   bool check_loding_data = true;
 
-  void _runFilter(String enteredKeyword) {
-    List<Map<String, dynamic>> results = [];
-    if (enteredKeyword.isEmpty) {
-      results = _allUsers;
-    } else {
-      results = _allUsers
-          .where((user) =>
-              user["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
-          .toList();
-    }
-    setState(() {
-      _foundUsers = results;
-    });
-  }
-
-  void _onRefresh() async {
-    await Future.delayed(Duration(milliseconds: 1000));
-    _refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    await Future.delayed(Duration(milliseconds: 1000));
-    if (mounted) setState(() {});
-    _refreshController.loadComplete();
-  }
 
   @override
   Widget build(BuildContext context) {

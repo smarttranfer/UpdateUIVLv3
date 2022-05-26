@@ -1,6 +1,8 @@
 import 'dart:ui';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
@@ -126,9 +128,17 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                             Container(
                               alignment: Alignment.centerLeft,
                               decoration: kBoxDecorationMoneyStyle,
-                              width: MediaQuery.of(context).size.width/1.5,
+                              width: MediaQuery.of(context).size.width/1.56,
                               height: 30,
                               child: TextField(
+                                inputFormatters: <TextInputFormatter>[
+                                  CurrencyTextInputFormatter(
+                                    locale: 'EN',
+                                    decimalDigits: 2,
+                                    symbol: '',
+                                  ),
+                                  // formatter,
+                                ],
                                 readOnly: checkenable,
                                 controller: _money,
                                 keyboardType: TextInputType.number,
@@ -202,26 +212,27 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                           String? token = await prefs.getString("token");
                           await fn_payment.Payment(double.parse(_money.text), constant.indexcustomer, token!, widget.ID);
                           if(payments.Create_payment_Succes==true){
-                            Provider.of<managen_credit>(context,listen:false).decrease(double.parse(_money.text));
+
                             Fluttertoast.showToast(
                                 msg: "Thanh toán hóa đơn thanh công.",
                                 toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.CENTER,
+                                gravity: ToastGravity.BOTTOM,
                                 timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.red,
+                                backgroundColor: Colors.green,
                                 textColor: Colors.white,
                                 fontSize: 16.0
                             );
                             setState(() {
                               checkdone = false;
                               checkenable = true;
-                              constant.credit = credit - double.parse(_money.text);
+                              // constant.credit = credit - double.parse(_money.text);
                               paid = paid + double.parse(_money.text);
                               credit = credit - double.parse(_money.text);
                               mustpay = mustpay - double.parse(_money.text);
                               _money..text = _money.text.toString();
                               status = _money.text.toString();
                             });
+                            Provider.of<managen_credit>(context,listen:false).decrease(double.parse(_money.text));
                           }else{
                             Fluttertoast.showToast(
                                 msg: payments.ContentError,

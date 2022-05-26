@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -83,7 +84,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
               Icons.shop,
               color: Colors.white,
             ),
-            hintText: widget.ListShop[0].Name,
+            hintText: "Chọn tên cửa hàng",
             hintStyle: kHintTextStyle,
             suffixIcon: PopupMenuButton<sc_Create_bill>(
               icon:const Icon(
@@ -115,6 +116,14 @@ class _CreateBillScreen extends State<CreateBillScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
+            inputFormatters: <TextInputFormatter>[
+              CurrencyTextInputFormatter(
+                locale: 'EN',
+                decimalDigits: 2,
+                symbol: '',
+              ),
+              // formatter,
+            ],
             controller: Money,
             keyboardType: TextInputType.number,
             style: TextStyle(
