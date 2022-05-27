@@ -188,9 +188,9 @@ class _CardCredit extends State<CardCredit> {
                       onPressed: () async{
                         final prefs = await SharedPreferences.getInstance();
                         String? token =await prefs.getString("token").toString();
-                        await fn_AddToCredit.AddtoCredits(double.parse(_money.text), widget.ID, token);
+                        await fn_AddToCredit.AddtoCredits(double.parse(_money.text.toString().replaceAll(",", "")), widget.ID, token);
                         if(AddCredit_check.AddCredit_Succes==true){
-                          Provider.of<managen_credit>(context, listen: false).increase(double.parse(_money.text));
+                          Provider.of<managen_credit>(context, listen: false).increase(double.parse(_money.text.toString().replaceAll(",", "")));
                           Fluttertoast.showToast(
                               msg: "Add Credit succesfull.",
                               toastLength: Toast.LENGTH_SHORT,
