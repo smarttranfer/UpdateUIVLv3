@@ -120,7 +120,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
             if(phone.value.text.toString().length > 11||phone.value.text.toString().length < 11){
               _showErrorMessage("Số điện thoại phải 11 số");
             }else{
-              _showErrorMessage("Xảy ra lỗi khi thực hiện giao dịch");
+              _showErrorMessage(registercustomer.ContentError);
             }
 
           }

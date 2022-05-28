@@ -115,7 +115,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    "Edit  ",
+                                                    "Sửa  ",
                                                     style: TextStyle(
                                                       color: Colors.white,
                                                       fontWeight:
@@ -127,7 +127,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                                                     ),
                                                   ),
                                                   Text(
-                                                      "Edit information of shop",
+                                                      "Sửa Thông tin",
                                                       style: TextStyle(
                                                         color: Colors.grey,
                                                         decoration:
@@ -145,18 +145,74 @@ class _ShopregisterScreen extends State<customelistcard> {
                                       ],
                                     )
                                   ]),
+                              // Container(
+                              //   padding: EdgeInsets.only(left: 90),
+                              //   child: Divider(
+                              //     color: Colors.grey,
+                              //   ),
+                              // ),
+                              // Row(children: [
+                              //   SizedBox(
+                              //     width: 30,
+                              //   ),
+                              //   Icon(
+                              //     Icons.recycling_outlined,
+                              //     color: Colors.grey,
+                              //     size: 33.0,
+                              //   ),
+                              //   SizedBox(
+                              //     width: 20,
+                              //   ),
+                              //   Column(
+                              //     crossAxisAlignment: CrossAxisAlignment.start,
+                              //     children: [
+                              //       TextButton(
+                              //         onPressed: () async{
+                              //           final prefs = await SharedPreferences.getInstance();
+                              //           String? token = await prefs.getString("token");
+                              //           _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
+                              //         },
+                              //         child: Column(
+                              //           crossAxisAlignment:
+                              //               CrossAxisAlignment.start,
+                              //           children: [
+                              //             Text(
+                              //               "Delete",
+                              //               style: TextStyle(
+                              //                 color: Colors.red,
+                              //                 fontWeight: FontWeight.w400,
+                              //                 decoration: TextDecoration.none,
+                              //                 fontSize: 17,
+                              //                 fontFamily: 'OpenSans',
+                              //               ),
+                              //             ),
+                              //             Text("Delete Customer",
+                              //                 style: TextStyle(
+                              //                   color: Colors.grey,
+                              //                   decoration: TextDecoration.none,
+                              //                   fontWeight: FontWeight.w300,
+                              //                   fontSize: 15,
+                              //                   fontFamily: 'OpenSans',
+                              //                 )),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   )
+                              // ]),
                               Container(
                                 padding: EdgeInsets.only(left: 90),
                                 child: Divider(
                                   color: Colors.grey,
                                 ),
                               ),
+                              // Lịch sử view
                               Row(children: [
                                 SizedBox(
                                   width: 30,
                                 ),
                                 Icon(
-                                  Icons.recycling_outlined,
+                                  Icons.history,
                                   color: Colors.grey,
                                   size: 33.0,
                                 ),
@@ -170,16 +226,14 @@ class _ShopregisterScreen extends State<customelistcard> {
                                       onPressed: () async{
                                         final prefs = await SharedPreferences.getInstance();
                                         String? token = await prefs.getString("token");
-                                        _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
-
-
+                                        // _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
                                       },
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Delete",
+                                            "Lịch sử",
                                             style: TextStyle(
                                               color: Colors.red,
                                               fontWeight: FontWeight.w400,
@@ -188,7 +242,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                                               fontFamily: 'OpenSans',
                                             ),
                                           ),
-                                          Text("Delete Customer",
+                                          Text("Xem lịch sử",
                                               style: TextStyle(
                                                 color: Colors.grey,
                                                 decoration: TextDecoration.none,
@@ -201,7 +255,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                                     ),
                                   ],
                                 )
-                              ])
+                              ]),
                             ],
                           ),
                         ),
@@ -233,6 +287,26 @@ class _ShopregisterScreen extends State<customelistcard> {
                           ),
                           Text(
                             "${widget.name}",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'OpenSans',
+                            ),
+                            textDirection: TextDirection.ltr,
+                          ),
+                        ],),
+
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(children: [
+                          Text(
+                            "Mã hóa đơn : ",
+                            style: kLabelStyle,
+                            textDirection: TextDirection.ltr,
+                          ),
+                          Text(
+                            "${widget.ID_Custome}",
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.normal,

@@ -174,7 +174,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                 "Bạn cần nhập đủ thông tin của cửa hàng");
           } else {
             await _CreaterShop(
-                name.text, House.text, address.text, postcode.text);
+                name.text, House.text, address.text, postcode.text.replaceAll(" ", ""));
             if (registershop.Create_Shop_Succes == true) {
               name.text = "";  House.text = ""; address.text = ""; postcode.text = "";
               Fluttertoast.showToast(
@@ -211,7 +211,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
 
   Widget _buildCRCustomerBtn() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 20.0),
+      // padding: EdgeInsets.symmetric(vertical: 1.0),
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
@@ -224,7 +224,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                 "Bạn cần nhập đủ thông tin của cửa hàng");
           } else {
             await _CreaterShop(
-                name.text, House.text, address.text, postcode.text);
+                name.text, House.text, address.text, postcode.text.replaceAll(" ",""));
             if (registershop.Create_Shop_Succes == true) {
               Fluttertoast.showToast(
                   msg: "Create Shop Done",
@@ -274,7 +274,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                 "Bạn cần nhập đủ thông tin của cửa hàng");
           } else {
             await _CreaterShop(
-                name.text, House.text, address.text, postcode.text);
+                name.text, House.text, address.text, postcode.text.replaceAll(" ", ""));
             if (registershop.Create_Shop_Succes == true) {
               Fluttertoast.showToast(
                   msg: "Tạo cửa hàng thành công",
@@ -409,10 +409,9 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                       ),
                       _buildPostCodeTF(),
                       SizedBox(
-                        height: 155.0,
+                        height: 250.0,
                       ),
                       _buildCRCustomerBtn(),
-                      _buildAddShopBtn(),
                       _buildDoneBtn(),
                     ],
                   ),

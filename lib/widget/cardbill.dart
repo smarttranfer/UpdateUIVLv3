@@ -223,7 +223,7 @@ class _cardbill extends State<cardbill> {
                           height: 5,
                         ),
                         Text(
-                          "Id: ${widget.ID}",
+                          "Mã hóa đơn: ${widget.ID}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),

@@ -98,7 +98,7 @@ class _Billlist extends State<Billlist> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreenMore(Getshopinformation_createbill.data_shop,constant.index_bill)));
+                    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreenMore(Getshopinformation_createbill.data_shop,constant.index_bill,Billlist())));
                   },
                   child: Container(
                     child: Icon(
@@ -161,11 +161,11 @@ class _Billlist extends State<Billlist> {
                                 fontSize: 15,
                                 fontFamily: 'OpenSans',
                               )),
-                          Text("£ ${Provider.of<managen_credit>(context, listen: true).CreditResult()}",style: TextStyle(
+                          Text("${Provider.of<managen_credit>(context, listen: true).CreditResult()}",style: TextStyle(
                             color: double.parse(Provider.of<managen_credit>(context, listen: true).CreditResult())>0?App_Color.green:Colors.red,
                             decoration: TextDecoration.none,
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: 25,
                             fontFamily: 'OpenSans',
                           ))
                         ],

@@ -133,12 +133,12 @@ class _PayoneScreen extends State<PayoneScreen> {
                             fontSize: 15,
                             fontFamily: 'OpenSans',
                           )),
-                      Text("£ ${Provider.of<managen_credit>(context, listen: true).CreditResult()}",
+                      Text("${Provider.of<managen_credit>(context, listen: true).CreditResult()}",
                           style: TextStyle(
                             color: double.parse(Provider.of<managen_credit>(context, listen: true).CreditResult())>0?App_Color.green:Colors.red,
                             decoration: TextDecoration.none,
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: 25,
                             fontFamily: 'OpenSans',
                           ))
                     ],

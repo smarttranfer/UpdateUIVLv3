@@ -27,8 +27,7 @@ class Shoplist extends StatefulWidget {
 }
 
 class _Shoplist extends State<Shoplist> {
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  final RefreshController _refreshController = RefreshController(initialRefresh: false);
   final List<Map<String, dynamic>> _allUsers = [];
   List<Map<String, dynamic>> _foundUsers = [];
   String searchString = "";
@@ -195,11 +194,11 @@ class _Shoplist extends State<Shoplist> {
                                 fontSize: 15,
                                 fontFamily: 'OpenSans',
                               )),
-                          Text("£ ${Provider.of<managen_credit>(context, listen: true).CreditResult()}",style: TextStyle(
+                          Text("${Provider.of<managen_credit>(context, listen: true).CreditResult()}",style: TextStyle(
                             color: double.parse(Provider.of<managen_credit>(context, listen: true).CreditResult())>0?App_Color.green:Colors.red,
                             decoration: TextDecoration.none,
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: 25,
                             fontFamily: 'OpenSans',
                           ))
                         ],
@@ -257,26 +256,14 @@ class _Shoplist extends State<Shoplist> {
                                 itemBuilder: (BuildContext context, int index) {
                                   return Shoplistcard(
                                       index,
-                                      Getshopinformation
-                                          .data_shop[index].Shop_ID,
+                                      Getshopinformation.data_shop[index].Shop_ID,
                                       Getshopinformation.data_shop[index].Name,
-                                      Getshopinformation
-                                          .data_shop[index].street_name,
-                                      Getshopinformation
-                                          .data_shop[index].Total_invoice_paid
-                                          .toString(),
-                                      Getshopinformation
-                                          .data_shop[index].Total_invoice
-                                          .toString(),
-                                      Getshopinformation
-                                          .data_shop[index].Total_payment
-                                          .toString(),
-                                      Getshopinformation
-                                          .data_shop[index].Total_liabilities
-                                          .toString(),
-                                      Getshopinformation
-                                          .data_shop[index].Create_date
-                                          .toString());
+                                      "${Getshopinformation.data_shop[index].Building_number}/${Getshopinformation.data_shop[index].street_name}/${Getshopinformation.data_shop[index].Post_code}",
+                                      Getshopinformation.data_shop[index].Total_invoice_paid.toString(),
+                                      Getshopinformation.data_shop[index].Total_invoice.toString(),
+                                      Getshopinformation.data_shop[index].Total_payment.toString(),
+                                      Getshopinformation.data_shop[index].Total_liabilities.toString(),
+                                      Getshopinformation.data_shop[index].Create_date.toString());
                                 }))),
               )))
             ],
