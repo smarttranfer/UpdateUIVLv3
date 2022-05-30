@@ -4,11 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:vldebitor/funtion_app/history/history_creat_credit/gethistory_credit.dart';
+import 'package:vldebitor/provider/manager_history_credit.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../../utilities/constants.dart';
 import '../home/home.dart';
 import 'cardcredit.dart';
+import 'historycredit.dart';
 
 class CreditScreen extends StatefulWidget {
   int ID;
@@ -30,7 +34,6 @@ class CreditScreen extends StatefulWidget {
 class _CreditScreen extends State<CreditScreen> {
   bool checknull = false;
   bool check_loding_data = true;
-
 
   @override
   Widget build(BuildContext context) {
@@ -108,18 +111,27 @@ class _CreditScreen extends State<CreditScreen> {
                       color: Colors.grey,
                     ),
                   ),
-                  SingleChildScrollView(
-                    child: Container(
-                        child: Center(
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height/2,
+                    child: Provider.of<managen_credit_history>(context, listen: true).CreditResult().isNotEmpty
+                        ? ListView.builder(
+                            itemCount: Provider.of<managen_credit_history>(context, listen: true).CreditResult().length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return History_credit(
+                                  Provider.of<managen_credit_history>(context, listen: true).CreditResult()[index].create_date,
+                                  Provider.of<managen_credit_history>(context, listen: true).CreditResult()[index].credit.toString(),
+                                  Provider.of<managen_credit_history>(context, listen: true).CreditResult()[index].user_id.toString());
+                            })
+                        : Container(
+                            child: Center(
                                 child: AnimatedTextKit(
-                                animatedTexts: [
-                                  WavyAnimatedText("Not Data",
-                                      textStyle:
-                                          TextStyle(color: App_Color.green)),
-                                ],
-                                isRepeatingAnimation: true,
-                              ))
-                    )  ,
+                            animatedTexts: [
+                              WavyAnimatedText("Not Data",
+                                  textStyle: TextStyle(color: App_Color.green)),
+                            ],
+                            isRepeatingAnimation: true,
+                          ))),
                   )
                 ],
               ))

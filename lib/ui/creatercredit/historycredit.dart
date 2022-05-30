@@ -54,7 +54,7 @@ class _History_credit extends State<History_credit> {
                           height: 5,
                         ),
                         Text(
-                          "Total: ${widget.Add}",
+                          "Sô tiền nạp: ${widget.Add}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -62,7 +62,7 @@ class _History_credit extends State<History_credit> {
                           height: 5,
                         ),
                         Text(
-                          "Paid: ${widget.User}",
+                          "ID nhân viên: ${widget.User}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),

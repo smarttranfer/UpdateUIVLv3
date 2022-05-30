@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vldebitor/provider/manager_credit.dart';
+import 'package:vldebitor/provider/manager_history_credit.dart';
 import 'package:vldebitor/ui/addbill/addbill.dart';
 import 'package:vldebitor/ui/customelist/customelist.dart';
 import 'package:vldebitor/ui/customeregistry/customeregistry.dart';
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(
             create: (ctx) => managen_credit(),
+          ),
+          ChangeNotifierProvider(
+            create: (ctx) => managen_credit_history(),
           ),
         ],
         child: MaterialApp(

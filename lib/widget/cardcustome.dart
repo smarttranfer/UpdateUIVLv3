@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apigetbill/fn_getbill.dart';
+import 'package:vldebitor/funtion_app/history/history_creat_credit/gethistory_credit.dart';
+import 'package:vldebitor/funtion_app/history/history_creat_credit/history_credit.dart';
 import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
 import 'package:vldebitor/ui/createbill/fn_createbill/getshop.dart';
 import '../constants/constant_app.dart';
@@ -478,8 +480,15 @@ class _ShopregisterScreen extends State<customelistcard> {
                           setState(() {
                             constant.indexcustomer = widget.ID_Custome;
                           });
-                          _showConfirm();
-                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreditScreen(ID: widget.ID_Custome,Total: widget.total_liabilities,Paid: widget.total_payment,Credit: double.parse(widget.unallocated),)));
+                          final prefs = await SharedPreferences.getInstance();
+                          String token = prefs.getString("token").toString();
+                          await gethistory_credit.gethistory(constant.indexcustomer, token);
+                          if(constant_history.history_credit_sucess == true){
+                            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreditScreen(ID: widget.ID_Custome,Total: widget.total_liabilities,Paid: widget.total_payment,Credit: double.parse(widget.unallocated),)));
+                          }else{
+                            _showWarningMessagePay(constant_history.ContentError);
+                          }
+
 
                         },
                         child: Text("Nap tiền",style: TextStyle(fontSize: 12),),
@@ -622,39 +631,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                 actions: [
                   CupertinoDialogAction(
                       child: Text(
-                        "Yes",
-                        style: TextStyle(color: Colors.red),
-                      ),
-                      onPressed: () async{
-                        final prefs = await SharedPreferences.getInstance();
-                        String? token = await prefs.getString("token");
-                        await fn_AddToCredit.AddtoCredits(double.parse(_money.text), widget.ID_Custome, token!);
-                        if(AddCredit_check.AddCredit_Succes==true){
-                          Fluttertoast.showToast(
-                              msg: "Add to successfully",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.CENTER,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: App_Color.background_textfield,
-                              textColor: Colors.white,
-                              fontSize: 16.0
-                          );
-                        }else{
-                          Fluttertoast.showToast(
-                              msg: AddCredit_check.ContentError,
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.CENTER,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: App_Color.background_textfield,
-                              textColor: Colors.white,
-                              fontSize: 16.0
-                          );
-                        }
-                        Navigator.pop(context);
-                      }),
-                  CupertinoDialogAction(
-                      child: Text(
-                        "No",
+                        "Cancle",
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () => Navigator.pop(context))

@@ -17,6 +17,7 @@ class getbillinformation{
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     Getbillinformation.Jsondata = await response.stream.bytesToString();
+    print( Getbillinformation.Jsondata);
     if (json.decode(Getbillinformation.Jsondata)["status"].toString() == "200") {
       for(var bills in json.decode(Getbillinformation.Jsondata)["data"]["invoices"]){
         sc_data_bill bill = new sc_data_bill();
