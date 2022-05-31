@@ -24,6 +24,7 @@ import '../ui/addbill/addbill.dart';
 import '../ui/createbill/createbill.dart';
 import '../ui/createbill/fn_createbill/getshopdata.dart';
 import '../ui/creatercredit/createcredit.dart';
+import '../ui/edit/edit_custome.dart';
 import '../ui/shop/shop.dart';
 import '../utilities/constants.dart';
 
@@ -112,7 +113,11 @@ class _ShopregisterScreen extends State<customelistcard> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             TextButton(
-                                              onPressed: () {},
+                                              onPressed: () async {
+
+                                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CustomereditScreen(widget.ID_Custome,widget.name,widget.Phone)));
+
+                                              },
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
@@ -225,9 +230,8 @@ class _ShopregisterScreen extends State<customelistcard> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     TextButton(
-                                      onPressed: () async{
-                                        final prefs = await SharedPreferences.getInstance();
-                                        String? token = await prefs.getString("token");
+                                      onPressed: () {
+                                        constant.check_history_mode = true;
                                         // _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
                                       },
                                       child: Column(
@@ -665,7 +669,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                              Fluttertoast.showToast(
                                  msg: "Delete customer successfully",
                                  toastLength: Toast.LENGTH_SHORT,
-                                 gravity: ToastGravity.CENTER,
+                                 gravity: ToastGravity.BOTTOM,
                                  timeInSecForIosWeb: 1,
                                  backgroundColor: App_Color.background_textfield,
                                  textColor: Colors.white,
@@ -676,7 +680,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                              Fluttertoast.showToast(
                                  msg: Deletecustomer.ContentError,
                                  toastLength: Toast.LENGTH_SHORT,
-                                 gravity: ToastGravity.CENTER,
+                                 gravity: ToastGravity.BOTTOM,
                                  timeInSecForIosWeb: 1,
                                  backgroundColor: App_Color.background_textfield,
                                  textColor: Colors.white,

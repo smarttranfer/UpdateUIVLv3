@@ -6,29 +6,39 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/apiedit_customer/apiedit_customer.dart';
+import 'package:vldebitor/funtion_app/apiedit_customer/fn_edit_customer.dart';
+import 'package:vldebitor/funtion_app/apiregistercustomer/registercustomer.dart';
+import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
 import 'package:vldebitor/theme/Color_app.dart';
-import 'package:vldebitor/ui/createbill/fn_createbill/createbill_status.dart';
-import '../../model/sc_createbill/sc_createbill.dart';
+import '../../funtion_app/apiregistercustomer/fn_registercustomer.dart';
 import '../../utilities/constants.dart';
-import '../createbill/fn_createbill/api_createbill.dart';
+import '../../widget/process_loading.dart';
 import '../home/home.dart';
+import '../shop/detail/detail.dart';
+import '../shopregister/shopregister.dart';
 
-
-class CreateBillScreenMore extends StatefulWidget {
-  late List<sc_Create_bill> ListShop = [];
-  late int index;
-  late Widget BackScreen;
-  CreateBillScreenMore(this.ListShop,this.index,this.BackScreen);
+class CustomereditScreen extends StatefulWidget {
+  late int IDCustomer;
+  late String NameCustomer;
+  late String Telephone;
+  CustomereditScreen(this.IDCustomer,this.NameCustomer,this.Telephone);
   @override
-  _CreateBillScreenMore createState() => _CreateBillScreenMore();
+  _CustomereditScreen createState() => _CustomereditScreen();
 }
 
-class _CreateBillScreenMore extends State<CreateBillScreenMore> {
+class _CustomereditScreen extends State<CustomereditScreen> {
   bool _isLoaderVisible = false;
   final TextEditingController name = TextEditingController();
-  final TextEditingController Money = TextEditingController();
-  final TextEditingController Shop = TextEditingController();
-  final TextEditingController Note = TextEditingController();
+  final TextEditingController phone = TextEditingController();
+  @override
+  void initState() {
+    name..text =  widget.NameCustomer;
+    phone..text = widget.Telephone;
+
+    super.initState();
+  }
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,6 +53,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
             controller: name,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
+
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
@@ -53,7 +64,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
                 Icons.drive_file_rename_outline_outlined,
                 color: Colors.white,
               ),
-              hintText: 'Nhập tên đơn',
+              hintText: 'Nhập tên',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -61,35 +72,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
       ],
     );
   }
-  Widget _buildSelectCustomer() {
-    return Column(
-      children: [
-        SizedBox(height: 10.0),
-        Container(
-            alignment: Alignment.centerLeft,
-            decoration: kBoxDecorationStyle,
-            height: 60.0,
-            child: TextField(
-              readOnly: true,
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: 'OpenSans',
-              ),
-              controller: Shop..text = widget.ListShop[widget.index].Name,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.only(top: 14.0),
-                prefixIcon: Icon(
-                  Icons.shop,
-                  color: Colors.white,
-                ),
-                hintText: widget.ListShop[0].Name,
-                hintStyle: kHintTextStyle,
-              ),
-            ))
-      ],
-    );
-  }
+
   Widget _buildPasswordTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,7 +83,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
-            controller: Money,
+            controller: phone,
             keyboardType: TextInputType.number,
             style: TextStyle(
               color: Colors.white,
@@ -110,10 +93,10 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
-                Icons.money,
+                Icons.phone_iphone_outlined,
                 color: Colors.white,
               ),
-              hintText: '0.0',
+              hintText: 'Nhập số điện thoại',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -121,65 +104,17 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
       ],
     );
   }
-  Widget _buildNoteTF() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(height: 10.0),
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: kBoxDecorationStyle,
-          height: 60.0,
-          child: TextField(
-            controller: Note,
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'OpenSans',
-            ),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.note,
-                color: Colors.white,
-              ),
-              hintText: 'Nhập ghi chú',
-              hintStyle: kHintTextStyle,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-  Future _CreaterCustomers(String Name, String Phone) async {
-    int ID = 0;
+
+  Future _edit_Customer(String Name, String Phone) async {
     final prefs = await SharedPreferences.getInstance();
-    String token = await prefs.getString("token").toString();
-    for(var i in widget.ListShop){
-      if(i.Name==Shop.text){
-        ID = i.ID;
-        break;
-      }
-    }
-    String datetime = DateTime.now().toString();
-    if(Money.text.isNotEmpty|name.text.isNotEmpty|Note.text.isNotEmpty|Shop.text.isNotEmpty){
-      await Createbills.CreateBill(ID,token, double.parse(Money.text), name.text,Note.text,datetime);
-    }else{
-      Fluttertoast.showToast(
-          msg: "Tạo đơn thất bại",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
-    }
-
+    String token = prefs.getString("token").toString();
+    await fn_edit_customer.fn_edit_customers(widget.IDCustomer,name.text,phone.text,token);
 
   }
+
   Widget _buildContinueBtn() {
     return Container(
+
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: RaisedButton(
@@ -188,32 +123,25 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
           setState(() {
             _isLoaderVisible = true;
           });
-          await _CreaterCustomers(name.text, Money.text);
+          await _edit_Customer(name.text,phone.text);
           setState(() {
             _isLoaderVisible = false;
           });
-          if (createbill.Create_Bill_Succes==true) {
+          if (edit_customer.edit_customers==true && phone.value.text.toString().length == 11) {
             Fluttertoast.showToast(
-                msg: "Tạo đơn thành công",
+                msg: "Sửa thông tin thành công",
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 1,
-                backgroundColor: Colors.green,
+                backgroundColor: App_Color.green.withOpacity(0.9),
                 textColor: Colors.white,
-                fontSize: 16.0
-            );
-            Navigator.pushReplacement(context,
-                PageTransition(type: PageTransitionType.rightToLeft, child: widget.BackScreen));
+                fontSize: 16.0);
           } else {
-            Fluttertoast.showToast(
-                msg: "Tạo đơn thất bại",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
-                backgroundColor: Colors.green,
-                textColor: Colors.white,
-                fontSize: 16.0
-            );
+            if(phone.value.text.toString().length > 11||phone.value.text.toString().length < 11){
+              _showErrorMessage("Số điện thoại phải 11 số");
+            }else{
+              _showErrorMessage(edit_customer.edit_customer_error);
+            }
 
           }
         },
@@ -223,7 +151,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
         ),
         color: App_Color.green,
         child: Text(
-          'Tạo đơn',
+          'Sửa thông tin',
           style: TextStyle(
             color: Colors.white,
             letterSpacing: 1.5,
@@ -236,6 +164,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -243,8 +172,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-
-            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: widget.BackScreen));
+            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
           },
         ),
         actions: [
@@ -256,7 +184,8 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
               ),
               child: InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: widget.BackScreen));
+
+                  Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
                 },
                 child: Container(
                   child: Icon(
@@ -270,7 +199,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
         backgroundColor: App_Color.background_search,
         title: Center(
             child: Text(
-              "Tạo đơn          ",
+              "Sửa khách hàng",
               style: TextStyle(
                 color: Colors.white,
                 fontFamily: 'OpenSans',
@@ -316,11 +245,8 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
             : GestureDetector(
           onHorizontalDragUpdate: (details) {
             if (details.delta.dx > 0) {
-              Navigator.pushReplacement(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: Home_page()));
+              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: Home_page()));
+
             }
           },
           onTap: () => FocusScope.of(context).unfocus(),
@@ -338,14 +264,6 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      _buildSelectCustomer(),
-                      SizedBox(
-                        height: 6.0,
-                      ),
-                      _buildNoteTF(),
-                      SizedBox(
-                        height: 6.0,
-                      ),
                       _buildEmailTF(),
                       SizedBox(
                         height: 6.0,
@@ -353,7 +271,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
                       _buildPasswordTF(),
                       Container(
                         margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height / 2.6,
+                            top: MediaQuery.of(context).size.height / 1.7,
                             bottom: 10),
                         child: _buildContinueBtn(),
                       )
@@ -376,10 +294,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
             child: CupertinoAlertDialog(
-                title: Text(
-                  "Warning",
-                  style: TextStyle(color: Colors.red),
-                ),
+                title: Text("Warning",style: TextStyle(color: Colors.red),),
                 content: Text("${messenger}"),
                 actions: [
                   CupertinoDialogAction(

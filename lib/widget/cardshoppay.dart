@@ -143,16 +143,19 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                                 controller: _money,
                                 keyboardType: TextInputType.number,
                                 onChanged: (value){
-                                  if(double.parse(value.toString())>constant.credit){
-                                    setState(() {
-                                      checkdone=false;
-                                    });
-                                    _showWarningMessage("The amount in the account is not enough");
-                                  }else{
-                                    setState(() {
-                                      checkdone = true;
-                                    });
-                                  }
+                                  try{
+                                    if(double.parse(value.toString().replaceAll(",", ""))>constant.credit){
+                                      setState(() {
+                                        checkdone=false;
+                                      });
+                                      _showWarningMessage("The amount in the account is not enough");
+                                    }else{
+                                      setState(() {
+                                        checkdone = true;
+                                      });
+                                    }
+                                  }catch(e){}
+
                                 },
                                 style: TextStyle(
                                   color: Colors.white,
@@ -210,7 +213,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                         onPressed: checkdone?() async{
                           final prefs = await SharedPreferences.getInstance();
                           String? token = await prefs.getString("token");
-                          await fn_payment.Payment(double.parse(_money.text), constant.indexcustomer, token!, widget.ID);
+                          await fn_payment.Payment(double.parse(_money.text.replaceAll(",", "")), constant.indexcustomer, token!, widget.ID);
                           if(payments.Create_payment_Succes==true){
 
                             Fluttertoast.showToast(
@@ -222,7 +225,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                                 textColor: Colors.white,
                                 fontSize: 16.0
                             );
-                            Provider.of<managen_credit>(context,listen:false).decrease(double.parse(_money.text));
+                            Provider.of<managen_credit>(context,listen:false).decrease(double.parse(_money.text.replaceAll(",", "")));
                             setState(() {
                               checkdone = false;
                               checkenable = true;
@@ -237,7 +240,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                             Fluttertoast.showToast(
                                 msg: payments.ContentError,
                                 toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.CENTER,
+                                gravity: ToastGravity.BOTTOM,
                                 timeInSecForIosWeb: 1,
                                 backgroundColor: Colors.red,
                                 textColor: Colors.white,

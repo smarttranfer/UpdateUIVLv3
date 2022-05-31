@@ -193,7 +193,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
       Fluttertoast.showToast(
           msg: "Tạo đơn thất bại",
           toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
+          gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.green,
           textColor: Colors.white,
@@ -221,7 +221,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
             Fluttertoast.showToast(
                 msg: "Tạo đơn thành công",
                 toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.CENTER,
+                gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 1,
                 backgroundColor: Colors.green,
                 textColor: Colors.white,
@@ -233,7 +233,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
             Fluttertoast.showToast(
                 msg: "Tạo đơn thất bại",
                 toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.CENTER,
+                gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 1,
                 backgroundColor: Colors.green,
                 textColor: Colors.white,

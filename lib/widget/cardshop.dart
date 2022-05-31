@@ -13,6 +13,7 @@ import '../theme/Color_app.dart';
 import '../ui/addbill/addbill.dart';
 import '../ui/createbill/fn_createbill/getshopdata.dart';
 import '../ui/creatercredit/createbillmore.dart';
+import '../ui/edit/edit_shop.dart';
 import '../ui/shop/detail/detail.dart';
 import '../ui/shop/shop.dart';
 import '../utilities/constants.dart';
@@ -21,6 +22,9 @@ class Shoplistcard extends StatefulWidget {
   int id;
   String name;
   String address;
+  String building_number;
+  String street_name;
+  String post_code;
   String total_invoice_paid;
   String total_invoice;
   String total_payment;
@@ -33,6 +37,9 @@ class Shoplistcard extends StatefulWidget {
       this.id,
       this.name,
       this.address,
+      this.building_number,
+      this.street_name,
+      this.post_code,
       this.total_invoice_paid,
       this.total_invoice,
       this.total_payment,
@@ -110,7 +117,10 @@ class _Shoplistcard extends State<Shoplistcard> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             TextButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+
+                                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: ShopEditScreen(widget.id,widget.name,widget.building_number,widget.street_name,widget.post_code)));
+                                              },
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
@@ -224,6 +234,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                                   children: [
                                     TextButton(
                                       onPressed: () async{
+                                        constant.check_history_mode = false;
                                         final prefs = await SharedPreferences.getInstance();
                                         String? token = await prefs.getString("token");
                                         // _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
