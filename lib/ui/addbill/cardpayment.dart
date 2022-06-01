@@ -4,15 +4,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/addtocredit/addtocreadit.dart';
 import 'package:vldebitor/funtion_app/addtocredit/fn_addtocredit.dart';
+import 'package:vldebitor/funtion_app/apigetbill/fn_getbill.dart';
+import 'package:vldebitor/funtion_app/apipayment/Payment.dart';
 import 'package:vldebitor/funtion_app/apipayment/fn_payment.dart';
 import '../../provider/manager_credit.dart';
 import '../../theme/Color_app.dart';
 import '../../utilities/constants.dart';
+import 'addbill.dart';
 
 class CardPayment extends StatefulWidget {
   int ID ;
@@ -119,7 +123,7 @@ class _CardPayment extends State<CardPayment> {
                                   ),
                                 ],
                                 onChanged: (e){
-                                  if(double.parse(e.toString())>credit){
+                                  if((double.parse(e.toString().replaceAll(",", ""))>double.parse(Provider.of<managen_credit>(context, listen: false).CreditResult())) ){
                                     setState(() {
                                       checkactive=false;
                                     });
@@ -133,9 +137,25 @@ class _CardPayment extends State<CardPayment> {
                                         fontSize: 16.0
                                     );
                                   }else{
-                                    setState(() {
-                                      checkactive = widget.check;
-                                    });
+                                    if(double.parse(e.toString().replaceAll(",", "")) > mustpay){
+                                      setState(() {
+                                        checkactive=false;
+                                      });
+                                      Fluttertoast.showToast(
+                                          msg: "Số tiền bạn nhập vượt quá số tiền phải trả",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.red,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0
+                                      );
+                                    }else{
+                                      setState(() {
+                                        checkactive = widget.check;
+                                      });
+                                    }
+
 
                                   }
                                 },
@@ -169,18 +189,27 @@ class _CardPayment extends State<CardPayment> {
                             color: App_Color.green, // background
                             textColor: Colors.white, // foreground
                             onPressed: checkactive? () async{
-
                               if(_money.text.isNotEmpty){
                                 final prefs = await SharedPreferences.getInstance();
                                 String? token =await prefs.getString("token").toString();
-                                await fn_payment.Payment(double.parse(_money.text), constant.indexcustomer, token,widget.ID);
-                                if(AddCredit_check.AddCredit_Succes==true){
-                                  Provider.of<managen_credit>(context, listen: true).decrease(double.parse(_money.text));
-                                  setState(() {
-                                    checkactive = false;
-                                    paid = paid + double.parse(_money.text);
-                                    credit = credit - double.parse(_money.text);
-                                    mustpay = mustpay - double.parse(_money.text);
+                                await fn_payment.Payment(double.parse(_money.text.replaceAll(",", "")), constant.indexcustomer, token,widget.ID);
+                                if( payments.Create_payment_Succes==true){
+                                  Provider.of<managen_credit>(context, listen: false).decrease(double.parse(_money.text.replaceAll(",", "")));
+                                  setState(() async {
+                                    paid = paid + double.parse(_money.text.replaceAll(",", ""));
+                                    credit = credit - double.parse(_money.text.replaceAll(",", ""));
+                                    mustpay = mustpay - double.parse(_money.text.replaceAll(",", ""));
+                                    if(mustpay > 0 && double.parse(Provider.of<managen_credit>(context, listen: false).CreditResult())>0){
+                                      _money.clear();
+                                    }else if(mustpay==0){
+                                      final prefs = await SharedPreferences.getInstance();
+                                      String? token = await prefs.getString("token");
+                                      await getbillinformation.getbill(constant.idshop, token!,1,"asc");
+                                      Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: Billlist()));
+                                    }
+                                    else{
+                                      checkactive=false;
+                                    }
                                   });
                                   Fluttertoast.showToast(
                                       msg: "Thanh toán thành công.",

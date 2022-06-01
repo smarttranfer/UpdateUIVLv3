@@ -503,8 +503,6 @@ class _ShopregisterScreen extends State<customelistcard> {
                           }else{
                             _showWarningMessagePay(constant_history.ContentError);
                           }
-
-
                         },
                         child: Text("Nap tiền",style: TextStyle(fontSize: 12),),
                       )
@@ -533,7 +531,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                             Provider.of<managen_credit>(context, listen: false).increase(double.parse(widget.unallocated));
                           });
                           constant.indexcustomer = widget.ID_Custome;
-                          await getbillinformation.getbill(widget.ID_Custome, token!);
+                          await getbillinformation.getbill(widget.ID_Custome, token!,1,"desc");
                           await getshopinformation_createbills.getshopinformation_id(widget.ID_Custome, token);
                           await getshopinformation.getshopinformation_id( widget.ID_Custome, token);
                           Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist(title: constant.TitleApp_Shop,)));
@@ -560,7 +558,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                           final prefs = await SharedPreferences.getInstance();
                           String? token = await prefs.getString("token");
                           constant.indexcustomer = widget.ID_Custome;
-                          await getbillinformation.getbill(widget.ID_Custome, token!);
+                          await getbillinformation.getbill(widget.ID_Custome, token!,1,"asc");
                           await getshopinformation_createbills.getshopinformation_id(widget.ID_Custome, token);
                           Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreen(Getshopinformation_createbill.data_shop,true)));
                         },

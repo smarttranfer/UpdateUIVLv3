@@ -6,8 +6,12 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/apigetbill/fn_getbill.dart';
+import 'package:vldebitor/funtion_app/apigetshopinformation/fn_getshopininformation.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import 'package:vldebitor/ui/createbill/fn_createbill/createbill_status.dart';
+import 'package:vldebitor/ui/createbill/fn_createbill/getshop.dart';
 import '../../model/sc_createbill/sc_createbill.dart';
 import '../../utilities/constants.dart';
 import '../createbill/fn_createbill/api_createbill.dart';
@@ -202,8 +206,10 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
                 textColor: Colors.white,
                 fontSize: 16.0
             );
-            Navigator.pushReplacement(context,
-                PageTransition(type: PageTransitionType.rightToLeft, child: widget.BackScreen));
+            final prefs = await SharedPreferences.getInstance();
+            String? token = await prefs.getString("token");
+            await getbillinformation.getbill(constant.idshop, token!,1,"asc");
+            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: widget.BackScreen));
           } else {
             Fluttertoast.showToast(
                 msg: "Tạo đơn thất bại",

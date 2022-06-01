@@ -5,8 +5,10 @@ import 'package:http/http.dart' as http;
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apigetbill/apigetbill.dart';
+import 'package:vldebitor/funtion_app/apigetbill/fn_getbill.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../../utilities/constants.dart';
 import '../../provider/manager_credit.dart';
@@ -73,11 +75,11 @@ class _PayoneScreen extends State<PayoneScreen> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.rightToLeft, child: Billlist()));
+            onPressed: () async{
+              final prefs = await SharedPreferences.getInstance();
+              String? token = await prefs.getString("token");
+              await getbillinformation.getbill(constant.idshop, token!,1,"asc");
+              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: Billlist()));
             },
             icon: Icon(Icons.arrow_back_ios),
           ),
@@ -155,8 +157,7 @@ class _PayoneScreen extends State<PayoneScreen> {
               Expanded(
                   child: Column(
                 children: [
-                  CardPayment(widget.ID, widget.Total, widget.Paid,
-                      constant.credit, (constant.credit > 0 ? true : false)),
+                  CardPayment(widget.ID, widget.Total, widget.Paid, constant.credit, (constant.credit > 0 ? true : false)),
                 ],
               ))
             ],

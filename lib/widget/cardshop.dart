@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apigetshopinformation/delete/fn_delete.dart';
@@ -11,6 +12,7 @@ import 'package:vldebitor/funtion_app/history/history_shop/history_shop.dart';
 import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
 import '../funtion_app/apigetbill/apigetbill.dart';
 import '../funtion_app/apigetbill/fn_getbill.dart';
+import '../provider/manager_credit.dart';
 import '../theme/Color_app.dart';
 import '../ui/History/sc_history/sc_history.dart';
 import '../ui/addbill/addbill.dart';
@@ -56,6 +58,7 @@ class Shoplistcard extends StatefulWidget {
 }
 
 class _Shoplistcard extends State<Shoplistcard> {
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -371,7 +374,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                   Row(
                     children: [
                       MaterialButton(
-                        minWidth: 100,
+                        minWidth: 70,
                         height: 30,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -382,19 +385,25 @@ class _Shoplistcard extends State<Shoplistcard> {
                           constant.TitleApp_Bar = widget.name;
                           final prefs = await SharedPreferences.getInstance();
                           String? token = await prefs.getString("token");
-                          await getbillinformation.getbill(widget.id, token!);
-                          constant.index_bill = widget.index_bill;
-                          if (Getbillinformation.GetbillinformationSucces ==
-                              true) {
-                            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreenMore(Getshopinformation_createbill.data_shop,constant.index_bill,Shoplist(title: constant.TitleApp_Shop,))));
+                          await getbillinformation.getbill(widget.id, token!,-1,"asc");
+                          if (Getbillinformation.GetbillinformationSucces == true) {
+                            double.parse(Provider.of<managen_credit>(context, listen: false).CreditResult()) > 0
+                                ? Navigator.pushReplacement(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child: DetailScreen()))
+                                : _showWarningMessages(
+                                "Số dư hiện tại của khách hàng đang là 0. Bạn cần yêu cầu khách hàng nạp tiền để thực hiện thanh toán");
                           } else {
                             _showMessage(Getbillinformation.ContentError);
                           }
                         },
-                        child: Text("Tạo hóa đơn"),
+                        child: Text("Thanh toán"),
                       )
                     ],
-                  ),
+                  )
+                  ,
                   SizedBox(
                     width: 10,
                   ),
@@ -412,16 +421,11 @@ class _Shoplistcard extends State<Shoplistcard> {
                           constant.TitleApp_Bar = widget.name;
                           final prefs = await SharedPreferences.getInstance();
                           String? token = await prefs.getString("token");
-                          await getbillinformation.getbill(widget.id, token!);
+                          await getbillinformation.getbill(widget.id, token!,1,"desc");
                           constant.index_bill = widget.index_bill;
-                          print(constant.index_bill);
-                          if (Getbillinformation.GetbillinformationSucces ==
-                              true) {
-                            Navigator.pushReplacement(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    child: Billlist()));
+                          constant.idshop = widget.id;
+                          if (Getbillinformation.GetbillinformationSucces == true) {
+                            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: Billlist()));
                           } else {
                             _showMessage(Getbillinformation.ContentError);
                           }
@@ -436,33 +440,26 @@ class _Shoplistcard extends State<Shoplistcard> {
                   Row(
                     children: [
                       MaterialButton(
-                        minWidth: 70,
+                        minWidth: 100,
                         height: 30,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
-                        color: App_Color.green, // background
+                        color: Colors.green, // background
                         textColor: Colors.white, // foreground
                         onPressed: () async {
                           constant.TitleApp_Bar = widget.name;
                           final prefs = await SharedPreferences.getInstance();
                           String? token = await prefs.getString("token");
-                          await getbillinformation.getbill(widget.id, token!);
-                          if (Getbillinformation.GetbillinformationSucces ==
-                              true) {
-                            constant.credit > 0
-                                ? Navigator.pushReplacement(
-                                    context,
-                                    PageTransition(
-                                        type: PageTransitionType.rightToLeft,
-                                        child: DetailScreen()))
-                                : _showWarningMessages(
-                                    "Số dư hiện tại của khách hàng đang là 0. Bạn cần yêu cầu khách hàng nạp tiền để thực hiện thanh toán");
+                          await getbillinformation.getbill(widget.id, token!,1,"asc");
+                          constant.index_bill = widget.index_bill;
+                          if (Getbillinformation.GetbillinformationSucces == true) {
+                            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreenMore(Getshopinformation_createbill.data_shop,constant.index_bill,Shoplist(title: constant.TitleApp_Shop,))));
                           } else {
                             _showMessage(Getbillinformation.ContentError);
                           }
                         },
-                        child: Text("Thanh toán"),
+                        child: Text("Tạo hóa đơn"),
                       )
                     ],
                   )

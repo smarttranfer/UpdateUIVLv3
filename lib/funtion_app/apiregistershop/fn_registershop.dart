@@ -5,7 +5,7 @@ import 'package:vldebitor/funtion_app/apiregistershop/registershop.dart';
 
 class CreaterShop {
   static Future CreaterShops(
-      String token, String name, String phone,String Address,String Postcode,int Ct_id) async {
+      String token, String name, String house,String Address,String Postcode,int Ct_id) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       String DC_address = await prefs.getString("DC_adress").toString();
@@ -16,16 +16,14 @@ class CreaterShop {
       var request = http.Request('POST', Uri.parse('${DC_address}/shop'));
       request.body = json.encode({
         "name": "${name}",
-        "building_number": "${phone}",
+        "building_number": "${house}",
         "street_name": "${Address}",
-        "phone": "",
         "post_code": "${Postcode}",
         "customer_id": Ct_id
       });
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       registershop.Jsondata = await response.stream.bytesToString();
-      print(registershop.Jsondata);
       if (json.decode(registershop.Jsondata )["status"].toString() == "200") {
         registershop.Create_Shop_Succes = true;
       } else {

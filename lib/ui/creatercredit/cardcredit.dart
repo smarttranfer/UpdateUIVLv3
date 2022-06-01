@@ -89,7 +89,7 @@ class _CardCredit extends State<CardCredit> {
                           width: 20,
                         ),
                         Text(
-                          "Số dư: ${Provider.of<managen_credit>(context, listen: true).CreditResult()}",
+                          "Số dư: ${widget.Credit}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),

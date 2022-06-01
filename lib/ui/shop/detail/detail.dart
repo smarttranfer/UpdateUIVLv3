@@ -31,7 +31,7 @@ class _DetailScreen extends State<DetailScreen> {
   }
 
   void Hind_pay() {
-    double temp = constant.credit;
+    double temp = double.parse(Provider.of<managen_credit>(context, listen: false).CreditResult());
     double temp2 = temp;
     for (var bill in Getbillinformation.data_bill) {
       if (temp > 0) {
@@ -176,7 +176,7 @@ class _DetailScreen extends State<DetailScreen> {
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 1.32,
+                height: MediaQuery.of(context).size.height,
                 padding: EdgeInsets.all(1),
                 color: App_Color.Background,
                 child: Column(
@@ -198,7 +198,7 @@ class _DetailScreen extends State<DetailScreen> {
                                 ))
                               : Container(
                                   width: MediaQuery.of(context).size.width,
-                                  height: MediaQuery.of(context).size.height,
+                                  height: MediaQuery.of(context).size.height/1.22,
                                   child: SmartRefresher(
                                       physics: const BouncingScrollPhysics(),
                                       enablePullDown: true,
@@ -238,31 +238,16 @@ class _DetailScreen extends State<DetailScreen> {
                                       onLoading: _onLoading,
                                       onRefresh: _onRefresh,
                                       child: ListView.builder(
-                                          itemCount: Getbillinformation
-                                              .data_bill.length,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
+                                          itemCount: Getbillinformation.data_bill.length,
+                                          itemBuilder: (BuildContext context, int index) {
                                             return Shoplistcardpay(
-                                              Getbillinformation
-                                                  .data_bill[index].ID,
-                                              Getbillinformation
-                                                  .data_bill[index].create_date,
-                                              Getbillinformation
-                                                  .data_bill[index]
-                                                  .original_amount
-                                                  .toString(),
-                                              Getbillinformation
-                                                  .data_bill[index].payment
-                                                  .toString(),
+                                              Getbillinformation.data_bill[index].ID,
+                                              Getbillinformation.data_bill[index].create_date,
+                                              Getbillinformation.data_bill[index].original_amount.toString(),
+                                              Getbillinformation.data_bill[index].payment.toString(),
                                               0.0,
-                                              Getbillinformation
-                                                  .data_bill[index].hint_pay,
-                                              Getbillinformation
-                                                          .data_bill[index]
-                                                          .hint_pay >
-                                                      0
-                                                  ? true
-                                                  : false,
+                                              Getbillinformation.data_bill[index].hint_pay,
+                                              Getbillinformation.data_bill[index].hint_pay > 0 ? true : false,
                                             );
                                           })))),
                     ))

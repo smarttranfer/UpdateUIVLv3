@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vldebitor/constants/constant_app.dart';
-
 import '../../../../theme/Color_app.dart';
 import '../../../../utilities/constants.dart';
 
