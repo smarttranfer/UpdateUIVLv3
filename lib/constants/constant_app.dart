@@ -12,6 +12,7 @@ class constant {
   }
   static bool check_history_mode = false;
   static String TitleApp_History = "";
+  static int idshop = 0;
   static int indexshop = 0;
   static int indexcustomer = 0;
   static int index_bill = 0;

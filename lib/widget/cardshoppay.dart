@@ -5,15 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/apigetbill/fn_getbill.dart';
+import 'package:vldebitor/funtion_app/apigetshopinformation/fn_getshopininformation.dart';
 import 'package:vldebitor/funtion_app/apipayment/Payment.dart';
 import 'package:vldebitor/funtion_app/apipayment/fn_payment.dart';
 import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
+import 'package:vldebitor/ui/createbill/fn_createbill/getshop.dart';
 import '../provider/manager_credit.dart';
 import '../theme/Color_app.dart';
 import '../ui/shop/detail/detail.dart';
+import '../ui/shop/shop.dart';
 import '../utilities/constants.dart';
 
 class Shoplistcardpay extends StatefulWidget {
@@ -38,6 +43,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
   final TextEditingController _money = TextEditingController();
   bool checkdone = false;
   bool checkenable = false;
+  bool checkactive = false;
   late double credit = 0.0;
   late double total = 0.0;
   late double paid = 0.0;
@@ -142,17 +148,40 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                                 readOnly: checkenable,
                                 controller: _money,
                                 keyboardType: TextInputType.number,
-                                onChanged: (value){
+                                onChanged: (e){
                                   try{
-                                    if(double.parse(value.toString().replaceAll(",", ""))>constant.credit){
+                                    if((double.parse(e.toString().replaceAll(",", ""))>double.parse(Provider.of<managen_credit>(context, listen: false).CreditResult())) ){
                                       setState(() {
-                                        checkdone=false;
+                                        checkactive=false;
                                       });
-                                      _showWarningMessage("The amount in the account is not enough");
+                                      Fluttertoast.showToast(
+                                          msg: "Số tiêng không đủ để thực hiện",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.red,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0
+                                      );
                                     }else{
-                                      setState(() {
-                                        checkdone = true;
-                                      });
+                                      if(double.parse(e.toString().replaceAll(",", "")) > mustpay){
+                                        setState(() {
+                                          checkactive=false;
+                                        });
+                                        Fluttertoast.showToast(
+                                            msg: "Số tiền bạn nhập vượt quá số tiền phải trả",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: Colors.red,
+                                            textColor: Colors.white,
+                                            fontSize: 16.0
+                                        );
+                                      }else{
+                                        setState(() {
+                                          checkactive = true;
+                                        });
+                                      }
                                     }
                                   }catch(e){}
 
@@ -210,14 +239,30 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                         ),
                         color: App_Color.green, // background
                         textColor: Colors.white, // foreground
-                        onPressed: checkdone?() async{
+                        onPressed: (widget.suggest<= double.parse(Provider.of<managen_credit>(context, listen: false).CreditResult()))&&widget.suggest>0?() async{
                           final prefs = await SharedPreferences.getInstance();
                           String? token = await prefs.getString("token");
                           await fn_payment.Payment(double.parse(_money.text.replaceAll(",", "")), constant.indexcustomer, token!, widget.ID);
                           if(payments.Create_payment_Succes==true){
-
+                            Provider.of<managen_credit>(context, listen: false).decrease(double.parse(_money.text.replaceAll(",", "")));
+                            if(mustpay > 0 && double.parse(Provider.of<managen_credit>(context, listen: false).CreditResult())>0){
+                              _money.clear();
+                            }else if(mustpay==0){
+                              await getbillinformation.getbill(constant.indexcustomer, token,1,"asc");
+                              await getshopinformation_createbills.getshopinformation_id(constant.indexcustomer, token);
+                              await getshopinformation.getshopinformation_id(constant.indexcustomer, token);
+                              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist(title: constant.TitleApp_Shop,)));
+                            }
+                            else{
+                              checkactive=false;
+                            }
+                            setState(() {
+                              paid = paid + double.parse(_money.text.replaceAll(",", ""));
+                              credit = credit - double.parse(_money.text.replaceAll(",", ""));
+                              mustpay = mustpay - double.parse(_money.text.replaceAll(",", ""));
+                            });
                             Fluttertoast.showToast(
-                                msg: "Thanh toán hóa đơn thanh công.",
+                                msg: "Thanh toán thành công.",
                                 toastLength: Toast.LENGTH_SHORT,
                                 gravity: ToastGravity.BOTTOM,
                                 timeInSecForIosWeb: 1,
@@ -225,17 +270,6 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                                 textColor: Colors.white,
                                 fontSize: 16.0
                             );
-                            Provider.of<managen_credit>(context,listen:false).decrease(double.parse(_money.text.replaceAll(",", "")));
-                            setState(() {
-                              checkdone = false;
-                              checkenable = true;
-                              paid = paid + double.parse(_money.text);
-                              credit = credit - double.parse(_money.text);
-                              mustpay = mustpay - double.parse(_money.text);
-                              _money..text = _money.text.toString();
-                              status = _money.text.toString();
-                            });
-
                           }else{
                             Fluttertoast.showToast(
                                 msg: payments.ContentError,
@@ -246,6 +280,17 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                                 textColor: Colors.white,
                                 fontSize: 16.0
                             );
+
+                            // Provider.of<managen_credit>(context,listen:false).decrease(double.parse(_money.text.replaceAll(",", "")));
+                            // setState(() {
+                            //   checkdone = false;
+                            //   checkenable = true;
+                            //   paid = paid + double.parse(_money.text);
+                            //   credit = credit - double.parse(_money.text);
+                            //   mustpay = mustpay - double.parse(_money.text);
+                            //   _money..text = _money.text.toString();
+                            //   status = _money.text.toString();
+                            // });
                           }
                         }:null,
                         child: Text("Thanh toán"),

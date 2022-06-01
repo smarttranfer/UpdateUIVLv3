@@ -19,6 +19,7 @@ class gethistory_customer_shop{
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       constant_history_customer.Jsondata = await response.stream.bytesToString();
+      print(constant_history_customer.Jsondata);
       if (json.decode(constant_history_customer.Jsondata)["status"].toString() == "200") {
         for(var history in json.decode(constant_history_customer.Jsondata)["data"]){
           history_customer_shops h_Customer = new history_customer_shops();

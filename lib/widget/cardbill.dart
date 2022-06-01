@@ -3,9 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/ui/develop/develop.dart';
 import '../funtion_app/transation_page/transation_page.dart';
+import '../provider/manager_credit.dart';
 import '../theme/Color_app.dart';
 import '../ui/addbill/cardpayment.dart';
 import '../ui/addbill/payone.dart';
@@ -263,6 +265,7 @@ class _cardbill extends State<cardbill> {
                   Row(
                     children: [
                       MaterialButton(
+
                         minWidth: 100,
                         height: 30,
                         shape: RoundedRectangleBorder(
@@ -282,6 +285,7 @@ class _cardbill extends State<cardbill> {
                   Row(
                     children: [
                       MaterialButton(
+                        disabledColor: App_Color.green.withOpacity(0.2),
                         minWidth: 70,
                         height: 30,
                         shape: RoundedRectangleBorder(
@@ -289,8 +293,8 @@ class _cardbill extends State<cardbill> {
                         ),
                         color: App_Color.green, // background
                         textColor: Colors.white, // foreground
-                        onPressed: () {
-                          constant.credit > 0
+                        onPressed: double.parse(widget.Rest)==0.0?null:() {
+                          double.parse(Provider.of<managen_credit>(context, listen: false).CreditResult()) > 0
                               ? Navigator.pushReplacement(
                                   context,
                                   PageTransition(

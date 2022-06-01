@@ -150,13 +150,10 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
     );
   }
 
-  Future _CreaterShop(
-      String name, String phone, String address, String postcode) async {
+  Future _CreaterShop(String name, String house, String address, String postcode) async {
     final prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token").toString();
-    int? Ct_id = prefs.getInt("id_custome");
-    await CreaterShop.CreaterShops(
-        token, name, phone, address, postcode, Ct_id!);
+    await CreaterShop.CreaterShops(token, name, house, address, postcode, constant.indexcustomer);
   }
 
   Widget _buildAddShopBtn() {
@@ -172,8 +169,7 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
             _showErrorMessage(
                 "Bàn cần điền đầy đử thông tin");
           } else {
-            await _CreaterShop(
-                name.text, house.text, address.text, postcode.text);
+            await _CreaterShop(name.text, house.text, address.text, postcode.text);
             if (registershop.Create_Shop_Succes == true) {
               Fluttertoast.showToast(
                   msg: "Tạo của hành thành công",
@@ -222,8 +218,7 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
             _showErrorMessage(
                 "Bạn cần điền đầy đủ các trường");
           } else {
-            await _CreaterShop(
-                name.text, house.text, address.text, postcode.text);
+            await _CreaterShop(name.text, house.text, address.text, postcode.text);
             if (registershop.Create_Shop_Succes == true) {
               Fluttertoast.showToast(
                   msg: "Tạo của hành thành công",

@@ -6,14 +6,14 @@ import 'apigetbill.dart';
 
 class getbillinformation{
 
-  static Future<void> getbill(int id,String token) async {
+  static Future<void> getbill(int id,String token,int status,String sort) async {
     Getbillinformation.data_bill.clear();
     final prefs = await SharedPreferences.getInstance();
     String DC_address = await prefs.getString("DC_adress").toString();
     var headers = {
       'Authorization': 'Bearer ${token}'
     };
-    var request = http.Request('GET', Uri.parse('${DC_address}/invoice/all_by_shop/${id}'));
+    var request = http.Request('GET', Uri.parse('${DC_address}/invoice/all_by_shop?shop_id=${id}&status=${status}&sort=${sort}'));
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     Getbillinformation.Jsondata = await response.stream.bytesToString();
