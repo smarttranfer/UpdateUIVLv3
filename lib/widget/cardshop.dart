@@ -6,10 +6,13 @@ import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apigetshopinformation/delete/fn_delete.dart';
+import 'package:vldebitor/funtion_app/history/history_shop/gethistory_shop.dart';
+import 'package:vldebitor/funtion_app/history/history_shop/history_shop.dart';
 import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
 import '../funtion_app/apigetbill/apigetbill.dart';
 import '../funtion_app/apigetbill/fn_getbill.dart';
 import '../theme/Color_app.dart';
+import '../ui/History/sc_history/sc_history.dart';
 import '../ui/addbill/addbill.dart';
 import '../ui/createbill/fn_createbill/getshopdata.dart';
 import '../ui/creatercredit/createbillmore.dart';
@@ -237,6 +240,12 @@ class _Shoplistcard extends State<Shoplistcard> {
                                         constant.check_history_mode = false;
                                         final prefs = await SharedPreferences.getInstance();
                                         String? token = await prefs.getString("token");
+                                        await gethistory_shop.gethistory(token!,widget.id);
+                                        if(constant_history_shop.history_customer_shop_sucess==true){
+                                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: HistoryList()));
+                                        }else{
+                                          _showMessage(constant_history_shop.ContentError);
+                                        }
                                         // _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
                                       },
                                       child: Column(

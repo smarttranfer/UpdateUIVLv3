@@ -36,19 +36,37 @@ class _Customelist extends State<Customelist> {
   @override
   void didChangeDependencies() async{
     await checkEmty();
+    await mapData();
     super.didChangeDependencies();
   }
 
+  Future<void> mapData()async {
+    for (var customer in  constant.ListCustomer_infor_all) {
+        _allUsers.add({
+          "id": customer.ID,
+          "name": customer.Name_Custome,
+          "phone": customer.Phone,
+          "unallocated": customer.Unallocated,
+          "total_shop": customer.Total_shop,
+          "total_invoice": customer.Total_invoice,
+          "total_invoice_paid": customer.Total_invoice_paid,
+          "total_payment": customer.Total_payment,
+          "total_liabilities": customer.Total_liabilities
+        });
+    }
+    _foundUsers = _allUsers;
+  }
 
   void _runFilter(String enteredKeyword) {
     List<Map<String, dynamic>> results = [];
+    results.clear();
     if (enteredKeyword.isEmpty) {
       results = _allUsers;
     } else {
-      results = _allUsers
-          .where((user) =>
-              user["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
-          .toList();
+      results = _allUsers.where((user) => user["name"].toLowerCase().contains(enteredKeyword.toLowerCase())).toList();
+      if(results.isEmpty){
+        results = _allUsers.where((user) => user["phone"].toLowerCase().contains(enteredKeyword.toLowerCase())).toList();
+      }
     }
     setState(() {
       _foundUsers = results;
@@ -101,20 +119,25 @@ class _Customelist extends State<Customelist> {
   }
 
   Future<bool> checkEmty() async {
-    final prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("token").toString();
-    await fn_DataCustomer.getDataCustomer(token);
-    if(constant.ListCustomer_infor_all.isNotEmpty){
-      setState(() {
-        checknull = false;
-      });
+    try{
+      final prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString("token").toString();
+      await fn_DataCustomer.getDataCustomer(token);
+      if(constant.ListCustomer_infor_all.isNotEmpty){
+        setState(() {
+          checknull = false;
+        });
+        return false;
+      }else {
+        setState(() {
+          checknull = true;
+        });
+        return true;
+      }
+    }catch(e){
       return false;
-    }else {
-      setState(() {
-        checknull = true;
-      });
-      return true;
     }
+
   }
   @override
   Widget build(BuildContext context) {
@@ -257,18 +280,18 @@ class _Customelist extends State<Customelist> {
                                 onLoading: _onLoading,
                                 onRefresh: _onRefresh,
                                 child: ListView.builder(
-                                    itemCount: constant.ListCustomer_infor_all.length,
+                                    itemCount: _foundUsers.length,
                                     itemBuilder: (BuildContext context, int index) {
                                       return customelistcard(
-                                          constant.ListCustomer_infor_all[index].Name_Custome,
-                                          constant.ListCustomer_infor_all[index].Phone,
-                                          constant.ListCustomer_infor_all[index].Total_shop.toString(),
-                                          constant.ListCustomer_infor_all[index].Total_invoice.toString(),
-                                          constant.ListCustomer_infor_all[index].Total_invoice_paid.toString(),
-                                          constant.ListCustomer_infor_all[index].Total_payment.toString(),
-                                          constant.ListCustomer_infor_all[index].Total_liabilities.toString(),
-                                          constant.ListCustomer_infor_all[index].Unallocated.toString(),
-                                          int.parse(constant.ListCustomer_infor_all[index].ID),
+                                        _foundUsers[index]["name"],
+                                        _foundUsers[index]["phone"],
+                                        _foundUsers[index]["total_shop"].toString(),
+                                        _foundUsers[index]["total_invoice"].toString(),
+                                        _foundUsers[index]["total_invoice_paid"].toString(),
+                                        _foundUsers[index]["total_payment"].toString(),
+                                        _foundUsers[index]["total_liabilities"].toString(),
+                                        _foundUsers[index]["unallocated"].toString(),
+                                          int.parse(_foundUsers[index]["id"],),
                                           );
                                     })))),
               ))

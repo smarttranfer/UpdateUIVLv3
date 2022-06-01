@@ -12,7 +12,7 @@ import 'package:vldebitor/funtion_app/history/history_shop/history_shop.dart';
 import 'package:vldebitor/funtion_app/home/fn_getdatacutome.dart';
 import 'package:vldebitor/funtion_app/home/home.dart';
 import 'package:vldebitor/theme/Color_app.dart';
-
+import 'package:vldebitor/ui/home/home.dart';
 import '../../../utilities/constants.dart';
 import 'card_history/card_history_custome_shop.dart';
 
@@ -42,6 +42,7 @@ class _HistoryList extends State<HistoryList> {
 
   void _runFilter(String enteredKeyword) {
     List<Map<String, dynamic>> results = [];
+    results.clear();
     if (enteredKeyword.isEmpty) {
       results = _allUsers;
     } else {
@@ -65,9 +66,6 @@ class _HistoryList extends State<HistoryList> {
     await fn_DataCustomer.getDataCustomer(token);
     if(home.get_data_Succes==true){
       _refreshController.refreshCompleted();
-      setState(() {
-        constant.ListCustomer_infor_all=constant.ListCustomer_infor_all;
-      });
     }else{
       _refreshController.refreshFailed();
     }
@@ -116,6 +114,12 @@ class _HistoryList extends State<HistoryList> {
           backgroundColor: App_Color.Background,
           centerTitle: true,
           automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () {
+              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
+            },
+          ),
           title: Center(
               child: Text(
                 constant.check_history_mode?"Lịch sử khách hàng":"Lịch sử cửa hàng",

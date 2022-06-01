@@ -15,7 +15,7 @@ class gethistory_customer_shop{
       var headers = {
         'Authorization': 'Bearer ${token}'
       };
-      var request = http.Request('GET', Uri.parse('${DC_address}/log/customer?customer_id=-1&user_id=-1&sort=desc&status=all'));
+      var request = http.Request('GET', Uri.parse('${DC_address}/log/customer?customer_id=-1&user_id=-1&sort=desc&status='));
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       constant_history_customer.Jsondata = await response.stream.bytesToString();

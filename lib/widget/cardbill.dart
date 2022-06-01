@@ -9,6 +9,7 @@ import '../funtion_app/transation_page/transation_page.dart';
 import '../theme/Color_app.dart';
 import '../ui/addbill/cardpayment.dart';
 import '../ui/addbill/payone.dart';
+import '../ui/edit/edit_bill.dart';
 import '../ui/home/home.dart';
 import '../ui/shop/detail/detail.dart';
 import '../utilities/constants.dart';
@@ -101,7 +102,9 @@ class _cardbill extends State<cardbill> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             TextButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                // Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: EditBillScreen(widget.id,double.parse(widget.Total)-double.parse(widget.Paid),widget.name,widget.street_name,widget.post_code)));
+                                              },
                                               child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -110,10 +113,8 @@ class _cardbill extends State<cardbill> {
                                                     "Edit  ",
                                                     style: TextStyle(
                                                       color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      decoration:
-                                                          TextDecoration.none,
+                                                      fontWeight: FontWeight.w400,
+                                                      decoration: TextDecoration.none,
                                                       fontSize: 17,
                                                       fontFamily: 'OpenSans',
                                                     ),
@@ -227,33 +228,25 @@ class _cardbill extends State<cardbill> {
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
+                        SizedBox(height: 5,),
                         Text(
                           "Số nợ: ${widget.Total}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
+                        SizedBox(height: 5,),
                         Text(
                           "Đã trả: ${widget.Paid}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
+                        SizedBox(height: 5,),
                         Text(
                           "Phải trả: ${widget.Rest}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
+                        SizedBox(height: 5,),
                         Text(
                           "Ngày tạo: ${widget.date_create}",
                           style: kLabelStyle,
@@ -285,9 +278,7 @@ class _cardbill extends State<cardbill> {
                       )
                     ],
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
+                  SizedBox(width: 10,),
                   Row(
                     children: [
                       MaterialButton(
@@ -308,9 +299,7 @@ class _cardbill extends State<cardbill> {
                                         ID: int.parse(widget.ID),
                                         Total: widget.Total,
                                         Paid: widget.Paid,
-                                        Credit: double.parse(
-                                          widget.Rest,
-                                        ),
+                                        Credit: double.parse(widget.Rest,),
                                         Name: widget.name,
                                       )))
                               : _showWarningMessage("Số dư hiện tại của khách hàng đang là 0. Bạn cần yêu cầu khách hàng nạp tiền để thực hiện thanh toán");

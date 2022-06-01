@@ -10,6 +10,8 @@ import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apigetbill/fn_getbill.dart';
 import 'package:vldebitor/funtion_app/history/history_creat_credit/gethistory_credit.dart';
 import 'package:vldebitor/funtion_app/history/history_creat_credit/history_credit.dart';
+import 'package:vldebitor/funtion_app/history/history_customer/gethistory_customer_shop.dart';
+import 'package:vldebitor/funtion_app/history/history_customer/history_customer_shop.dart';
 import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
 import 'package:vldebitor/ui/createbill/fn_createbill/getshop.dart';
 import '../constants/constant_app.dart';
@@ -20,6 +22,7 @@ import '../funtion_app/apiregistercustomer/delete/deletecustomer.dart';
 import '../funtion_app/apiregistercustomer/delete/fn_detelecustomer.dart';
 import '../provider/manager_credit.dart';
 import '../theme/Color_app.dart';
+import '../ui/History/sc_history/sc_history.dart';
 import '../ui/addbill/addbill.dart';
 import '../ui/createbill/createbill.dart';
 import '../ui/createbill/fn_createbill/getshopdata.dart';
@@ -230,8 +233,16 @@ class _ShopregisterScreen extends State<customelistcard> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     TextButton(
-                                      onPressed: () {
+                                      onPressed: () async{
                                         constant.check_history_mode = true;
+                                        final prefs = await SharedPreferences.getInstance();
+                                        String? token = await prefs.getString("token");
+                                        await gethistory_customer_shop.gethistory(token!);
+                                        if(constant_history_customer.history_customer_shop_sucess==true){
+                                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: HistoryList()));
+                                        }else{
+                                          _showWarningMessagePay(constant_history_customer.ContentError);
+                                        }
                                         // _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
                                       },
                                       child: Column(
@@ -307,7 +318,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                         ),
                         Row(children: [
                           Text(
-                            "Mã hóa đơn : ",
+                            "Mã khách hàng : ",
                             style: kLabelStyle,
                             textDirection: TextDirection.ltr,
                           ),
