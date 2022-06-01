@@ -20,8 +20,8 @@ class _Home_page extends State<Home_page> {
   Widget build(BuildContext context) {
     List<Widget> tabItems = <Widget>[
       Customelist(),
-      Develop(),
-      Develop(),
+      Develop(Tilte: "Quản lý nhân sự"),
+      Develop(Tilte:"Thống kê"),
       SettingsPage()
     ];
     return Scaffold(

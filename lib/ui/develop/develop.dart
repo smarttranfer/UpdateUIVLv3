@@ -16,7 +16,9 @@ import '../home/home.dart';
 import '../shopregister/shopregisterinshop.dart';
 
 class Develop extends StatefulWidget {
-  Develop({Key? key}) : super(key: key);
+  late String Tilte;
+
+  Develop({Key? key,required this.Tilte}) : super(key: key);
 
   @override
   _Develop createState() => _Develop();
@@ -97,7 +99,7 @@ class _Develop extends State<Develop> {
           automaticallyImplyLeading: false,
           title: Center(
               child: Text(
-                "Develop",
+                widget.Tilte,
                 style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'OpenSans',
