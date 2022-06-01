@@ -281,14 +281,6 @@ class _Shoplistcard extends State<Shoplistcard> {
                         SizedBox(
                           height: 5,
                         ),
-                        // Text(
-                        //   "Số dư: ${constant.credit}",
-                        //   style: kLabelStyle,
-                        //   textDirection: TextDirection.ltr,
-                        // ),
-                        // SizedBox(
-                        //   height: 5,
-                        // ),
                         Text(
                           "Ngày tạo : ${widget.date_create}",
                           style: kLabelStyle,

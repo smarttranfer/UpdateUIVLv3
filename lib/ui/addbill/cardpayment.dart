@@ -4,11 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/addtocredit/addtocreadit.dart';
 import 'package:vldebitor/funtion_app/addtocredit/fn_addtocredit.dart';
 import 'package:vldebitor/funtion_app/apipayment/fn_payment.dart';
+import '../../provider/manager_credit.dart';
 import '../../theme/Color_app.dart';
 import '../../utilities/constants.dart';
 
@@ -95,15 +97,6 @@ class _CardPayment extends State<CardPayment> {
                           height: 10,
                           width: 20,
                         ),
-                        // Text(
-                        //   "Số dư: ${credit}",
-                        //   style: kLabelStyle,
-                        //   textDirection: TextDirection.ltr,
-                        // ),
-                        // SizedBox(
-                        //   height: 10,
-                        //   width: 10,
-                        // ),
                         Row(
                           children: [
                             Text(
@@ -182,9 +175,9 @@ class _CardPayment extends State<CardPayment> {
                                 String? token =await prefs.getString("token").toString();
                                 await fn_payment.Payment(double.parse(_money.text), constant.indexcustomer, token,widget.ID);
                                 if(AddCredit_check.AddCredit_Succes==true){
+                                  Provider.of<managen_credit>(context, listen: true).decrease(double.parse(_money.text));
                                   setState(() {
                                     checkactive = false;
-                                    constant.credit = constant.credit - double.parse(_money.text);
                                     paid = paid + double.parse(_money.text);
                                     credit = credit - double.parse(_money.text);
                                     mustpay = mustpay - double.parse(_money.text);
