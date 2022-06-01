@@ -7,23 +7,23 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/history/history_customer/history_customer_shop.dart';
+import 'package:vldebitor/funtion_app/history/history_shop/history_shop.dart';
 import 'package:vldebitor/funtion_app/home/fn_getdatacutome.dart';
 import 'package:vldebitor/funtion_app/home/home.dart';
-import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
 import 'package:vldebitor/theme/Color_app.dart';
-import '../../model/sc_datahome/sc_datahome_bill.dart';
-import '../../utilities/constants.dart';
-import '../../widget/cardcustome.dart';
-import '../customeregistry/customeregistry.dart';
+import 'package:vldebitor/ui/home/home.dart';
+import '../../../utilities/constants.dart';
+import 'card_history/card_history_custome_shop.dart';
 
-class Customelist extends StatefulWidget {
-  Customelist({Key? key}) : super(key: key);
+class HistoryList extends StatefulWidget {
+  HistoryList({Key? key}) : super(key: key);
 
   @override
-  _Customelist createState() => _Customelist();
+  _HistoryList createState() => _HistoryList();
 }
 
-class _Customelist extends State<Customelist> {
+class _HistoryList extends State<HistoryList> {
   final RefreshController _refreshController = RefreshController(initialRefresh: false);
   final List<Map<String, dynamic>> _allUsers = [];
   List<Map<String, dynamic>> _foundUsers = [];
@@ -36,26 +36,9 @@ class _Customelist extends State<Customelist> {
   @override
   void didChangeDependencies() async{
     await checkEmty();
-    await mapData();
     super.didChangeDependencies();
   }
 
-  Future<void> mapData()async {
-    for (var customer in  constant.ListCustomer_infor_all) {
-        _allUsers.add({
-          "id": customer.ID,
-          "name": customer.Name_Custome,
-          "phone": customer.Phone,
-          "unallocated": customer.Unallocated,
-          "total_shop": customer.Total_shop,
-          "total_invoice": customer.Total_invoice,
-          "total_invoice_paid": customer.Total_invoice_paid,
-          "total_payment": customer.Total_payment,
-          "total_liabilities": customer.Total_liabilities
-        });
-    }
-    _foundUsers = _allUsers;
-  }
 
   void _runFilter(String enteredKeyword) {
     List<Map<String, dynamic>> results = [];
@@ -63,10 +46,10 @@ class _Customelist extends State<Customelist> {
     if (enteredKeyword.isEmpty) {
       results = _allUsers;
     } else {
-      results = _allUsers.where((user) => user["name"].toLowerCase().contains(enteredKeyword.toLowerCase())).toList();
-      if(results.isEmpty){
-        results = _allUsers.where((user) => user["phone"].toLowerCase().contains(enteredKeyword.toLowerCase())).toList();
-      }
+      results = _allUsers
+          .where((user) =>
+          user["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
+          .toList();
     }
     setState(() {
       _foundUsers = results;
@@ -83,9 +66,6 @@ class _Customelist extends State<Customelist> {
     await fn_DataCustomer.getDataCustomer(token);
     if(home.get_data_Succes==true){
       _refreshController.refreshCompleted();
-      setState(() {
-        constant.ListCustomer_infor_all=constant.ListCustomer_infor_all;
-      });
     }else{
       _refreshController.refreshFailed();
     }
@@ -110,34 +90,22 @@ class _Customelist extends State<Customelist> {
     }
   }
 
-  String List_shop(List<sc_datahome_bill> list_shop_bill) {
-    String shops = "";
-    for (var shop in list_shop_bill) {
-      shops += shop.Name.toString();
-    }
-    return shops;
-  }
 
   Future<bool> checkEmty() async {
-    try{
-      final prefs = await SharedPreferences.getInstance();
-      String token = prefs.getString("token").toString();
-      await fn_DataCustomer.getDataCustomer(token);
-      if(constant.ListCustomer_infor_all.isNotEmpty){
-        setState(() {
-          checknull = false;
-        });
-        return false;
-      }else {
-        setState(() {
-          checknull = true;
-        });
-        return true;
-      }
-    }catch(e){
+    final prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token").toString();
+    await fn_DataCustomer.getDataCustomer(token);
+    if(constant.ListCustomer_infor_all.isNotEmpty){
+      setState(() {
+        checknull = false;
+      });
       return false;
+    }else {
+      setState(() {
+        checknull = true;
+      });
+      return true;
     }
-
   }
   @override
   Widget build(BuildContext context) {
@@ -146,16 +114,22 @@ class _Customelist extends State<Customelist> {
           backgroundColor: App_Color.Background,
           centerTitle: true,
           automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () {
+              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
+            },
+          ),
           title: Center(
               child: Text(
-            "Khách hàng",
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'OpenSans',
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-            ),
-          )),
+                constant.check_history_mode?"Lịch sử khách hàng":"Lịch sử cửa hàng",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'OpenSans',
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
           actions: [
             Container(
                 padding: EdgeInsets.all(15),
@@ -165,7 +139,7 @@ class _Customelist extends State<Customelist> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: CustomeregisterScreen()));
+
                   },
                   child: Container(
                     child: Icon(
@@ -207,41 +181,41 @@ class _Customelist extends State<Customelist> {
               SizedBox(height: 5),
               Expanded(
                   child: SingleChildScrollView(
-                child: Container(
-                    child: checknull
-                        ? Center(
+                    child: Container(
+                        child: checknull
+                            ? Center(
                             child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              AnimatedTextKit(
-                                animatedTexts: [
-                                  WavyAnimatedText(state,
-                                      textStyle:
-                                          TextStyle(color: App_Color.green)),
-                                ],
-                                isRepeatingAnimation: true,
-                              ),
-                              Center(
-                                  child: IconButton(
-                                      onPressed: () async{
-                                        setState(() {
-                                          state = "Get Data";
-                                        });
-                                        final prefs = await SharedPreferences.getInstance();
-                                        String token = prefs.getString("token").toString();
-                                        await fn_DataCustomer.getDataCustomer(token);
-                                        if(constant.ListCustomer_infor_all.isNotEmpty){
-                                          checkEmty();
-                                        }
-                                      },
-                                      icon: Icon(
-                                        Icons.refresh,
-                                        color: App_Color.green,
-                                      )))
-                            ],
-                          ))
-                        : Container(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                AnimatedTextKit(
+                                  animatedTexts: [
+                                    WavyAnimatedText(state,
+                                        textStyle:
+                                        TextStyle(color: App_Color.green)),
+                                  ],
+                                  isRepeatingAnimation: true,
+                                ),
+                                Center(
+                                    child: IconButton(
+                                        onPressed: () async{
+                                          setState(() {
+                                            state = "Get Data";
+                                          });
+                                          final prefs = await SharedPreferences.getInstance();
+                                          String token = prefs.getString("token").toString();
+                                          await fn_DataCustomer.getDataCustomer(token);
+                                          if(constant.ListCustomer_infor_all.isNotEmpty){
+                                            checkEmty();
+                                          }
+                                        },
+                                        icon: Icon(
+                                          Icons.refresh,
+                                          color: App_Color.green,
+                                        )))
+                              ],
+                            ))
+                            : Container(
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height/1.4,
                             child: SmartRefresher(
@@ -259,7 +233,7 @@ class _Customelist extends State<Customelist> {
                                       Text(
                                         update_SC,
                                         style:
-                                            TextStyle(color: App_Color.green),
+                                        TextStyle(color: App_Color.green),
                                       )
                                     ],
                                   ),
@@ -280,21 +254,18 @@ class _Customelist extends State<Customelist> {
                                 onLoading: _onLoading,
                                 onRefresh: _onRefresh,
                                 child: ListView.builder(
-                                    itemCount: _foundUsers.length,
+                                    itemCount: constant.check_history_mode?constant_history_customer.listhistory_customer_shop.length:constant_history_shop.listhistory_customer_shop.length,
                                     itemBuilder: (BuildContext context, int index) {
-                                      return customelistcard(
-                                        _foundUsers[index]["name"],
-                                        _foundUsers[index]["phone"],
-                                        _foundUsers[index]["total_shop"].toString(),
-                                        _foundUsers[index]["total_invoice"].toString(),
-                                        _foundUsers[index]["total_invoice_paid"].toString(),
-                                        _foundUsers[index]["total_payment"].toString(),
-                                        _foundUsers[index]["total_liabilities"].toString(),
-                                        _foundUsers[index]["unallocated"].toString(),
-                                          int.parse(_foundUsers[index]["id"],),
-                                          );
+                                      return History_customer_shop(
+                                        constant.check_history_mode?constant_history_customer.listhistory_customer_shop[index].ID_log:constant_history_shop.listhistory_customer_shop[index].ID_log,
+                                        constant.check_history_mode?constant_history_customer.listhistory_customer_shop[index].status:constant_history_shop.listhistory_customer_shop[index].status,
+                                        constant.check_history_mode?constant_history_customer.listhistory_customer_shop[index].content:constant_history_shop.listhistory_customer_shop[index].content,
+                                        constant.check_history_mode?constant_history_customer.listhistory_customer_shop[index].user_id:constant_history_shop.listhistory_customer_shop[index].user_id,
+                                        constant.check_history_mode?constant_history_customer.listhistory_customer_shop[index].customer_id:constant_history_shop.listhistory_customer_shop[index].shop_id,
+                                        constant.check_history_mode?constant_history_customer.listhistory_customer_shop[index].create_date:constant_history_shop.listhistory_customer_shop[index].create_date,
+                                      );
                                     })))),
-              ))
+                  ))
             ],
           ),
         ));

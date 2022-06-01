@@ -178,7 +178,7 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
               Fluttertoast.showToast(
                   msg: "Tạo của hành thành công",
                   toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.CENTER,
+                  gravity: ToastGravity.BOTTOM,
                   timeInSecForIosWeb: 1,
                   backgroundColor: App_Color.green.withOpacity(0.9),
                   textColor: Colors.white,
@@ -228,7 +228,7 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
               Fluttertoast.showToast(
                   msg: "Tạo của hành thành công",
                   toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.CENTER,
+                  gravity: ToastGravity.BOTTOM,
                   timeInSecForIosWeb: 1,
                   backgroundColor: App_Color.green.withOpacity(0.9),
                   textColor: Colors.white,
@@ -319,7 +319,7 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
                   Fluttertoast.showToast(
                       msg: "Tạo của hàng thành công",
                       toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.CENTER,
+                      gravity: ToastGravity.BOTTOM,
                       timeInSecForIosWeb: 1,
                       backgroundColor: App_Color.green.withOpacity(0.9),
                       textColor: Colors.white,

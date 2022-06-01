@@ -37,17 +37,41 @@ class _Billlist extends State<Billlist> {
 
   void _runFilter(String enteredKeyword) {
     List<Map<String, dynamic>> results = [];
+    results.clear();
     if (enteredKeyword.isEmpty) {
       results = _allUsers;
     } else {
-      results = _allUsers
-          .where((user) =>
-              user["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
-          .toList();
+      results = _allUsers.where((user) => user["name"].toLowerCase().contains(enteredKeyword.toLowerCase())).toList();
+      if(results.isEmpty){
+        results = _allUsers.where((user) => user["id"].toLowerCase().contains(enteredKeyword.toLowerCase())).toList();
+      }
     }
     setState(() {
       _foundUsers = results;
     });
+  }
+
+  @override
+  void initState(){
+    mapData();
+  }
+
+  Future<void> mapData()async {
+    for (var bill in  Getbillinformation.data_bill) {
+      _allUsers.add({
+        "id": bill.ID,
+        "name": bill.Name,
+        "payment": bill.payment,
+        "content": bill.content,
+        "status": bill.status,
+        "original_amount": bill.original_amount,
+        "user_id": bill.user_id,
+        "shop_id": bill.shop_id,
+        "transaction_status": bill.transaction_status,
+        "create_date": bill.create_date
+      });
+    }
+    _foundUsers = _allUsers;
   }
 
   void _onRefresh() async {
@@ -98,7 +122,7 @@ class _Billlist extends State<Billlist> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreenMore(Getshopinformation_createbill.data_shop,constant.index_bill)));
+                    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreenMore(Getshopinformation_createbill.data_shop,constant.index_bill,Billlist())));
                   },
                   child: Container(
                     child: Icon(
@@ -161,11 +185,11 @@ class _Billlist extends State<Billlist> {
                                 fontSize: 15,
                                 fontFamily: 'OpenSans',
                               )),
-                          Text("£ ${Provider.of<managen_credit>(context, listen: true).CreditResult()}",style: TextStyle(
+                          Text("${Provider.of<managen_credit>(context, listen: true).CreditResult()}",style: TextStyle(
                             color: double.parse(Provider.of<managen_credit>(context, listen: true).CreditResult())>0?App_Color.green:Colors.red,
                             decoration: TextDecoration.none,
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: 25,
                             fontFamily: 'OpenSans',
                           ))
                         ],
@@ -215,16 +239,16 @@ class _Billlist extends State<Billlist> {
                                 onLoading: _onLoading,
                                 onRefresh: _onRefresh,
                                 child: ListView.builder(
-                                    itemCount: Getbillinformation.data_bill.length,
+                                    itemCount: _foundUsers.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return cardbill(
-                                          Getbillinformation.data_bill[index].Name,
-                                          Getbillinformation.data_bill[index].ID.toString(),
-                                          Getbillinformation.data_bill[index].original_amount.toString(),
-                                          Getbillinformation.data_bill[index].payment.toString(),
-                                          (Getbillinformation.data_bill[index].original_amount-Getbillinformation.data_bill[index].payment).toString(),
-                                          Getbillinformation.data_bill[index].create_date.toString(),
+                                        _foundUsers[index]["name"],
+                                        _foundUsers[index]["id"].toString(),
+                                        _foundUsers[index]["original_amount"].toString(),
+                                        _foundUsers[index]["payment"].toString(),
+                                        (_foundUsers[index]["original_amount"]-_foundUsers[index]["payment"]).toString(),
+                                        _foundUsers[index]["create_date"].toString(),
                                       );
                                     })))),
               ))

@@ -5,26 +5,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import 'package:vldebitor/ui/createbill/fn_createbill/createbill_status.dart';
-import '../../model/sc_createbill/sc_createbill.dart';
 import '../../utilities/constants.dart';
 import '../home/home.dart';
-import 'fn_createbill/api_createbill.dart';
 
 
-class CreateBillScreen extends StatefulWidget {
-  late List<sc_Create_bill> ListShop = [];
-  late bool checkdrop = false;
-  CreateBillScreen(this.ListShop , this.checkdrop);
+
+class EditBillScreen extends StatefulWidget {
+  int ID_bill;
+  double original_amount;
+  String content;
+  String create_date;
+  EditBillScreen(this.ID_bill , this.original_amount,this.content ,this.create_date);
   @override
-  _CreateBillScreen createState() => _CreateBillScreen();
+  _EditBillScreen createState() => _EditBillScreen();
 }
 
-class _CreateBillScreen extends State<CreateBillScreen> {
+class _EditBillScreen extends State<EditBillScreen> {
   bool _isLoaderVisible = false;
   final TextEditingController name = TextEditingController();
   final TextEditingController Money = TextEditingController();
@@ -72,37 +72,22 @@ class _CreateBillScreen extends State<CreateBillScreen> {
             height: 60.0,
             child: TextField(
               readOnly: true,
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: 'OpenSans',
-          ),
-          controller: Shop,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.only(top: 14.0),
-            prefixIcon: Icon(
-              Icons.shop,
-              color: Colors.white,
-            ),
-            hintText: "Chọn tên cửa hàng",
-            hintStyle: kHintTextStyle,
-            suffixIcon: PopupMenuButton<sc_Create_bill>(
-              icon:const Icon(
-                Icons.arrow_drop_down,
+              style: TextStyle(
                 color: Colors.white,
+                fontFamily: 'OpenSans',
               ),
-              onSelected: (sc_Create_bill value) {
-                Shop.text = value.Name;
-              },
-              itemBuilder: (BuildContext context) {
-                return widget.ListShop.map<PopupMenuItem<sc_Create_bill>>((sc_Create_bill value) {
-                  return new PopupMenuItem(
-                      child: new Text(value.Name), value: value);
-                }).toList();
-              },
-            ),
-          ),
-        ))
+              controller: Shop,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(top: 14.0),
+                prefixIcon: Icon(
+                  Icons.shop,
+                  color: Colors.white,
+                ),
+                hintText: "Chọn tên cửa hàng",
+                hintStyle: kHintTextStyle,
+              ),
+            ))
       ],
     );
   }
@@ -179,19 +164,11 @@ class _CreateBillScreen extends State<CreateBillScreen> {
     int ID = 0;
     final prefs = await SharedPreferences.getInstance();
     String token = await prefs.getString("token").toString();
-    for(var i in widget.ListShop){
-      if(i.Name==Shop.text){
-        ID = i.ID;
-        break;
-      }
-    }
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('yyyy-MM-dd  HH:mm:ss').format(now);
     if(Money.text.isNotEmpty|name.text.isNotEmpty|Note.text.isNotEmpty|Shop.text.isNotEmpty){
-      await Createbills.CreateBill(ID,token, double.parse(Money.text.toString().replaceAll(",", "")), name.text,Note.text,formattedDate);
+
     }else{
       Fluttertoast.showToast(
-          msg: "Tạo đơn thất bại",
+          msg: "Sửa đơn thất bại",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -219,7 +196,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
           });
           if (createbill.Create_Bill_Succes==true) {
             Fluttertoast.showToast(
-                msg: "Tạo đơn thành công",
+                msg: "Sửa đơn thành công",
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 1,
@@ -231,7 +208,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
                 PageTransition(type: PageTransitionType.rightToLeft, child: Home_page()));
           } else {
             Fluttertoast.showToast(
-                msg: "Tạo đơn thất bại",
+                msg: "Sửa đơn thất bại",
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 1,
@@ -248,7 +225,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
         ),
         color: App_Color.green,
         child: Text(
-          'Tạo đơn',
+          'Sửa thông tin',
           style: TextStyle(
             color: Colors.white,
             letterSpacing: 1.5,
@@ -273,7 +250,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
         ),
         actions: [
           Container(
-              // padding: EdgeInsets.all(15),
+            // padding: EdgeInsets.all(15),
               decoration: BoxDecoration(
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(10),
@@ -294,22 +271,22 @@ class _CreateBillScreen extends State<CreateBillScreen> {
         backgroundColor: App_Color.background_search,
         title: Center(
             child: Text(
-          "Tạo đơn          ",
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: 'OpenSans',
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
-          ),
-        )),
+              "Sửa thông tin đơn",
+              style: TextStyle(
+                color: Colors.white,
+                fontFamily: 'OpenSans',
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            )),
       ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: _isLoaderVisible
             ? Container(
-                color: App_Color.Background,
-                child: Center(
-                    child: Column(
+            color: App_Color.Background,
+            child: Center(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
@@ -338,56 +315,56 @@ class _CreateBillScreen extends State<CreateBillScreen> {
                   ],
                 )))
             : GestureDetector(
-                onHorizontalDragUpdate: (details) {
-                  if (details.delta.dx > 0) {
-                    Navigator.pushReplacement(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: Home_page()));
-                  }
-                },
-                onTap: () => FocusScope.of(context).unfocus(),
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      color: App_Color.Background,
-                      height: double.infinity,
-                      child: SingleChildScrollView(
-                        physics: AlwaysScrollableScrollPhysics(),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10.0,
-                          vertical: 6.0,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            _buildSelectCustomer(),
-                            SizedBox(
-                              height: 6.0,
-                            ),
-                            _buildNoteTF(),
-                            SizedBox(
-                              height: 6.0,
-                            ),
-                            _buildEmailTF(),
-                            SizedBox(
-                              height: 6.0,
-                            ),
-                            _buildPasswordTF(),
-                            Container(
-                              margin: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height / 2.6,
-                                  bottom: 10),
-                              child: _buildContinueBtn(),
-                            )
-                          ],
-                        ),
+          onHorizontalDragUpdate: (details) {
+            if (details.delta.dx > 0) {
+              Navigator.pushReplacement(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: Home_page()));
+            }
+          },
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Stack(
+            children: <Widget>[
+              Container(
+                color: App_Color.Background,
+                height: double.infinity,
+                child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.0,
+                    vertical: 6.0,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      _buildSelectCustomer(),
+                      SizedBox(
+                        height: 6.0,
                       ),
-                    )
-                  ],
+                      _buildNoteTF(),
+                      SizedBox(
+                        height: 6.0,
+                      ),
+                      _buildEmailTF(),
+                      SizedBox(
+                        height: 6.0,
+                      ),
+                      _buildPasswordTF(),
+                      Container(
+                        margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height / 2.6,
+                            bottom: 10),
+                        child: _buildContinueBtn(),
+                      )
+                    ],
+                  ),
                 ),
-              ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -396,24 +373,24 @@ class _CreateBillScreen extends State<CreateBillScreen> {
     showCupertinoDialog(
         context: context,
         builder: (context) => Theme(
-              data: ThemeData.dark(),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-                child: CupertinoAlertDialog(
-                    title: Text(
-                      "Warning",
-                      style: TextStyle(color: Colors.red),
-                    ),
-                    content: Text("${messenger}"),
-                    actions: [
-                      CupertinoDialogAction(
-                          child: Text(
-                            "Close",
-                            style: TextStyle(color: Colors.red),
-                          ),
-                          onPressed: () => Navigator.pop(context))
-                    ]),
-              ),
-            ));
+          data: ThemeData.dark(),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: CupertinoAlertDialog(
+                title: Text(
+                  "Warning",
+                  style: TextStyle(color: Colors.red),
+                ),
+                content: Text("${messenger}"),
+                actions: [
+                  CupertinoDialogAction(
+                      child: Text(
+                        "Close",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      onPressed: () => Navigator.pop(context))
+                ]),
+          ),
+        ));
   }
 }

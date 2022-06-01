@@ -194,7 +194,7 @@ class _CardCredit extends State<CardCredit> {
                           Fluttertoast.showToast(
                               msg: "Add Credit succesfull.",
                               toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.CENTER,
+                              gravity: ToastGravity.BOTTOM,
                               timeInSecForIosWeb: 1,
                               backgroundColor: Colors.green,
                               textColor: Colors.white,
@@ -206,7 +206,7 @@ class _CardCredit extends State<CardCredit> {
                           Fluttertoast.showToast(
                               msg: AddCredit_check.ContentError,
                               toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.CENTER,
+                              gravity: ToastGravity.BOTTOM,
                               timeInSecForIosWeb: 1,
                               backgroundColor: Colors.red,
                               textColor: Colors.white,

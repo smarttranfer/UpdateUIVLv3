@@ -3,9 +3,12 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/apiedit_customer/apiedit_customer.dart';
+import 'package:vldebitor/funtion_app/apiedit_customer/fn_edit_customer.dart';
 import 'package:vldebitor/funtion_app/apiregistercustomer/registercustomer.dart';
 import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
 import 'package:vldebitor/theme/Color_app.dart';
@@ -16,16 +19,26 @@ import '../home/home.dart';
 import '../shop/detail/detail.dart';
 import '../shopregister/shopregister.dart';
 
-class CustomeregisterScreen extends StatefulWidget {
+class CustomereditScreen extends StatefulWidget {
+  late int IDCustomer;
+  late String NameCustomer;
+  late String Telephone;
+  CustomereditScreen(this.IDCustomer,this.NameCustomer,this.Telephone);
   @override
-  _CustomeregisterScreen createState() => _CustomeregisterScreen();
+  _CustomereditScreen createState() => _CustomereditScreen();
 }
 
-class _CustomeregisterScreen extends State<CustomeregisterScreen> {
-  bool _rememberMe = false;
+class _CustomereditScreen extends State<CustomereditScreen> {
   bool _isLoaderVisible = false;
   final TextEditingController name = TextEditingController();
   final TextEditingController phone = TextEditingController();
+  @override
+  void initState() {
+    name..text =  widget.NameCustomer;
+    phone..text = widget.Telephone;
+
+    super.initState();
+  }
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,10 +105,10 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
     );
   }
 
-  Future _CreaterCustomers(String Name, String Phone) async {
+  Future _edit_Customer(String Name, String Phone) async {
     final prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token").toString();
-    await CreaterCustomer.CreaterCustomers(token,Name,Phone);
+    await fn_edit_customer.fn_edit_customers(widget.IDCustomer,name.text,phone.text,token);
 
   }
 
@@ -110,17 +123,24 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
           setState(() {
             _isLoaderVisible = true;
           });
-          await _CreaterCustomers(name.text,phone.text);
+          await _edit_Customer(name.text,phone.text);
           setState(() {
             _isLoaderVisible = false;
           });
-          if (registercustomer.Create_Customer_Succes == true && phone.value.text.toString().length == 11) {
-            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: ShopregisterScreen()));
+          if (edit_customer.edit_customers==true && phone.value.text.toString().length == 11) {
+            Fluttertoast.showToast(
+                msg: "Sửa thông tin thành công",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: App_Color.green.withOpacity(0.9),
+                textColor: Colors.white,
+                fontSize: 16.0);
           } else {
             if(phone.value.text.toString().length > 11||phone.value.text.toString().length < 11){
               _showErrorMessage("Số điện thoại phải 11 số");
             }else{
-              _showErrorMessage(registercustomer.ContentError);
+              _showErrorMessage(edit_customer.edit_customer_error);
             }
 
           }
@@ -131,7 +151,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
         ),
         color: App_Color.green,
         child: Text(
-          'Tiếp tục',
+          'Sửa thông tin',
           style: TextStyle(
             color: Colors.white,
             letterSpacing: 1.5,
@@ -157,7 +177,7 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
         ),
         actions: [
           Container(
-              // padding: EdgeInsets.all(15),
+            // padding: EdgeInsets.all(15),
               decoration: BoxDecoration(
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(10),
@@ -179,22 +199,22 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
         backgroundColor: App_Color.background_search,
         title: Center(
             child: Text(
-          "Tạo khách hàng",
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: 'OpenSans',
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
-          ),
-        )),
+              "Sửa khách hàng",
+              style: TextStyle(
+                color: Colors.white,
+                fontFamily: 'OpenSans',
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            )),
       ),
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: _isLoaderVisible
             ? Container(
-                color: App_Color.Background,
-                child: Center(
-                    child: Column(
+            color: App_Color.Background,
+            child: Center(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
@@ -223,45 +243,45 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
                   ],
                 )))
             : GestureDetector(
-                onHorizontalDragUpdate: (details) {
-                  if (details.delta.dx > 0) {
-                    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: Home_page()));
+          onHorizontalDragUpdate: (details) {
+            if (details.delta.dx > 0) {
+              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: Home_page()));
 
-                  }
-                },
-                onTap: () => FocusScope.of(context).unfocus(),
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      color: App_Color.Background,
-                      height: double.infinity,
-                      child: SingleChildScrollView(
-                        physics: AlwaysScrollableScrollPhysics(),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10.0,
-                          vertical: 6.0,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            _buildEmailTF(),
-                            SizedBox(
-                              height: 6.0,
-                            ),
-                            _buildPasswordTF(),
-                            Container(
-                              margin: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height / 1.7,
-                                  bottom: 10),
-                              child: _buildContinueBtn(),
-                            )
-                          ],
-                        ),
+            }
+          },
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Stack(
+            children: <Widget>[
+              Container(
+                color: App_Color.Background,
+                height: double.infinity,
+                child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.0,
+                    vertical: 6.0,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      _buildEmailTF(),
+                      SizedBox(
+                        height: 6.0,
                       ),
-                    )
-                  ],
+                      _buildPasswordTF(),
+                      Container(
+                        margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height / 1.7,
+                            bottom: 10),
+                        child: _buildContinueBtn(),
+                      )
+                    ],
+                  ),
                 ),
-              ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -270,21 +290,21 @@ class _CustomeregisterScreen extends State<CustomeregisterScreen> {
     showCupertinoDialog(
         context: context,
         builder: (context) => Theme(
-              data: ThemeData.dark(),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-                child: CupertinoAlertDialog(
-                    title: Text("Warning",style: TextStyle(color: Colors.red),),
-                    content: Text("${messenger}"),
-                    actions: [
-                      CupertinoDialogAction(
-                          child: Text(
-                            "Close",
-                            style: TextStyle(color: Colors.red),
-                          ),
-                          onPressed: () => Navigator.pop(context))
-                    ]),
-              ),
-            ));
+          data: ThemeData.dark(),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: CupertinoAlertDialog(
+                title: Text("Warning",style: TextStyle(color: Colors.red),),
+                content: Text("${messenger}"),
+                actions: [
+                  CupertinoDialogAction(
+                      child: Text(
+                        "Close",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      onPressed: () => Navigator.pop(context))
+                ]),
+          ),
+        ));
   }
 }

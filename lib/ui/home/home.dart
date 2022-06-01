@@ -2,9 +2,7 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/theme/Color_app.dart';
-
 import '../customelist/customelist.dart';
 import '../develop/develop.dart';
 import '../setting/setting.dart';
@@ -37,22 +35,25 @@ class _Home_page extends State<Home_page> {
           }, items: [
           BottomNavyBarItem(
             icon: Icon(Icons.home),
-            title: Text("Home"),
+            title: Text(""),
             activeColor: App_Color.green,
           ),
           BottomNavyBarItem(
+            textAlign: TextAlign.center,
             icon: Icon(Icons.people_alt_rounded),
-            title: Text('Staff'),
+            title: Text(''),
             activeColor: App_Color.green,
           ),
           BottomNavyBarItem(
+            textAlign: TextAlign.center,
             icon: Icon(Icons.bar_chart,),
-            title: Text('Statistical'),
+            title: Text(''),
             activeColor: App_Color.green,
           ),
           BottomNavyBarItem(
+            textAlign: TextAlign.center,
             icon: Icon(Icons.settings),
-            title: Text('Setting'),
+            title: Text(''),
             activeColor: App_Color.green,
             inactiveColor: App_Color.green,
           ),

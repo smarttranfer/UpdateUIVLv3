@@ -1,24 +1,30 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../theme/Color_app.dart';
-import '../../utilities/constants.dart';
+import 'package:vldebitor/constants/constant_app.dart';
+
+import '../../../../theme/Color_app.dart';
+import '../../../../utilities/constants.dart';
 
 
-class History_credit extends StatefulWidget {
-  String Date;
-  String Add;
-  String User;
 
-  History_credit(this.Date, this.Add, this.User,);
+class History_customer_shop extends StatefulWidget {
+  int idHistory;
+  String Status;
+  String Contents;
+  int User;
+  int Customer_Shop_id;
+  String Create_date;
+
+  History_customer_shop(this.idHistory, this.Status,this.Contents, this.User,this.Customer_Shop_id,this.Create_date);
 
   @override
   State<StatefulWidget> createState() {
-    return _History_credit();
+    return _History_customer_shop();
   }
 }
 
-class _History_credit extends State<History_credit> {
+class _History_customer_shop extends State<History_customer_shop> {
   final TextEditingController _money = TextEditingController();
   late  bool checkactive = false;
   @override
@@ -46,7 +52,7 @@ class _History_credit extends State<History_credit> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Date: ${widget.Date}",
+                          "Trạng thái: ${widget.Status}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -54,7 +60,7 @@ class _History_credit extends State<History_credit> {
                           height: 5,
                         ),
                         Text(
-                          "Sô tiền nạp: ${widget.Add}",
+                          "Nội dung thay đổi: ${widget.Contents}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -63,6 +69,22 @@ class _History_credit extends State<History_credit> {
                         ),
                         Text(
                           "ID nhân viên: ${widget.User}",
+                          style: kLabelStyle,
+                          textDirection: TextDirection.ltr,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          constant.check_history_mode?"ID Khách hàng":"ID Shop: ${widget.Customer_Shop_id}",
+                          style: kLabelStyle,
+                          textDirection: TextDirection.ltr,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "Ngày tạo: ${widget.Create_date}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),

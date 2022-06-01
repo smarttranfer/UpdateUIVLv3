@@ -10,7 +10,6 @@ import 'package:vldebitor/theme/Color_app.dart';
 import 'package:vldebitor/ui/createbill/fn_createbill/createbill_status.dart';
 import '../../model/sc_createbill/sc_createbill.dart';
 import '../../utilities/constants.dart';
-import '../addbill/addbill.dart';
 import '../createbill/fn_createbill/api_createbill.dart';
 import '../home/home.dart';
 
@@ -18,7 +17,8 @@ import '../home/home.dart';
 class CreateBillScreenMore extends StatefulWidget {
   late List<sc_Create_bill> ListShop = [];
   late int index;
-  CreateBillScreenMore(this.ListShop,this.index);
+  late Widget BackScreen;
+  CreateBillScreenMore(this.ListShop,this.index,this.BackScreen);
   @override
   _CreateBillScreenMore createState() => _CreateBillScreenMore();
 }
@@ -162,14 +162,13 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
       }
     }
     String datetime = DateTime.now().toString();
-    print(Shop.text);
     if(Money.text.isNotEmpty|name.text.isNotEmpty|Note.text.isNotEmpty|Shop.text.isNotEmpty){
       await Createbills.CreateBill(ID,token, double.parse(Money.text), name.text,Note.text,datetime);
     }else{
       Fluttertoast.showToast(
           msg: "Tạo đơn thất bại",
           toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
+          gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.green,
           textColor: Colors.white,
@@ -197,19 +196,19 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
             Fluttertoast.showToast(
                 msg: "Tạo đơn thành công",
                 toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.CENTER,
+                gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 1,
                 backgroundColor: Colors.green,
                 textColor: Colors.white,
                 fontSize: 16.0
             );
             Navigator.pushReplacement(context,
-                PageTransition(type: PageTransitionType.rightToLeft, child: Billlist()));
+                PageTransition(type: PageTransitionType.rightToLeft, child: widget.BackScreen));
           } else {
             Fluttertoast.showToast(
                 msg: "Tạo đơn thất bại",
                 toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.CENTER,
+                gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 1,
                 backgroundColor: Colors.green,
                 textColor: Colors.white,
@@ -244,7 +243,8 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Billlist()));
+
+            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: widget.BackScreen));
           },
         ),
         actions: [
@@ -256,7 +256,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
               ),
               child: InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Billlist()));
+                  Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: widget.BackScreen));
                 },
                 child: Container(
                   child: Icon(

@@ -6,18 +6,28 @@ import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apigetshopinformation/delete/fn_delete.dart';
+import 'package:vldebitor/funtion_app/history/history_shop/gethistory_shop.dart';
+import 'package:vldebitor/funtion_app/history/history_shop/history_shop.dart';
 import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
 import '../funtion_app/apigetbill/apigetbill.dart';
 import '../funtion_app/apigetbill/fn_getbill.dart';
 import '../theme/Color_app.dart';
+import '../ui/History/sc_history/sc_history.dart';
 import '../ui/addbill/addbill.dart';
+import '../ui/createbill/fn_createbill/getshopdata.dart';
+import '../ui/creatercredit/createbillmore.dart';
+import '../ui/edit/edit_shop.dart';
 import '../ui/shop/detail/detail.dart';
+import '../ui/shop/shop.dart';
 import '../utilities/constants.dart';
 
 class Shoplistcard extends StatefulWidget {
   int id;
   String name;
   String address;
+  String building_number;
+  String street_name;
+  String post_code;
   String total_invoice_paid;
   String total_invoice;
   String total_payment;
@@ -30,6 +40,9 @@ class Shoplistcard extends StatefulWidget {
       this.id,
       this.name,
       this.address,
+      this.building_number,
+      this.street_name,
+      this.post_code,
       this.total_invoice_paid,
       this.total_invoice,
       this.total_payment,
@@ -94,50 +107,46 @@ class _Shoplistcard extends State<Shoplistcard> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        SizedBox(
-                                          width: 30,
-                                        ),
+                                        SizedBox(width: 30,),
                                         Icon(
                                           Icons.remove_circle_outline_sharp,
                                           color: Colors.grey,
                                           size: 33.0,
                                         ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
+                                        SizedBox(width: 20,),
                                         Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             TextButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+
+                                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: ShopEditScreen(widget.id,widget.name,widget.building_number,widget.street_name,widget.post_code)));
+                                              },
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    "Edit  ",
+                                                    "Sửa  ",
                                                     style: TextStyle(
                                                       color: Colors.white,
                                                       fontWeight:
-                                                          FontWeight.w400,
+                                                      FontWeight.w400,
                                                       decoration:
-                                                          TextDecoration.none,
+                                                      TextDecoration.none,
                                                       fontSize: 17,
                                                       fontFamily: 'OpenSans',
                                                     ),
                                                   ),
                                                   Text(
-                                                      "Edit information of shop",
+                                                      "Sửa thông tin",
                                                       style: TextStyle(
                                                         color: Colors.grey,
                                                         decoration:
-                                                            TextDecoration.none,
+                                                        TextDecoration.none,
                                                         fontWeight:
-                                                            FontWeight.w300,
+                                                        FontWeight.w300,
                                                         fontSize: 15,
                                                         fontFamily: 'OpenSans',
                                                       )),
@@ -149,18 +158,74 @@ class _Shoplistcard extends State<Shoplistcard> {
                                       ],
                                     )
                                   ]),
+                              // Container(
+                              //   padding: EdgeInsets.only(left: 90),
+                              //   child: Divider(
+                              //     color: Colors.grey,
+                              //   ),
+                              // ),
+                              // Row(children: [
+                              //   SizedBox(
+                              //     width: 30,
+                              //   ),
+                              //   Icon(
+                              //     Icons.recycling_outlined,
+                              //     color: Colors.grey,
+                              //     size: 33.0,
+                              //   ),
+                              //   SizedBox(
+                              //     width: 20,
+                              //   ),
+                              //   Column(
+                              //     crossAxisAlignment: CrossAxisAlignment.start,
+                              //     children: [
+                              //       TextButton(
+                              //         onPressed: () async{
+                              //           final prefs = await SharedPreferences.getInstance();
+                              //           String? token = await prefs.getString("token");
+                              //           _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
+                              //         },
+                              //         child: Column(
+                              //           crossAxisAlignment:
+                              //               CrossAxisAlignment.start,
+                              //           children: [
+                              //             Text(
+                              //               "Delete",
+                              //               style: TextStyle(
+                              //                 color: Colors.red,
+                              //                 fontWeight: FontWeight.w400,
+                              //                 decoration: TextDecoration.none,
+                              //                 fontSize: 17,
+                              //                 fontFamily: 'OpenSans',
+                              //               ),
+                              //             ),
+                              //             Text("Delete Customer",
+                              //                 style: TextStyle(
+                              //                   color: Colors.grey,
+                              //                   decoration: TextDecoration.none,
+                              //                   fontWeight: FontWeight.w300,
+                              //                   fontSize: 15,
+                              //                   fontFamily: 'OpenSans',
+                              //                 )),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   )
+                              // ]),
                               Container(
                                 padding: EdgeInsets.only(left: 90),
                                 child: Divider(
                                   color: Colors.grey,
                                 ),
                               ),
+                              // Lịch sử view
                               Row(children: [
                                 SizedBox(
                                   width: 30,
                                 ),
                                 Icon(
-                                  Icons.recycling_outlined,
+                                  Icons.history,
                                   color: Colors.grey,
                                   size: 33.0,
                                 ),
@@ -171,23 +236,24 @@ class _Shoplistcard extends State<Shoplistcard> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     TextButton(
-                                      onPressed: () async {
-                                        constant.indexshop = widget.id;
-                                        final prefs = await SharedPreferences
-                                            .getInstance();
-                                        String? token =
-                                            await prefs.getString("token");
-                                        _showWarningMessage(
-                                            "Do you want delete customer ?",
-                                            Deleteshops.Deleteshopfuntion(
-                                                widget.id, token!));
+                                      onPressed: () async{
+                                        constant.check_history_mode = false;
+                                        final prefs = await SharedPreferences.getInstance();
+                                        String? token = await prefs.getString("token");
+                                        await gethistory_shop.gethistory(token!,widget.id);
+                                        if(constant_history_shop.history_customer_shop_sucess==true){
+                                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: HistoryList()));
+                                        }else{
+                                          _showMessage(constant_history_shop.ContentError);
+                                        }
+                                        // _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
                                       },
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Delete",
+                                            "Lịch sử",
                                             style: TextStyle(
                                               color: Colors.red,
                                               fontWeight: FontWeight.w400,
@@ -196,7 +262,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                                               fontFamily: 'OpenSans',
                                             ),
                                           ),
-                                          Text("Delete Shop",
+                                          Text("Xem lịch sử",
                                               style: TextStyle(
                                                 color: Colors.grey,
                                                 decoration: TextDecoration.none,
@@ -209,7 +275,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                                     ),
                                   ],
                                 )
-                              ])
+                              ]),
                             ],
                           ),
                         ),
@@ -235,6 +301,14 @@ class _Shoplistcard extends State<Shoplistcard> {
                       children: <Widget>[
                         Text(
                           "Tên cửa hàng: ${widget.name}",
+                          style: kLabelStyle,
+                          textDirection: TextDirection.ltr,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "Mã cửa hàng: ${widget.id}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -294,6 +368,36 @@ class _Shoplistcard extends State<Shoplistcard> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  Row(
+                    children: [
+                      MaterialButton(
+                        minWidth: 100,
+                        height: 30,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        color: Colors.blue, // background
+                        textColor: Colors.white, // foreground
+                        onPressed: () async {
+                          constant.TitleApp_Bar = widget.name;
+                          final prefs = await SharedPreferences.getInstance();
+                          String? token = await prefs.getString("token");
+                          await getbillinformation.getbill(widget.id, token!);
+                          constant.index_bill = widget.index_bill;
+                          if (Getbillinformation.GetbillinformationSucces ==
+                              true) {
+                            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreenMore(Getshopinformation_createbill.data_shop,constant.index_bill,Shoplist(title: constant.TitleApp_Shop,))));
+                          } else {
+                            _showMessage(Getbillinformation.ContentError);
+                          }
+                        },
+                        child: Text("Tạo hóa đơn"),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Row(
                     children: [
                       MaterialButton(

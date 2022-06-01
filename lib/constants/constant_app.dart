@@ -10,6 +10,8 @@ class constant {
     await prefs.setString(
         'DC_adress',"http://159.223.52.212:27554");
   }
+  static bool check_history_mode = false;
+  static String TitleApp_History = "";
   static int indexshop = 0;
   static int indexcustomer = 0;
   static int index_bill = 0;

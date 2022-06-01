@@ -126,7 +126,7 @@ class _CardPayment extends State<CardPayment> {
                                     Fluttertoast.showToast(
                                         msg: "Số tiêng không đủ để thực hiện",
                                         toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.CENTER,
+                                        gravity: ToastGravity.BOTTOM,
                                         timeInSecForIosWeb: 1,
                                         backgroundColor: Colors.red,
                                         textColor: Colors.white,
@@ -185,7 +185,7 @@ class _CardPayment extends State<CardPayment> {
                                   Fluttertoast.showToast(
                                       msg: "Thanh toán thành công.",
                                       toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.CENTER,
+                                      gravity: ToastGravity.BOTTOM,
                                       timeInSecForIosWeb: 1,
                                       backgroundColor: Colors.green,
                                       textColor: Colors.white,
@@ -195,7 +195,7 @@ class _CardPayment extends State<CardPayment> {
                                   Fluttertoast.showToast(
                                       msg: AddCredit_check.ContentError,
                                       toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.CENTER,
+                                      gravity: ToastGravity.BOTTOM,
                                       timeInSecForIosWeb: 1,
                                       backgroundColor: Colors.red,
                                       textColor: Colors.white,
@@ -239,18 +239,18 @@ class _CardPayment extends State<CardPayment> {
                       onPressed: () async{
                         final prefs = await SharedPreferences.getInstance();
                         String? token =await prefs.getString("token").toString();
-                        await fn_payment.Payment(double.parse(_money.text), constant.indexcustomer, token,widget.ID);
+                        await fn_payment.Payment(double.parse(_money.text.replaceAll(",", "")), constant.indexcustomer, token,widget.ID);
                         if(AddCredit_check.AddCredit_Succes==true){
                           setState(() {
                             checkactive = false;
-                            paid = paid + double.parse(_money.text);
-                            credit = credit - double.parse(_money.text);
-                            total = total - double.parse(_money.text);
+                            paid = paid + double.parse(_money.text.replaceAll(",", ""));
+                            credit = credit - double.parse(_money.text.replaceAll(",", ""));
+                            total = total - double.parse(_money.text.replaceAll(",", ""));
                           });
                           Fluttertoast.showToast(
                               msg: "Add Credit succesfull.",
                               toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.CENTER,
+                              gravity: ToastGravity.BOTTOM,
                               timeInSecForIosWeb: 1,
                               backgroundColor: Colors.red,
                               textColor: Colors.white,
@@ -261,7 +261,7 @@ class _CardPayment extends State<CardPayment> {
                           Fluttertoast.showToast(
                               msg: AddCredit_check.ContentError,
                               toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.CENTER,
+                              gravity: ToastGravity.BOTTOM,
                               timeInSecForIosWeb: 1,
                               backgroundColor: Colors.red,
                               textColor: Colors.white,

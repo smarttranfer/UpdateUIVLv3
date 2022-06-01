@@ -8,6 +8,10 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apigetbill/fn_getbill.dart';
+import 'package:vldebitor/funtion_app/history/history_creat_credit/gethistory_credit.dart';
+import 'package:vldebitor/funtion_app/history/history_creat_credit/history_credit.dart';
+import 'package:vldebitor/funtion_app/history/history_customer/gethistory_customer_shop.dart';
+import 'package:vldebitor/funtion_app/history/history_customer/history_customer_shop.dart';
 import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
 import 'package:vldebitor/ui/createbill/fn_createbill/getshop.dart';
 import '../constants/constant_app.dart';
@@ -18,10 +22,12 @@ import '../funtion_app/apiregistercustomer/delete/deletecustomer.dart';
 import '../funtion_app/apiregistercustomer/delete/fn_detelecustomer.dart';
 import '../provider/manager_credit.dart';
 import '../theme/Color_app.dart';
+import '../ui/History/sc_history/sc_history.dart';
 import '../ui/addbill/addbill.dart';
 import '../ui/createbill/createbill.dart';
 import '../ui/createbill/fn_createbill/getshopdata.dart';
 import '../ui/creatercredit/createcredit.dart';
+import '../ui/edit/edit_custome.dart';
 import '../ui/shop/shop.dart';
 import '../utilities/constants.dart';
 
@@ -110,12 +116,16 @@ class _ShopregisterScreen extends State<customelistcard> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             TextButton(
-                                              onPressed: () {},
+                                              onPressed: () async {
+
+                                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CustomereditScreen(widget.ID_Custome,widget.name,widget.Phone)));
+
+                                              },
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    "Edit  ",
+                                                    "Sửa  ",
                                                     style: TextStyle(
                                                       color: Colors.white,
                                                       fontWeight:
@@ -127,7 +137,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                                                     ),
                                                   ),
                                                   Text(
-                                                      "Edit information of shop",
+                                                      "Sửa Thông tin",
                                                       style: TextStyle(
                                                         color: Colors.grey,
                                                         decoration:
@@ -145,18 +155,74 @@ class _ShopregisterScreen extends State<customelistcard> {
                                       ],
                                     )
                                   ]),
+                              // Container(
+                              //   padding: EdgeInsets.only(left: 90),
+                              //   child: Divider(
+                              //     color: Colors.grey,
+                              //   ),
+                              // ),
+                              // Row(children: [
+                              //   SizedBox(
+                              //     width: 30,
+                              //   ),
+                              //   Icon(
+                              //     Icons.recycling_outlined,
+                              //     color: Colors.grey,
+                              //     size: 33.0,
+                              //   ),
+                              //   SizedBox(
+                              //     width: 20,
+                              //   ),
+                              //   Column(
+                              //     crossAxisAlignment: CrossAxisAlignment.start,
+                              //     children: [
+                              //       TextButton(
+                              //         onPressed: () async{
+                              //           final prefs = await SharedPreferences.getInstance();
+                              //           String? token = await prefs.getString("token");
+                              //           _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
+                              //         },
+                              //         child: Column(
+                              //           crossAxisAlignment:
+                              //               CrossAxisAlignment.start,
+                              //           children: [
+                              //             Text(
+                              //               "Delete",
+                              //               style: TextStyle(
+                              //                 color: Colors.red,
+                              //                 fontWeight: FontWeight.w400,
+                              //                 decoration: TextDecoration.none,
+                              //                 fontSize: 17,
+                              //                 fontFamily: 'OpenSans',
+                              //               ),
+                              //             ),
+                              //             Text("Delete Customer",
+                              //                 style: TextStyle(
+                              //                   color: Colors.grey,
+                              //                   decoration: TextDecoration.none,
+                              //                   fontWeight: FontWeight.w300,
+                              //                   fontSize: 15,
+                              //                   fontFamily: 'OpenSans',
+                              //                 )),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   )
+                              // ]),
                               Container(
                                 padding: EdgeInsets.only(left: 90),
                                 child: Divider(
                                   color: Colors.grey,
                                 ),
                               ),
+                              // Lịch sử view
                               Row(children: [
                                 SizedBox(
                                   width: 30,
                                 ),
                                 Icon(
-                                  Icons.recycling_outlined,
+                                  Icons.history,
                                   color: Colors.grey,
                                   size: 33.0,
                                 ),
@@ -168,18 +234,23 @@ class _ShopregisterScreen extends State<customelistcard> {
                                   children: [
                                     TextButton(
                                       onPressed: () async{
+                                        constant.check_history_mode = true;
                                         final prefs = await SharedPreferences.getInstance();
                                         String? token = await prefs.getString("token");
-                                        _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
-
-
+                                        await gethistory_customer_shop.gethistory(token!);
+                                        if(constant_history_customer.history_customer_shop_sucess==true){
+                                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: HistoryList()));
+                                        }else{
+                                          _showWarningMessagePay(constant_history_customer.ContentError);
+                                        }
+                                        // _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
                                       },
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Delete",
+                                            "Lịch sử",
                                             style: TextStyle(
                                               color: Colors.red,
                                               fontWeight: FontWeight.w400,
@@ -188,7 +259,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                                               fontFamily: 'OpenSans',
                                             ),
                                           ),
-                                          Text("Delete Customer",
+                                          Text("Xem lịch sử",
                                               style: TextStyle(
                                                 color: Colors.grey,
                                                 decoration: TextDecoration.none,
@@ -201,7 +272,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                                     ),
                                   ],
                                 )
-                              ])
+                              ]),
                             ],
                           ),
                         ),
@@ -233,6 +304,26 @@ class _ShopregisterScreen extends State<customelistcard> {
                           ),
                           Text(
                             "${widget.name}",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'OpenSans',
+                            ),
+                            textDirection: TextDirection.ltr,
+                          ),
+                        ],),
+
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(children: [
+                          Text(
+                            "Mã khách hàng : ",
+                            style: kLabelStyle,
+                            textDirection: TextDirection.ltr,
+                          ),
+                          Text(
+                            "${widget.ID_Custome}",
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.normal,
@@ -404,8 +495,15 @@ class _ShopregisterScreen extends State<customelistcard> {
                           setState(() {
                             constant.indexcustomer = widget.ID_Custome;
                           });
-                          _showConfirm();
-                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreditScreen(ID: widget.ID_Custome,Total: widget.total_liabilities,Paid: widget.total_payment,Credit: double.parse(widget.unallocated),)));
+                          final prefs = await SharedPreferences.getInstance();
+                          String token = prefs.getString("token").toString();
+                          await gethistory_credit.gethistory(constant.indexcustomer, token);
+                          if(constant_history.history_credit_sucess == true){
+                            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreditScreen(ID: widget.ID_Custome,Total: widget.total_liabilities,Paid: widget.total_payment,Credit: double.parse(widget.unallocated),)));
+                          }else{
+                            _showWarningMessagePay(constant_history.ContentError);
+                          }
+
 
                         },
                         child: Text("Nap tiền",style: TextStyle(fontSize: 12),),
@@ -548,39 +646,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                 actions: [
                   CupertinoDialogAction(
                       child: Text(
-                        "Yes",
-                        style: TextStyle(color: Colors.red),
-                      ),
-                      onPressed: () async{
-                        final prefs = await SharedPreferences.getInstance();
-                        String? token = await prefs.getString("token");
-                        await fn_AddToCredit.AddtoCredits(double.parse(_money.text), widget.ID_Custome, token!);
-                        if(AddCredit_check.AddCredit_Succes==true){
-                          Fluttertoast.showToast(
-                              msg: "Add to successfully",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.CENTER,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: App_Color.background_textfield,
-                              textColor: Colors.white,
-                              fontSize: 16.0
-                          );
-                        }else{
-                          Fluttertoast.showToast(
-                              msg: AddCredit_check.ContentError,
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.CENTER,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: App_Color.background_textfield,
-                              textColor: Colors.white,
-                              fontSize: 16.0
-                          );
-                        }
-                        Navigator.pop(context);
-                      }),
-                  CupertinoDialogAction(
-                      child: Text(
-                        "No",
+                        "Cancle",
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () => Navigator.pop(context))
@@ -614,7 +680,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                              Fluttertoast.showToast(
                                  msg: "Delete customer successfully",
                                  toastLength: Toast.LENGTH_SHORT,
-                                 gravity: ToastGravity.CENTER,
+                                 gravity: ToastGravity.BOTTOM,
                                  timeInSecForIosWeb: 1,
                                  backgroundColor: App_Color.background_textfield,
                                  textColor: Colors.white,
@@ -625,7 +691,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                              Fluttertoast.showToast(
                                  msg: Deletecustomer.ContentError,
                                  toastLength: Toast.LENGTH_SHORT,
-                                 gravity: ToastGravity.CENTER,
+                                 gravity: ToastGravity.BOTTOM,
                                  timeInSecForIosWeb: 1,
                                  backgroundColor: App_Color.background_textfield,
                                  textColor: Colors.white,
