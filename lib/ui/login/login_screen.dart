@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
             saveuser(username.text,password.text);
             Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
           }else{
-            _showErrorMessage(home.dataerror);
+            _showErrorMessage(login.dataError);
           }
         } ,
         padding: EdgeInsets.all(15.0),

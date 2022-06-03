@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:money_formatter/money_formatter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +13,7 @@ import 'package:vldebitor/funtion_app/history/history_shop/history_shop.dart';
 import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
 import '../funtion_app/apigetbill/apigetbill.dart';
 import '../funtion_app/apigetbill/fn_getbill.dart';
+import '../funtion_app/apiregistercustomer/delete/fn_detelecustomer.dart';
 import '../provider/manager_credit.dart';
 import '../theme/Color_app.dart';
 import '../ui/History/sc_history/sc_history.dart';
@@ -61,6 +63,9 @@ class _Shoplistcard extends State<Shoplistcard> {
 
   @override
   Widget build(BuildContext context) {
+    MoneyFormatter total_liabilities = MoneyFormatter(amount: double.parse(widget.total_liabilities));
+    MoneyFormatter total_payment = MoneyFormatter(amount: double.parse(widget.total_payment));
+    MoneyFormatter mustpay = MoneyFormatter(amount: double.parse(widget.total_liabilities) - double.parse(widget.total_payment));
     return Card(
         margin: EdgeInsets.only(top: 0, bottom: 16, left: 8, right: 8),
         color: App_Color.background_search,
@@ -82,7 +87,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                         context: context,
                         builder: (context) => Container(
                           color: App_Color.Background,
-                          height: MediaQuery.of(context).size.height / 4,
+                          height: MediaQuery.of(context).size.height / 3,
                           width: MediaQuery.of(context).size.width,
                           child: Column(
                             children: [
@@ -161,61 +166,61 @@ class _Shoplistcard extends State<Shoplistcard> {
                                       ],
                                     )
                                   ]),
-                              // Container(
-                              //   padding: EdgeInsets.only(left: 90),
-                              //   child: Divider(
-                              //     color: Colors.grey,
-                              //   ),
-                              // ),
-                              // Row(children: [
-                              //   SizedBox(
-                              //     width: 30,
-                              //   ),
-                              //   Icon(
-                              //     Icons.recycling_outlined,
-                              //     color: Colors.grey,
-                              //     size: 33.0,
-                              //   ),
-                              //   SizedBox(
-                              //     width: 20,
-                              //   ),
-                              //   Column(
-                              //     crossAxisAlignment: CrossAxisAlignment.start,
-                              //     children: [
-                              //       TextButton(
-                              //         onPressed: () async{
-                              //           final prefs = await SharedPreferences.getInstance();
-                              //           String? token = await prefs.getString("token");
-                              //           _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
-                              //         },
-                              //         child: Column(
-                              //           crossAxisAlignment:
-                              //               CrossAxisAlignment.start,
-                              //           children: [
-                              //             Text(
-                              //               "Delete",
-                              //               style: TextStyle(
-                              //                 color: Colors.red,
-                              //                 fontWeight: FontWeight.w400,
-                              //                 decoration: TextDecoration.none,
-                              //                 fontSize: 17,
-                              //                 fontFamily: 'OpenSans',
-                              //               ),
-                              //             ),
-                              //             Text("Delete Customer",
-                              //                 style: TextStyle(
-                              //                   color: Colors.grey,
-                              //                   decoration: TextDecoration.none,
-                              //                   fontWeight: FontWeight.w300,
-                              //                   fontSize: 15,
-                              //                   fontFamily: 'OpenSans',
-                              //                 )),
-                              //           ],
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   )
-                              // ]),
+                              Container(
+                                padding: EdgeInsets.only(left: 90),
+                                child: Divider(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              Row(children: [
+                                SizedBox(
+                                  width: 30,
+                                ),
+                                Icon(
+                                  Icons.recycling_outlined,
+                                  color: Colors.grey,
+                                  size: 33.0,
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () async{
+                                        final prefs = await SharedPreferences.getInstance();
+                                        String? token = await prefs.getString("token");
+                                        _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(constant.indexcustomer, token!));
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Delete",
+                                            style: TextStyle(
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.w400,
+                                              decoration: TextDecoration.none,
+                                              fontSize: 17,
+                                              fontFamily: 'OpenSans',
+                                            ),
+                                          ),
+                                          Text("Delete Customer",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                decoration: TextDecoration.none,
+                                                fontWeight: FontWeight.w300,
+                                                fontSize: 15,
+                                                fontFamily: 'OpenSans',
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ]),
                               Container(
                                 padding: EdgeInsets.only(left: 90),
                                 child: Divider(
@@ -335,7 +340,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                           height: 5,
                         ),
                         Text(
-                          "Tổng nợ: ${widget.total_liabilities}",
+                          "Tổng nợ: ${total_liabilities.output.nonSymbol}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -343,7 +348,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                           height: 5,
                         ),
                         Text(
-                          "Đã trả: ${widget.total_payment}",
+                          "Đã trả: ${total_payment.output.nonSymbol}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -351,7 +356,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                           height: 5,
                         ),
                         Text(
-                          "Phải trả: ${double.parse(widget.total_liabilities) - double.parse(widget.total_payment)}",
+                          "Phải trả: ${mustpay.output.nonSymbol}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -393,8 +398,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                                 PageTransition(
                                     type: PageTransitionType.rightToLeft,
                                     child: DetailScreen()))
-                                : _showWarningMessages(
-                                "Số dư hiện tại của khách hàng đang là 0. Bạn cần yêu cầu khách hàng nạp tiền để thực hiện thanh toán");
+                                : _showWarningMessages("Số dư hiện tại của khách hàng đang là 0. Bạn cần yêu cầu khách hàng nạp tiền để thực hiện thanh toán");
                           } else {
                             _showMessage(Getbillinformation.ContentError);
                           }

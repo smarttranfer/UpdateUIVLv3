@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
+import 'package:money_formatter/money_formatter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -119,6 +120,7 @@ class _Shoplist extends State<Shoplist> {
 
   @override
   Widget build(BuildContext context) {
+    MoneyFormatter Format_credit = MoneyFormatter(amount: double.parse(Provider.of<managen_credit>(context, listen: true).CreditResult()));
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -219,7 +221,7 @@ class _Shoplist extends State<Shoplist> {
                                 fontSize: 15,
                                 fontFamily: 'OpenSans',
                               )),
-                          Text("${Provider.of<managen_credit>(context, listen: true).CreditResult()}",style: TextStyle(
+                          Text("${Format_credit.output.nonSymbol}",style: TextStyle(
                             color: double.parse(Provider.of<managen_credit>(context, listen: true).CreditResult())>0?App_Color.green:Colors.red,
                             decoration: TextDecoration.none,
                             fontWeight: FontWeight.bold,
@@ -283,7 +285,7 @@ class _Shoplist extends State<Shoplist> {
                                       index,
                                       _foundUsers[index]["id"],
                                       _foundUsers[index]["name"],
-                                      "${_foundUsers[index]["building_number"]}/${_foundUsers[index]["street_name"]}/${_foundUsers[index]["post_code"]}",
+                                      "${_foundUsers[index]["building_number"]}, ${_foundUsers[index]["street_name"]}, ${_foundUsers[index]["post_code"]}",
                                       _foundUsers[index]["building_number"].toString(),
                                       _foundUsers[index]["street_name"].toString(),
                                       _foundUsers[index]["post_code"].toString(),

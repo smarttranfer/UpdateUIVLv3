@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:money_formatter/money_formatter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:vldebitor/constants/constant_app.dart';
@@ -34,8 +35,12 @@ class cardbill extends StatefulWidget {
 }
 
 class _cardbill extends State<cardbill> {
+
   @override
   Widget build(BuildContext context) {
+    MoneyFormatter Rest = MoneyFormatter(amount: double.parse(widget.Rest));
+    MoneyFormatter Paid = MoneyFormatter(amount: double.parse(widget.Paid));
+    MoneyFormatter Total = MoneyFormatter(amount: double.parse(widget.Total));
     return Card(
         margin: EdgeInsets.only(top: 0, bottom: 16, left: 8, right: 8),
         color: App_Color.background_search,
@@ -232,19 +237,19 @@ class _cardbill extends State<cardbill> {
                         ),
                         SizedBox(height: 5,),
                         Text(
-                          "Số nợ: ${widget.Total}",
+                          "Số nợ: ${Total.output.nonSymbol}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
                         SizedBox(height: 5,),
                         Text(
-                          "Đã trả: ${widget.Paid}",
+                          "Đã trả: ${Paid.output.nonSymbol}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
                         SizedBox(height: 5,),
                         Text(
-                          "Phải trả: ${widget.Rest}",
+                          "Phải trả: ${Rest.output.nonSymbol}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
