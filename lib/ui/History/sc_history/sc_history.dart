@@ -261,7 +261,7 @@ class _HistoryList extends State<HistoryList> {
                                         constant.check_history_mode?constant_history_customer.listhistory_customer_shop[index].status:constant_history_shop.listhistory_customer_shop[index].status,
                                         constant.check_history_mode?constant_history_customer.listhistory_customer_shop[index].content:constant_history_shop.listhistory_customer_shop[index].content,
                                         constant.check_history_mode?constant_history_customer.listhistory_customer_shop[index].user_id:constant_history_shop.listhistory_customer_shop[index].user_id,
-                                        constant.check_history_mode?constant_history_customer.listhistory_customer_shop[index].customer_id:constant_history_shop.listhistory_customer_shop[index].shop_id,
+                                        constant.check_history_mode?constant_history_customer.listhistory_customer_shop[index].customer_id.toString():constant_history_shop.listhistory_customer_shop[index].shop_id.toString(),
                                         constant.check_history_mode?constant_history_customer.listhistory_customer_shop[index].create_date:constant_history_shop.listhistory_customer_shop[index].create_date,
                                       );
                                     })))),
