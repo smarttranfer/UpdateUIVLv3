@@ -10,14 +10,19 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/apigetbill/apigetbill.dart';
+import 'package:vldebitor/funtion_app/apigetbill/fn_getbill.dart';
 import 'package:vldebitor/funtion_app/apigetshopinformation/fn_getshopininformation.dart';
 import 'package:vldebitor/funtion_app/apigetshopinformation/getshopinformation.dart';
 import 'package:vldebitor/theme/Color_app.dart';
+import 'package:vldebitor/ui/createbill/fn_createbill/getshop.dart';
+import 'package:vldebitor/ui/createbill/fn_createbill/getshopdata.dart';
 import '../../funtion_app/apigetshopinformation/getshopinformation.dart';
 import '../../provider/manager_credit.dart';
 import '../../utilities/constants.dart';
 import '../../widget/cardshop.dart';
 import '../home/home.dart';
+import '../shimer_loading/loading.dart';
 import '../shopregister/shopregisterinshop.dart';
 
 class Shoplist extends StatefulWidget {
@@ -34,8 +39,38 @@ class _Shoplist extends State<Shoplist> {
   List<Map<String, dynamic>> _foundUsers = [];
   String searchString = "";
   String status = "No Data";
-  bool checknull = false;
+  bool checknull = true;
   bool check_loding_data = true;
+
+  @override
+  void didChangeDependencies() async{
+    await checkEmty();
+    await mapData();
+    super.didChangeDependencies();
+  }
+
+  Future<bool> checkEmty() async {
+    try{
+      final prefs = await SharedPreferences.getInstance();
+      String? token = await prefs.getString("token");
+      await getbillinformation.getbill(constant.indexcustomer, token!,1,"asc");
+      await getshopinformation_createbills.getshopinformation_id(constant.indexcustomer, token);
+      if(Getshopinformation_createbill.GetshopinformationSucces_createbill=true &&  Getbillinformation.GetbillinformationSucces==true){
+        setState(() {
+          checknull = false;
+        });
+        return false;
+      }else {
+        setState(() {
+          checknull = true;
+        });
+        return true;
+      }
+    }catch(e){
+      return false;
+    }
+
+  }
 
   void _runFilter(String enteredKeyword) {
     List<Map<String, dynamic>> results = [];
@@ -171,7 +206,7 @@ class _Shoplist extends State<Shoplist> {
                 ))
           ],
         ),
-        body: Container(
+        body:  Container(
           padding: EdgeInsets.all(8),
           color: App_Color.Background,
           child: Column(
@@ -231,7 +266,7 @@ class _Shoplist extends State<Shoplist> {
                         ],
                       ))),
               Expanded(
-                  child: SingleChildScrollView(
+                  child: checknull?Loading():SingleChildScrollView(
                       child: Container(
                 child: _foundUsers.isEmpty
                     ? Center(
