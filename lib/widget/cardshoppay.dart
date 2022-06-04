@@ -249,6 +249,12 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                                       credit = credit -double.parse(_money.text.toString().replaceAll(",", ""));
                                       mustpay = mustpay - double.parse(_money.text.toString().replaceAll(",", ""));
                                     });
+                                    if(mustpay == 0){
+                                      setState(() {
+                                        suggest=0.0;
+                                      });
+                                      _money.clear();
+                                    }
                                     Fluttertoast.showToast(
                                         msg: "Thanh toán thành công.",
                                         toastLength: Toast.LENGTH_SHORT,
@@ -257,12 +263,6 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                                         backgroundColor: Colors.green,
                                         textColor: Colors.white,
                                         fontSize: 16.0);
-                                  } else if(mustpay == 0) {
-                                    setState(() {
-                                      suggest=0.0;
-                                    });
-                                    _money.clear();
-                                  } else{
                                   }
                                 } else {
                                   Fluttertoast.showToast(

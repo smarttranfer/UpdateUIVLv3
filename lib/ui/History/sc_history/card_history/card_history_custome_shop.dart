@@ -74,16 +74,16 @@ class _History_customer_shop extends State<History_customer_shop> {
                         SizedBox(
                           height: 5,
                         ),
-                        Text(
-                          constant.check_history_mode?"Khách hàng":"Shop: ${widget.Customer_Shop_id}",
-                          style: kLabelStyle,
-                          textDirection: TextDirection.ltr,
-                        ),
+                        // Text(
+                        //   constant.check_history_mode?"Khách hàng":"Shop: ${widget.Customer_Shop_id}",
+                        //   style: kLabelStyle,
+                        //   textDirection: TextDirection.ltr,
+                        // ),
                         SizedBox(
                           height: 5,
                         ),
                         Text(
-                          "Ngày tạo: ${widget.Create_date}",
+                          "Ngày sửa: ${widget.Create_date}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),

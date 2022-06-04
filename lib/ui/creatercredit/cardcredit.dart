@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:money_formatter/money_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
@@ -38,6 +39,10 @@ class _CardCredit extends State<CardCredit> {
   late bool checkactive = false;
   @override
   Widget build(BuildContext context) {
+    String money_formart (String money){
+      MoneyFormatter total_money = MoneyFormatter(amount: double.parse(money));
+      return total_money.output.nonSymbol;
+    }
     return Card(
         margin: EdgeInsets.only(top: 0, bottom: 16, left: 8, right: 8),
         color: App_Color.background_search,
@@ -62,7 +67,7 @@ class _CardCredit extends State<CardCredit> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Tổng nợ: ${widget.Total}",
+                          "Tổng nợ: ${money_formart(widget.Total)}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -71,7 +76,7 @@ class _CardCredit extends State<CardCredit> {
                           width: 20,
                         ),
                         Text(
-                          "Đã trả: ${widget.Paid}",
+                          "Đã trả: ${money_formart(widget.Paid)}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -80,7 +85,7 @@ class _CardCredit extends State<CardCredit> {
                           width: 20,
                         ),
                         Text(
-                          "Phải trả: ${double.parse(widget.Total)-double.parse(widget.Paid)}",
+                          "Phải trả: ${money_formart((double.parse(widget.Total)-double.parse(widget.Paid)).toString())}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -89,7 +94,7 @@ class _CardCredit extends State<CardCredit> {
                           width: 20,
                         ),
                         Text(
-                          "Số dư: ${widget.Credit}",
+                          "Số dư: ${money_formart(widget.Credit.toString())}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
