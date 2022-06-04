@@ -1,8 +1,8 @@
 class history_credit{
   late int ID_log;
   late double credit;
-  late int user_id;
-  late int customer_id;
+  late String user_id;
+  late String customer_id;
   late String create_date;
 
   int get ID_logs{
@@ -21,19 +21,19 @@ class history_credit{
     credit = credit;
   }
 
-  int get user_ids{
+  String get user_ids{
     return user_id ;
   }
 
-  void set user_ids(int user_id){
+  void set user_ids(String user_id){
     user_id = user_id;
   }
 
-  int get customer_ids{
+  String get customer_ids{
     return customer_id ;
   }
 
-  void set customer_ids(int customer_id){
+  void set customer_ids(String customer_id){
     customer_id = customer_id;
   }
 

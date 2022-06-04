@@ -203,12 +203,12 @@ class _CardPayment extends State<CardPayment> {
                                 await fn_payment.Payment(double.parse(_money.text.replaceAll(",", "")), constant.indexcustomer, token,widget.ID);
                                 if( payments.Create_payment_Succes==true){
                                   Provider.of<managen_credit>(context, listen: false).decrease(double.parse(_money.text.replaceAll(",", "")));
+                                  setState(() {
+                                    paid = paid + double.parse(_money.text.replaceAll(",", ""));
+                                    credit = credit - double.parse(_money.text.replaceAll(",", ""));
+                                    mustpay = mustpay - double.parse(_money.text.replaceAll(",", ""));
+                                  });
                                   if(mustpay > 0 && double.parse(Provider.of<managen_credit>(context, listen: false).CreditResult())>0){
-                                    setState(() {
-                                      paid = paid + double.parse(_money.text.replaceAll(",", ""));
-                                      credit = credit - double.parse(_money.text.replaceAll(",", ""));
-                                      mustpay = mustpay - double.parse(_money.text.replaceAll(",", ""));
-                                    });
                                     Fluttertoast.showToast(
                                         msg: "Thanh toán thành công.",
                                         toastLength: Toast.LENGTH_SHORT,
@@ -228,8 +228,6 @@ class _CardPayment extends State<CardPayment> {
                                   else{
                                     checkactive=false;
                                   }
-
-
                                 }else{
                                   Fluttertoast.showToast(
                                       msg: AddCredit_check.ContentError,

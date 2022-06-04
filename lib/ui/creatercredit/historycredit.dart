@@ -62,7 +62,7 @@ class _History_credit extends State<History_credit> {
                           height: 5,
                         ),
                         Text(
-                          "ID nhân viên: ${widget.User}",
+                          "Nhân viên: ${widget.User}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
