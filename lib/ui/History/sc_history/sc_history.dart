@@ -144,7 +144,7 @@ class _HistoryList extends State<HistoryList> {
                   child: Container(
                     child: Icon(
                       Icons.add,
-                      color: Colors.white,
+                      color: App_Color.Background,
                       size: 24.0,
                     ),
                   ),

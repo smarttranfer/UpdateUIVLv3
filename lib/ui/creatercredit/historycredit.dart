@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:money_formatter/money_formatter.dart';
 import '../../theme/Color_app.dart';
 import '../../utilities/constants.dart';
 
@@ -23,6 +24,10 @@ class _History_credit extends State<History_credit> {
   late  bool checkactive = false;
   @override
   Widget build(BuildContext context) {
+    String money_formart (String money){
+      MoneyFormatter total_money = MoneyFormatter(amount: double.parse(money));
+      return total_money.output.nonSymbol;
+    }
     return Card(
         margin: EdgeInsets.only(top: 0, bottom: 16, left: 8, right: 8),
         color: App_Color.background_search,
@@ -54,7 +59,7 @@ class _History_credit extends State<History_credit> {
                           height: 5,
                         ),
                         Text(
-                          "Sô tiền nạp: ${widget.Add}",
+                          "Sô tiền nạp: ${money_formart(widget.Add.toString())}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
