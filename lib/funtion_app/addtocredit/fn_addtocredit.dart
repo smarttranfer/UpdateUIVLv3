@@ -26,7 +26,7 @@ class fn_AddToCredit{
     }
     else {
       AddCredit_check.AddCredit_Succes=false;
-      AddCredit_check.ContentError = json.decode(AddCredit_check.Jsondata)["message"];
+      AddCredit_check.ContentError = json.decode(AddCredit_check.Jsondata)["data"];
 
     }
 

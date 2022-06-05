@@ -199,6 +199,17 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () async {
+          if(name.text.isEmpty|Shop.text.isEmpty|Money.text.isEmpty|Note.text.isEmpty){
+            Fluttertoast.showToast(
+                msg: "Bạn cần điền đầy đủ thông tin.",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.green,
+                textColor: Colors.white,
+                fontSize: 16.0
+            );
+          }else{
           setState(() {
             _isLoaderVisible = true;
           });
@@ -218,9 +229,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
             );
             final prefs = await SharedPreferences.getInstance();
             String? token = await prefs.getString("token");
-            await getbillinformation.getbill(constant.indexcustomer, token!,1,"asc");
-            await getshopinformation_createbills.getshopinformation_id(constant.indexcustomer, token);
-            await getshopinformation.getshopinformation_id(constant.indexcustomer, token);
+            await getbillinformation.getbill(constant.idshop, token!,1,"asc");
             Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: widget.BackScreen));
           } else {
             Fluttertoast.showToast(
@@ -234,7 +243,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
             );
 
           }
-        },
+        }},
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
@@ -261,12 +270,11 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () async{
-            final prefs = await SharedPreferences.getInstance();
-            String? token = await prefs.getString("token");
-            await getbillinformation.getbill(constant.indexcustomer, token!,1,"asc");
-            await getshopinformation_createbills.getshopinformation_id(constant.indexcustomer, token);
-            await getshopinformation.getshopinformation_id(constant.indexcustomer, token);
-            // Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist(title: constant.TitleApp_Shop,)));
+            // final prefs = await SharedPreferences.getInstance();
+            // String? token = await prefs.getString("token");
+            // // await getbillinformation.getbill(constant.indexcustomer, token!,1,"asc");
+            // // await getshopinformation_createbills.getshopinformation_id(constant.indexcustomer, token);
+            // await getshopinformation.getshopinformation_id(constant.indexcustomer, token!);
             Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: widget.BackScreen));
           },
         ),
@@ -337,15 +345,6 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
                   ],
                 )))
             : GestureDetector(
-          onHorizontalDragUpdate: (details) {
-            if (details.delta.dx > 0) {
-              Navigator.pushReplacement(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: Home_page()));
-            }
-          },
           onTap: () => FocusScope.of(context).unfocus(),
           child: Stack(
             children: <Widget>[

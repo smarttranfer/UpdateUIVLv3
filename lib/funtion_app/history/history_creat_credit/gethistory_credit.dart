@@ -21,7 +21,6 @@ class gethistory_credit{
       http.StreamedResponse response = await request.send();
       constant_history.Jsondata = await response.stream.bytesToString();
       if (json.decode(constant_history.Jsondata)["status"].toString() == "200") {
-        print(json.decode(constant_history.Jsondata)["data"]);
         for(var history in json.decode(constant_history.Jsondata)["data"]){
           history_credit h_credit = new history_credit();
           h_credit.ID_log = history["id"];
@@ -37,7 +36,6 @@ class gethistory_credit{
       else {
         constant_history.history_credit_sucess = false;
         constant_history.ContentError = json.decode(constant_history.Jsondata)["data"];
-        print(response.reasonPhrase);
       }
     }catch(e){
       constant_history.history_credit_sucess = false;

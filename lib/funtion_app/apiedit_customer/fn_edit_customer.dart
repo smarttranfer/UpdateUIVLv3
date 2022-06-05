@@ -18,14 +18,15 @@ class fn_edit_customer {
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       edit_customer.dataedit_customer = await response.stream.bytesToString();
-      if (json.decode(edit_customer.dataedit_customer)["status"].toString() ==
-          "200") {
+      if (json.decode(edit_customer.dataedit_customer)["status"].toString() == "200") {
         edit_customer.edit_customers = true;
       } else {
         edit_customer.edit_customers = false;
         edit_customer.edit_customer_error =
-            json.decode(edit_customer.dataedit_customer)["message"].toString();
+            json.decode(edit_customer.dataedit_customer)["data"].toString();
       }
-    } catch (e) {}
+    } catch (e) {
+      edit_customer.edit_customer_error = e.toString();
+    }
   }
 }

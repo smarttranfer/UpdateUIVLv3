@@ -14,6 +14,7 @@ import 'package:vldebitor/funtion_app/home/home.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import 'package:vldebitor/ui/home/home.dart';
 import '../../../utilities/constants.dart';
+import '../../shop/shop.dart';
 import 'card_history/card_history_custome_shop.dart';
 
 class HistoryList extends StatefulWidget {
@@ -117,7 +118,7 @@ class _HistoryList extends State<HistoryList> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios, color: Colors.white),
             onPressed: () {
-              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
+              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: constant.check_history_mode? Home_page() : Shoplist(title: constant.TitleApp_Shop,)));
             },
           ),
           title: Center(

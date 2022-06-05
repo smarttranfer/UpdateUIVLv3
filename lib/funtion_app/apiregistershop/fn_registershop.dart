@@ -30,6 +30,8 @@ class CreaterShop {
         registershop.Create_Shop_Succes = false;
         registershop.ContentError = json.decode(registershop.Jsondata)["data"].toString();
       }
-    } catch (e) {}
+    } catch (e) {
+      registershop.ContentError = e.toString();
+    }
   }
 }

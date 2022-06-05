@@ -85,6 +85,8 @@ class _Shoplistcard extends State<Shoplistcard> {
                   InkWell(
                     onTap: () {
                       showCupertinoModalBottomSheet(
+                        barrierColor:Colors.black87,
+                        enableDrag: true,
                         context: context,
                         builder: (context) => Container(
                           color: App_Color.Background,
@@ -173,6 +175,69 @@ class _Shoplistcard extends State<Shoplistcard> {
                                   color: Colors.grey,
                                 ),
                               ),
+                              // Lịch sử view
+                              Row(children: [
+                                SizedBox(
+                                  width: 30,
+                                ),
+                                Icon(
+                                  Icons.history,
+                                  color: Colors.grey,
+                                  size: 33.0,
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () async{
+                                        constant.check_history_mode = false;
+                                        final prefs = await SharedPreferences.getInstance();
+                                        String? token = await prefs.getString("token");
+                                        await gethistory_shop.gethistory(token!,widget.id);
+                                        if(constant_history_shop.history_customer_shop_sucess==true){
+                                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: HistoryList()));
+                                        }else{
+                                          _showMessage(constant_history_shop.ContentError);
+                                        }
+                                        // _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Lịch sử",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w400,
+                                              decoration: TextDecoration.none,
+                                              fontSize: 17,
+                                              fontFamily: 'OpenSans',
+                                            ),
+                                          ),
+                                          Text("Xem lịch sử",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                decoration: TextDecoration.none,
+                                                fontWeight: FontWeight.w300,
+                                                fontSize: 15,
+                                                fontFamily: 'OpenSans',
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ]),
+                              Container(
+                                padding: EdgeInsets.only(left: 90),
+                                child: Divider(
+                                  color: Colors.grey,
+                                ),
+                              ),
                               Row(children: [
                                 SizedBox(
                                   width: 30,
@@ -222,69 +287,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                                   ],
                                 )
                               ]),
-                              Container(
-                                padding: EdgeInsets.only(left: 90),
-                                child: Divider(
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              // Lịch sử view
-                              Row(children: [
-                                SizedBox(
-                                  width: 30,
-                                ),
-                                Icon(
-                                  Icons.history,
-                                  color: Colors.grey,
-                                  size: 33.0,
-                                ),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    TextButton(
-                                      onPressed: () async{
-                                        constant.check_history_mode = false;
-                                        final prefs = await SharedPreferences.getInstance();
-                                        String? token = await prefs.getString("token");
-                                        await gethistory_shop.gethistory(token!,widget.id);
-                                        if(constant_history_shop.history_customer_shop_sucess==true){
-                                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: HistoryList()));
-                                        }else{
-                                          _showMessage(constant_history_shop.ContentError);
-                                        }
-                                        // _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
-                                      },
-                                      child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Lịch sử",
-                                            style: TextStyle(
-                                              color: Colors.red,
-                                              fontWeight: FontWeight.w400,
-                                              decoration: TextDecoration.none,
-                                              fontSize: 17,
-                                              fontFamily: 'OpenSans',
-                                            ),
-                                          ),
-                                          Text("Xem lịch sử",
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                decoration: TextDecoration.none,
-                                                fontWeight: FontWeight.w300,
-                                                fontSize: 15,
-                                                fontFamily: 'OpenSans',
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ]),
+
                             ],
                           ),
                         ),

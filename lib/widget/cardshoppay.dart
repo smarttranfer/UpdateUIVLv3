@@ -4,22 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:money_formatter/money_formatter.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
-import 'package:vldebitor/funtion_app/apigetbill/fn_getbill.dart';
-import 'package:vldebitor/funtion_app/apigetshopinformation/fn_getshopininformation.dart';
 import 'package:vldebitor/funtion_app/apipayment/Payment.dart';
 import 'package:vldebitor/funtion_app/apipayment/fn_payment.dart';
 import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
-import 'package:vldebitor/ui/createbill/fn_createbill/getshop.dart';
 import '../provider/manager_credit.dart';
 import '../theme/Color_app.dart';
 import '../ui/shop/detail/detail.dart';
-import '../ui/shop/shop.dart';
 import '../utilities/constants.dart';
 
 class Shoplistcardpay extends StatefulWidget {

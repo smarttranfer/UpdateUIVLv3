@@ -18,7 +18,6 @@ class getshopinformation{
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       Getshopinformation.Jsondata = await response.stream.bytesToString();
-      print(Getshopinformation.Jsondata);
       if (json.decode(Getshopinformation.Jsondata)["status"].toString() == "200") {
         for(var shop in json.decode(Getshopinformation.Jsondata)["data"]){
           sc_Infor_Shop shops = new sc_Infor_Shop();
@@ -38,7 +37,6 @@ class getshopinformation{
       }
       else {
         Getshopinformation.GetshopinformationSucces=false;
-        print(response.reasonPhrase);
       }
   }
 

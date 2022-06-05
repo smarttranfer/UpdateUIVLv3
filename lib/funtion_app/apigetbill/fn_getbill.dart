@@ -37,9 +37,7 @@ class getbillinformation{
     }
     else {
       Getbillinformation.GetbillinformationSucces = false;
-      Getbillinformation.ContentError = json.decode(Getbillinformation.Jsondata)["message"];
-      print(response.reasonPhrase);
+      Getbillinformation.ContentError = json.decode(Getbillinformation.Jsondata)["data"];
     }
   }
-
 }
