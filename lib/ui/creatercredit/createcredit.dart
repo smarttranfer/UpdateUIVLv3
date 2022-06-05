@@ -7,6 +7,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vldebitor/funtion_app/history/history_creat_credit/gethistory_credit.dart';
+import 'package:vldebitor/funtion_app/history/history_creat_credit/history_credit.dart';
 import 'package:vldebitor/provider/manager_history_credit.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../../utilities/constants.dart';
@@ -114,9 +115,9 @@ class _CreditScreen extends State<CreditScreen> {
                       Container(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height/2,
-                    child: Provider.of<managen_credit_history>(context, listen: true).CreditResult().isNotEmpty
+                    child: constant_history.listhistory_credit.isNotEmpty
                         ? ListView.builder(
-                            itemCount: Provider.of<managen_credit_history>(context, listen: true).CreditResult().length,
+                            itemCount: constant_history.listhistory_credit.length,
                             itemBuilder: (BuildContext context, int index) {
                               return History_credit(
                                   Provider.of<managen_credit_history>(context, listen: true).CreditResult()[index].create_date,

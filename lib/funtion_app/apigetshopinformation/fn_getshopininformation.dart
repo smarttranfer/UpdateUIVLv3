@@ -18,8 +18,8 @@ class getshopinformation{
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       Getshopinformation.Jsondata = await response.stream.bytesToString();
+      print(Getshopinformation.Jsondata);
       if (json.decode(Getshopinformation.Jsondata)["status"].toString() == "200") {
-        print(json.decode(Getshopinformation.Jsondata)["data"]);
         for(var shop in json.decode(Getshopinformation.Jsondata)["data"]){
           sc_Infor_Shop shops = new sc_Infor_Shop();
           shops.Shop_ID = shop["id"];

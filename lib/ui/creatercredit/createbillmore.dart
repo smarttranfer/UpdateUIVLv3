@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,6 +29,7 @@ class CreateBillScreenMore extends StatefulWidget {
 }
 
 class _CreateBillScreenMore extends State<CreateBillScreenMore> {
+
   bool _isLoaderVisible = false;
   final TextEditingController name = TextEditingController();
   final TextEditingController Money = TextEditingController();
@@ -104,6 +106,14 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
+            inputFormatters: <TextInputFormatter>[
+              CurrencyTextInputFormatter(
+                locale: 'EN',
+                decimalDigits: 2,
+                symbol: '',
+              ),
+              // formatter,
+            ],
             controller: Money,
             keyboardType: TextInputType.number,
             style: TextStyle(
@@ -167,7 +177,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
     }
     String datetime = DateTime.now().toString();
     if(Money.text.isNotEmpty|name.text.isNotEmpty|Note.text.isNotEmpty|Shop.text.isNotEmpty){
-      await Createbills.CreateBill(ID,token, double.parse(Money.text), name.text,Note.text,datetime);
+      await Createbills.CreateBill(ID,token, double.parse(Money.text.replaceAll(",", "")), name.text,Note.text,datetime);
     }else{
       Fluttertoast.showToast(
           msg: "Tạo đơn thất bại",
@@ -208,7 +218,9 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
             );
             final prefs = await SharedPreferences.getInstance();
             String? token = await prefs.getString("token");
-            await getbillinformation.getbill(constant.idshop, token!,1,"asc");
+            await getbillinformation.getbill(constant.indexcustomer, token!,1,"asc");
+            await getshopinformation_createbills.getshopinformation_id(constant.indexcustomer, token);
+            await getshopinformation.getshopinformation_id(constant.indexcustomer, token);
             Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: widget.BackScreen));
           } else {
             Fluttertoast.showToast(
@@ -248,8 +260,13 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () {
-
+          onPressed: () async{
+            final prefs = await SharedPreferences.getInstance();
+            String? token = await prefs.getString("token");
+            await getbillinformation.getbill(constant.indexcustomer, token!,1,"asc");
+            await getshopinformation_createbills.getshopinformation_id(constant.indexcustomer, token);
+            await getshopinformation.getshopinformation_id(constant.indexcustomer, token);
+            // Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist(title: constant.TitleApp_Shop,)));
             Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: widget.BackScreen));
           },
         ),

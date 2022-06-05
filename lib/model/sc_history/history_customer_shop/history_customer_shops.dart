@@ -2,9 +2,9 @@ class history_customer_shops {
   late int ID_log;
   late String status;
   late String content;
-  late int user_id;
-  late int customer_id;
-  late int shop_id;
+  late String user_id;
+  late String customer_id;
+  late String shop_id;
   late String create_date;
 
 
@@ -34,27 +34,27 @@ class history_customer_shops {
     content = content;
   }
 
-  int get user_ids {
+  String get user_ids {
     return user_id;
   }
 
-  void set user_ids(int user_id) {
+  void set user_ids(String user_id) {
     user_id = user_id;
   }
 
-  int get customer_ids {
+  String get customer_ids {
     return customer_id;
   }
 
-  void set customer_ids(int customer_id) {
+  void set customer_ids(String customer_id) {
     customer_id = customer_id;
   }
 
-  int get shop_ids {
+  String get shop_ids {
     return shop_id;
   }
 
-  void set shop_ids(int shop_id) {
+  void set shop_ids(String shop_id) {
     shop_id = shop_id;
   }
 

@@ -19,15 +19,17 @@ class gethistory_customer_shop{
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       constant_history_customer.Jsondata = await response.stream.bytesToString();
-      print(constant_history_customer.Jsondata);
+
       if (json.decode(constant_history_customer.Jsondata)["status"].toString() == "200") {
+        print(json.decode(constant_history_customer.Jsondata)["data"]);
         for(var history in json.decode(constant_history_customer.Jsondata)["data"]){
+          print(history["customer"]["name"]);
           history_customer_shops h_Customer = new history_customer_shops();
           h_Customer.ID_log = history["id"];
           h_Customer.status = history["status"];
           h_Customer.content = history["content"];
-          h_Customer.user_id = history["user_id"];
-          h_Customer.customer_id = history["customer_id"];
+          h_Customer.user_id = history["user"]["name"];
+          h_Customer.customer_id = history["customer"]["name"];
           h_Customer.create_date = history["create_date"];
           constant_history_customer.listhistory_customer_shop.add(h_Customer);
         }
@@ -37,9 +39,9 @@ class gethistory_customer_shop{
       else {
         constant_history_customer.history_customer_shop_sucess = false;
         constant_history_customer.ContentError = json.decode(constant_history_customer.Jsondata)["message"];
-        print(response.reasonPhrase);
       }
     }catch(e){
+      print(e);
       constant_history_customer.history_customer_shop_sucess = false;
       constant_history_customer.ContentError = json.decode(constant_history_customer.Jsondata)["message"];
     }

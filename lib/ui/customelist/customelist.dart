@@ -15,6 +15,7 @@ import '../../model/sc_datahome/sc_datahome_bill.dart';
 import '../../utilities/constants.dart';
 import '../../widget/cardcustome.dart';
 import '../customeregistry/customeregistry.dart';
+import '../shimer_loading/loading.dart';
 
 class Customelist extends StatefulWidget {
   Customelist({Key? key}) : super(key: key);
@@ -24,7 +25,8 @@ class Customelist extends StatefulWidget {
 }
 
 class _Customelist extends State<Customelist> {
-  final RefreshController _refreshController = RefreshController(initialRefresh: false);
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
   final List<Map<String, dynamic>> _allUsers = [];
   List<Map<String, dynamic>> _foundUsers = [];
   String searchString = "";
@@ -32,27 +34,26 @@ class _Customelist extends State<Customelist> {
   bool checknull = true;
   bool check_loding_data = true;
 
-
   @override
-  void didChangeDependencies() async{
+  void didChangeDependencies() async {
     await checkEmty();
     await mapData();
     super.didChangeDependencies();
   }
 
-  Future<void> mapData()async {
-    for (var customer in  constant.ListCustomer_infor_all) {
-        _allUsers.add({
-          "id": customer.ID,
-          "name": customer.Name_Custome,
-          "phone": customer.Phone,
-          "unallocated": customer.Unallocated,
-          "total_shop": customer.Total_shop,
-          "total_invoice": customer.Total_invoice,
-          "total_invoice_paid": customer.Total_invoice_paid,
-          "total_payment": customer.Total_payment,
-          "total_liabilities": customer.Total_liabilities
-        });
+  Future<void> mapData() async {
+    for (var customer in constant.ListCustomer_infor_all) {
+      _allUsers.add({
+        "id": customer.ID,
+        "name": customer.Name_Custome,
+        "phone": customer.Phone,
+        "unallocated": customer.Unallocated,
+        "total_shop": customer.Total_shop,
+        "total_invoice": customer.Total_invoice,
+        "total_invoice_paid": customer.Total_invoice_paid,
+        "total_payment": customer.Total_payment,
+        "total_liabilities": customer.Total_liabilities
+      });
     }
     _foundUsers = _allUsers;
   }
@@ -63,9 +64,16 @@ class _Customelist extends State<Customelist> {
     if (enteredKeyword.isEmpty) {
       results = _allUsers;
     } else {
-      results = _allUsers.where((user) => user["name"].toLowerCase().contains(enteredKeyword.toLowerCase())).toList();
-      if(results.isEmpty){
-        results = _allUsers.where((user) => user["phone"].toLowerCase().contains(enteredKeyword.toLowerCase())).toList();
+      results = _allUsers
+          .where((user) =>
+              user["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
+          .toList();
+      if (results.isEmpty) {
+        results = _allUsers
+            .where((user) => user["phone"]
+                .toLowerCase()
+                .contains(enteredKeyword.toLowerCase()))
+            .toList();
       }
     }
     setState(() {
@@ -75,37 +83,36 @@ class _Customelist extends State<Customelist> {
 
   void _onRefresh() async {
     setState(() {
-      constant.ListCustomer_infor_all=[];
+      constant.ListCustomer_infor_all = [];
     });
     await Future.delayed(Duration(milliseconds: 1000));
     final prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token").toString();
     await fn_DataCustomer.getDataCustomer(token);
-    if(home.get_data_Succes==true){
+    if (home.get_data_Succes == true) {
       _refreshController.refreshCompleted();
       setState(() {
-        constant.ListCustomer_infor_all=constant.ListCustomer_infor_all;
+        constant.ListCustomer_infor_all = constant.ListCustomer_infor_all;
       });
-    }else{
+    } else {
       _refreshController.refreshFailed();
     }
-
   }
 
   void _onLoading() async {
     setState(() {
-      constant.ListCustomer_infor_all=[];
+      constant.ListCustomer_infor_all = [];
     });
     await Future.delayed(Duration(milliseconds: 1000));
     final prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token").toString();
     await fn_DataCustomer.getDataCustomer(token);
-    if(home.get_data_Succes==true){
+    if (home.get_data_Succes == true) {
       setState(() {
-        constant.ListCustomer_infor_all=constant.ListCustomer_infor_all;
+        constant.ListCustomer_infor_all = constant.ListCustomer_infor_all;
       });
       _refreshController.loadComplete();
-    }else{
+    } else {
       _refreshController.loadFailed();
     }
   }
@@ -119,26 +126,26 @@ class _Customelist extends State<Customelist> {
   }
 
   Future<bool> checkEmty() async {
-    try{
+    try {
       final prefs = await SharedPreferences.getInstance();
       String token = prefs.getString("token").toString();
       await fn_DataCustomer.getDataCustomer(token);
-      if(constant.ListCustomer_infor_all.isNotEmpty){
+      if (constant.ListCustomer_infor_all.isNotEmpty) {
         setState(() {
           checknull = false;
         });
         return false;
-      }else {
+      } else {
         setState(() {
           checknull = true;
         });
         return true;
       }
-    }catch(e){
+    } catch (e) {
       return false;
     }
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -165,7 +172,11 @@ class _Customelist extends State<Customelist> {
                 ),
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: CustomeregisterScreen()));
+                    Navigator.pushReplacement(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.rightToLeft,
+                            child: CustomeregisterScreen()));
                   },
                   child: Container(
                     child: Icon(
@@ -206,44 +217,12 @@ class _Customelist extends State<Customelist> {
               ),
               SizedBox(height: 5),
               Expanded(
-                  child: SingleChildScrollView(
-                child: Container(
-                    child: checknull
-                        ? Center(
-                            child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              AnimatedTextKit(
-                                animatedTexts: [
-                                  WavyAnimatedText(state,
-                                      textStyle:
-                                          TextStyle(color: App_Color.green)),
-                                ],
-                                isRepeatingAnimation: true,
-                              ),
-                              Center(
-                                  child: IconButton(
-                                      onPressed: () async{
-                                        setState(() {
-                                          state = "Get Data";
-                                        });
-                                        final prefs = await SharedPreferences.getInstance();
-                                        String token = prefs.getString("token").toString();
-                                        await fn_DataCustomer.getDataCustomer(token);
-                                        if(constant.ListCustomer_infor_all.isNotEmpty){
-                                          checkEmty();
-                                        }
-                                      },
-                                      icon: Icon(
-                                        Icons.refresh,
-                                        color: App_Color.green,
-                                      )))
-                            ],
-                          ))
-                        : Container(
+                child: checknull
+                    ? Loading()
+                    : SingleChildScrollView(
+                        child: Container(
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height/1.4,
+                            height: MediaQuery.of(context).size.height / 1.4,
                             child: SmartRefresher(
                                 physics: const BouncingScrollPhysics(),
                                 enablePullDown: true,
@@ -281,20 +260,29 @@ class _Customelist extends State<Customelist> {
                                 onRefresh: _onRefresh,
                                 child: ListView.builder(
                                     itemCount: _foundUsers.length,
-                                    itemBuilder: (BuildContext context, int index) {
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
                                       return customelistcard(
                                         _foundUsers[index]["name"],
                                         _foundUsers[index]["phone"],
-                                        _foundUsers[index]["total_shop"].toString(),
-                                        _foundUsers[index]["total_invoice"].toString(),
-                                        _foundUsers[index]["total_invoice_paid"].toString(),
-                                        _foundUsers[index]["total_payment"].toString(),
-                                        _foundUsers[index]["total_liabilities"].toString(),
-                                        _foundUsers[index]["unallocated"].toString(),
-                                          int.parse(_foundUsers[index]["id"],),
-                                          );
+                                        _foundUsers[index]["total_shop"]
+                                            .toString(),
+                                        _foundUsers[index]["total_invoice"]
+                                            .toString(),
+                                        _foundUsers[index]["total_invoice_paid"]
+                                            .toString(),
+                                        _foundUsers[index]["total_payment"]
+                                            .toString(),
+                                        _foundUsers[index]["total_liabilities"]
+                                            .toString(),
+                                        _foundUsers[index]["unallocated"]
+                                            .toString(),
+                                        int.parse(
+                                          _foundUsers[index]["id"],
+                                        ),
+                                      );
                                     })))),
-              ))
+              )
             ],
           ),
         ));

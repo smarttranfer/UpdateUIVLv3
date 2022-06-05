@@ -6,8 +6,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/apigetbill/fn_getbill.dart';
+import 'package:vldebitor/funtion_app/apigetshopinformation/fn_getshopininformation.dart';
 import 'package:vldebitor/funtion_app/apiregistershop/registershop.dart';
 import 'package:vldebitor/theme/Color_app.dart';
+import 'package:vldebitor/ui/createbill/fn_createbill/getshop.dart';
 import '../../funtion_app/apiregistershop/fn_registershop.dart';
 import '../../utilities/constants.dart';
 import '../home/home.dart';
@@ -169,8 +172,12 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
             _showErrorMessage(
                 "Bàn cần điền đầy đử thông tin");
           } else {
-            await _CreaterShop(name.text, house.text, address.text, postcode.text);
+            await _CreaterShop(name.text, house.text.replaceAll(" ", ""), address.text, postcode.text.replaceAll(" ", ""));
             if (registershop.Create_Shop_Succes == true) {
+              name.clear();
+              house.clear();
+              address.clear();
+              postcode.clear();
               Fluttertoast.showToast(
                   msg: "Tạo của hành thành công",
                   toastLength: Toast.LENGTH_SHORT,
@@ -218,7 +225,7 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
             _showErrorMessage(
                 "Bạn cần điền đầy đủ các trường");
           } else {
-            await _CreaterShop(name.text, house.text, address.text, postcode.text);
+            await _CreaterShop(name.text, house.text.replaceAll(" ", ""), address.text, postcode.text.replaceAll(" ", ""));
             if (registershop.Create_Shop_Succes == true) {
               Fluttertoast.showToast(
                   msg: "Tạo của hành thành công",
@@ -228,7 +235,12 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
                   backgroundColor: App_Color.green.withOpacity(0.9),
                   textColor: Colors.white,
                   fontSize: 16.0);
-              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
+              final prefs = await SharedPreferences.getInstance();
+              String? token = await prefs.getString("token");
+              await getbillinformation.getbill(constant.indexcustomer, token!,1,"desc");
+              await getshopinformation_createbills.getshopinformation_id(constant.indexcustomer, token);
+              await getshopinformation.getshopinformation_id( constant.indexcustomer, token);
+              Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist(title: constant.TitleApp_Shop,)));
             } else {
               _showErrorMessage(registershop.ContentError);
             }
@@ -259,7 +271,12 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () {
+          onPressed: () async{
+            final prefs = await SharedPreferences.getInstance();
+            String? token = await prefs.getString("token");
+            await getbillinformation.getbill(constant.indexcustomer, token!,1,"desc");
+            await getshopinformation_createbills.getshopinformation_id(constant.indexcustomer, token);
+            await getshopinformation.getshopinformation_id( constant.indexcustomer, token);
             Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist(title: constant.TitleApp_Shop,)));
           },
         ),

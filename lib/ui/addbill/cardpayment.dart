@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:money_formatter/money_formatter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -51,6 +52,10 @@ class _CardPayment extends State<CardPayment> {
   }
   @override
   Widget build(BuildContext context) {
+    String formart_money(String money){
+      MoneyFormatter money_format = MoneyFormatter(amount: double.parse(money));
+      return money_format.output.nonSymbol;
+    }
     return Card(
         margin: EdgeInsets.only(top: 0, bottom: 16, left: 8, right: 8),
         color: App_Color.background_search,
@@ -75,7 +80,7 @@ class _CardPayment extends State<CardPayment> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Số nợ: ${total}",
+                          "Số nợ: ${formart_money(total.toString())}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -84,7 +89,7 @@ class _CardPayment extends State<CardPayment> {
                           width: 20,
                         ),
                         Text(
-                          "Đã trả: ${paid}",
+                          "Đã trả: ${formart_money(paid.toString())}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -93,7 +98,7 @@ class _CardPayment extends State<CardPayment> {
                           width: 20,
                         ),
                         Text(
-                          "Phải trả: ${mustpay}",
+                          "Phải trả: ${formart_money(mustpay.toString())}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
@@ -123,26 +128,13 @@ class _CardPayment extends State<CardPayment> {
                                   ),
                                 ],
                                 onChanged: (e){
-                                  if((double.parse(e.toString().replaceAll(",", ""))>double.parse(Provider.of<managen_credit>(context, listen: false).CreditResult())) ){
-                                    setState(() {
-                                      checkactive=false;
-                                    });
-                                    Fluttertoast.showToast(
-                                        msg: "Số tiêng không đủ để thực hiện",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIosWeb: 1,
-                                        backgroundColor: Colors.red,
-                                        textColor: Colors.white,
-                                        fontSize: 16.0
-                                    );
-                                  }else{
-                                    if(double.parse(e.toString().replaceAll(",", "")) > mustpay){
+                                  try{
+                                    if((double.parse(e.toString().replaceAll(",", ""))>double.parse(Provider.of<managen_credit>(context, listen: false).CreditResult())) ){
                                       setState(() {
                                         checkactive=false;
                                       });
                                       Fluttertoast.showToast(
-                                          msg: "Số tiền bạn nhập vượt quá số tiền phải trả",
+                                          msg: "Số tiêng không đủ để thực hiện",
                                           toastLength: Toast.LENGTH_SHORT,
                                           gravity: ToastGravity.BOTTOM,
                                           timeInSecForIosWeb: 1,
@@ -151,13 +143,29 @@ class _CardPayment extends State<CardPayment> {
                                           fontSize: 16.0
                                       );
                                     }else{
-                                      setState(() {
-                                        checkactive = widget.check;
-                                      });
+                                      if(double.parse(e.toString().replaceAll(",", "")) > mustpay){
+                                        setState(() {
+                                          checkactive=false;
+                                        });
+                                        Fluttertoast.showToast(
+                                            msg: "Số tiền bạn nhập vượt quá số tiền phải trả",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: Colors.red,
+                                            textColor: Colors.white,
+                                            fontSize: 16.0
+                                        );
+                                      }else{
+                                        setState(() {
+                                          checkactive = widget.check;
+                                        });
+                                      }
+
+
                                     }
+                                  }catch(e){}
 
-
-                                  }
                                 },
                                 controller: _money,
                                 keyboardType: TextInputType.number,
@@ -195,31 +203,31 @@ class _CardPayment extends State<CardPayment> {
                                 await fn_payment.Payment(double.parse(_money.text.replaceAll(",", "")), constant.indexcustomer, token,widget.ID);
                                 if( payments.Create_payment_Succes==true){
                                   Provider.of<managen_credit>(context, listen: false).decrease(double.parse(_money.text.replaceAll(",", "")));
-                                  setState(() async {
+                                  setState(() {
                                     paid = paid + double.parse(_money.text.replaceAll(",", ""));
                                     credit = credit - double.parse(_money.text.replaceAll(",", ""));
                                     mustpay = mustpay - double.parse(_money.text.replaceAll(",", ""));
-                                    if(mustpay > 0 && double.parse(Provider.of<managen_credit>(context, listen: false).CreditResult())>0){
-                                      _money.clear();
-                                    }else if(mustpay==0){
-                                      final prefs = await SharedPreferences.getInstance();
-                                      String? token = await prefs.getString("token");
-                                      await getbillinformation.getbill(constant.idshop, token!,1,"asc");
-                                      Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: Billlist()));
-                                    }
-                                    else{
-                                      checkactive=false;
-                                    }
                                   });
-                                  Fluttertoast.showToast(
-                                      msg: "Thanh toán thành công.",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.green,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0
-                                  );
+                                  if(mustpay > 0 && double.parse(Provider.of<managen_credit>(context, listen: false).CreditResult())>0){
+                                    Fluttertoast.showToast(
+                                        msg: "Thanh toán thành công.",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.BOTTOM,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.green,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0
+                                    );
+                                    _money.clear();
+                                  }else if(mustpay==0){
+                                    final prefs = await SharedPreferences.getInstance();
+                                    String? token = await prefs.getString("token");
+                                    await getbillinformation.getbill(constant.idshop, token!,1,"asc");
+                                    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: Billlist()));
+                                  }
+                                  else{
+                                    checkactive=false;
+                                  }
                                 }else{
                                   Fluttertoast.showToast(
                                       msg: AddCredit_check.ContentError,

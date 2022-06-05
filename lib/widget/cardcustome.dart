@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:money_formatter/money_formatter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -54,6 +55,11 @@ class _ShopregisterScreen extends State<customelistcard> {
   final TextEditingController _money = TextEditingController();
   @override
   Widget build(BuildContext context) {
+
+    String money_formart (String money){
+      MoneyFormatter total_money = MoneyFormatter(amount: double.parse(money));
+      return total_money.output.nonSymbol;
+    }
     return Card(
         margin: EdgeInsets.only(top: 0, bottom: 16, left: 8, right: 8),
         color: App_Color.background_search,
@@ -75,7 +81,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                         context: context,
                         builder: (context) => Container(
                           color: App_Color.Background,
-                          height: MediaQuery.of(context).size.height / 4,
+                          height: MediaQuery.of(context).size.height / 3,
                           width: MediaQuery.of(context).size.width,
                           child: Column(
                             children: [
@@ -155,61 +161,61 @@ class _ShopregisterScreen extends State<customelistcard> {
                                       ],
                                     )
                                   ]),
-                              // Container(
-                              //   padding: EdgeInsets.only(left: 90),
-                              //   child: Divider(
-                              //     color: Colors.grey,
-                              //   ),
-                              // ),
-                              // Row(children: [
-                              //   SizedBox(
-                              //     width: 30,
-                              //   ),
-                              //   Icon(
-                              //     Icons.recycling_outlined,
-                              //     color: Colors.grey,
-                              //     size: 33.0,
-                              //   ),
-                              //   SizedBox(
-                              //     width: 20,
-                              //   ),
-                              //   Column(
-                              //     crossAxisAlignment: CrossAxisAlignment.start,
-                              //     children: [
-                              //       TextButton(
-                              //         onPressed: () async{
-                              //           final prefs = await SharedPreferences.getInstance();
-                              //           String? token = await prefs.getString("token");
-                              //           _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
-                              //         },
-                              //         child: Column(
-                              //           crossAxisAlignment:
-                              //               CrossAxisAlignment.start,
-                              //           children: [
-                              //             Text(
-                              //               "Delete",
-                              //               style: TextStyle(
-                              //                 color: Colors.red,
-                              //                 fontWeight: FontWeight.w400,
-                              //                 decoration: TextDecoration.none,
-                              //                 fontSize: 17,
-                              //                 fontFamily: 'OpenSans',
-                              //               ),
-                              //             ),
-                              //             Text("Delete Customer",
-                              //                 style: TextStyle(
-                              //                   color: Colors.grey,
-                              //                   decoration: TextDecoration.none,
-                              //                   fontWeight: FontWeight.w300,
-                              //                   fontSize: 15,
-                              //                   fontFamily: 'OpenSans',
-                              //                 )),
-                              //           ],
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   )
-                              // ]),
+                              Container(
+                                padding: EdgeInsets.only(left: 90),
+                                child: Divider(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              Row(children: [
+                                SizedBox(
+                                  width: 30,
+                                ),
+                                Icon(
+                                  Icons.recycling_outlined,
+                                  color: Colors.grey,
+                                  size: 33.0,
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () async{
+                                        final prefs = await SharedPreferences.getInstance();
+                                        String? token = await prefs.getString("token");
+                                        _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Delete",
+                                            style: TextStyle(
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.w400,
+                                              decoration: TextDecoration.none,
+                                              fontSize: 17,
+                                              fontFamily: 'OpenSans',
+                                            ),
+                                          ),
+                                          Text("Delete Customer",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                decoration: TextDecoration.none,
+                                                fontWeight: FontWeight.w300,
+                                                fontSize: 15,
+                                                fontFamily: 'OpenSans',
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ]),
                               Container(
                                 padding: EdgeInsets.only(left: 90),
                                 child: Divider(
@@ -405,7 +411,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                             textDirection: TextDirection.ltr,
                           ),
                           Text(
-                            "${widget.total_liabilities}",
+                            "${money_formart(widget.total_liabilities)}",
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.normal,
@@ -425,7 +431,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                             textDirection: TextDirection.ltr,
                           ),
                           Text(
-                            "${widget.total_payment}",
+                            "${money_formart(widget.total_payment)}",
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.normal,
@@ -444,7 +450,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                             textDirection: TextDirection.ltr,
                           ),
                           Text(
-                            "${double.parse(widget.total_liabilities)-double.parse(widget.total_payment)}",
+                            "${money_formart((double.parse(widget.total_liabilities)-double.parse(widget.total_payment)).toString())}",
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.normal,
@@ -463,7 +469,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                             textDirection: TextDirection.ltr,
                           ),
                           Text(
-                            "${double.parse(widget.unallocated).toStringAsFixed(2)}",
+                            "${money_formart(double.parse(widget.unallocated).toStringAsFixed(2))}",
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.normal,
@@ -531,9 +537,6 @@ class _ShopregisterScreen extends State<customelistcard> {
                             Provider.of<managen_credit>(context, listen: false).increase(double.parse(widget.unallocated));
                           });
                           constant.indexcustomer = widget.ID_Custome;
-                          await getbillinformation.getbill(widget.ID_Custome, token!,1,"desc");
-                          await getshopinformation_createbills.getshopinformation_id(widget.ID_Custome, token);
-                          await getshopinformation.getshopinformation_id( widget.ID_Custome, token);
                           Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist(title: constant.TitleApp_Shop,)));
                         },
                         child: Text("Của hàng",style: TextStyle(fontSize: 12)),
@@ -555,11 +558,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                         color: App_Color.green, // background
                         textColor: Colors.white, // foreground
                         onPressed: () async{
-                          final prefs = await SharedPreferences.getInstance();
-                          String? token = await prefs.getString("token");
                           constant.indexcustomer = widget.ID_Custome;
-                          await getbillinformation.getbill(widget.ID_Custome, token!,1,"asc");
-                          await getshopinformation_createbills.getshopinformation_id(widget.ID_Custome, token);
                           Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreen(Getshopinformation_createbill.data_shop,true)));
                         },
                         child: Text("Thêm hóa đơn",style: TextStyle(fontSize: 12)),

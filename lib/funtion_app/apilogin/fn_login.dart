@@ -26,9 +26,12 @@ class fn_login {
         await prefs.setStringList("rule", rule);
       } else {
         login.LoginSucces = false;
+        login.dataError = json.decode(login.datalogin)["data"].toString();
         await prefs.setString('token', "");
         await prefs.setStringList("rule", []);
       }
-    } catch (e) {}
+    } catch (e) {
+      login.dataError = e.toString();
+    }
   }
 }

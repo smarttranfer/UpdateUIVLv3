@@ -20,14 +20,14 @@ class gethistory_credit{
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       constant_history.Jsondata = await response.stream.bytesToString();
-      print(constant_history.Jsondata);
       if (json.decode(constant_history.Jsondata)["status"].toString() == "200") {
+        print(json.decode(constant_history.Jsondata)["data"]);
         for(var history in json.decode(constant_history.Jsondata)["data"]){
           history_credit h_credit = new history_credit();
           h_credit.ID_log = history["id"];
           h_credit.credit = history["credit"];
-          h_credit.user_id = history["user_id"];
-          h_credit.customer_id = history["customer_id"];
+          h_credit.user_id = history["user"]["name"];
+          h_credit.customer_id = history["customer"]["name"];
           h_credit.create_date = history["create_date"];
           constant_history.listhistory_credit.add(h_credit);
         }
@@ -36,12 +36,12 @@ class gethistory_credit{
       }
       else {
         constant_history.history_credit_sucess = false;
-        constant_history.ContentError = json.decode(constant_history.Jsondata)["message"];
+        constant_history.ContentError = json.decode(constant_history.Jsondata)["data"];
         print(response.reasonPhrase);
       }
     }catch(e){
       constant_history.history_credit_sucess = false;
-      constant_history.ContentError = json.decode(constant_history.Jsondata)["message"];
+      constant_history.ContentError = e.toString();
     }
 
   }

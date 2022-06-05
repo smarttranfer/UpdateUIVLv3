@@ -27,8 +27,8 @@ class gethistory_shop{
           h_Shop.ID_log = history["id"];
           h_Shop.status = history["status"];
           h_Shop.content = history["content"];
-          h_Shop.user_id = history["user_id"];
-          h_Shop.shop_id = history["shop_id"];
+          h_Shop.user_id = history["user"]["name"];
+          h_Shop.shop_id = history["shop"]["name"];
           h_Shop.create_date = history["create_date"];
           constant_history_shop.listhistory_customer_shop.add(h_Shop);
         }

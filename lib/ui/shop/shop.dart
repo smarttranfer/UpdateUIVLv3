@@ -4,19 +4,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
+import 'package:money_formatter/money_formatter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/apigetbill/apigetbill.dart';
+import 'package:vldebitor/funtion_app/apigetbill/fn_getbill.dart';
 import 'package:vldebitor/funtion_app/apigetshopinformation/fn_getshopininformation.dart';
 import 'package:vldebitor/funtion_app/apigetshopinformation/getshopinformation.dart';
 import 'package:vldebitor/theme/Color_app.dart';
+import 'package:vldebitor/ui/createbill/fn_createbill/getshop.dart';
+import 'package:vldebitor/ui/createbill/fn_createbill/getshopdata.dart';
 import '../../funtion_app/apigetshopinformation/getshopinformation.dart';
 import '../../provider/manager_credit.dart';
 import '../../utilities/constants.dart';
 import '../../widget/cardshop.dart';
 import '../home/home.dart';
+import '../shimer_loading/loading.dart';
 import '../shopregister/shopregisterinshop.dart';
 
 class Shoplist extends StatefulWidget {
@@ -33,8 +39,38 @@ class _Shoplist extends State<Shoplist> {
   List<Map<String, dynamic>> _foundUsers = [];
   String searchString = "";
   String status = "No Data";
-  bool checknull = false;
+  bool checknull = true;
   bool check_loding_data = true;
+
+  @override
+  void didChangeDependencies() async{
+    await checkEmtys();
+    super.didChangeDependencies();
+  }
+
+  Future<bool> checkEmtys() async {
+    try{
+      final prefs = await SharedPreferences.getInstance();
+      String? token = await prefs.getString("token");
+      await getbillinformation.getbill(constant.indexcustomer, token!,1,"asc");
+      await getshopinformation.getshopinformation_id(constant.indexcustomer, token);
+      if(Getshopinformation_createbill.GetshopinformationSucces_createbill=true && Getbillinformation.GetbillinformationSucces==true){
+        await mapData();
+        setState(() {
+          checknull = false;
+        });
+        return false;
+      }else {
+        setState(() {
+          checknull = true;
+        });
+        return true;
+      }
+    }catch(e){
+      return false;
+    }
+
+  }
 
   void _runFilter(String enteredKeyword) {
     List<Map<String, dynamic>> results = [];
@@ -52,9 +88,6 @@ class _Shoplist extends State<Shoplist> {
     });
   }
   @override
-  void initState() {
-    mapData();
-  }
   Future<void> mapData()async {
     for (var shop in Getshopinformation.data_shop) {
       _allUsers.add({
@@ -83,8 +116,7 @@ class _Shoplist extends State<Shoplist> {
     await Future.delayed(Duration(milliseconds: 1000));
     final prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token").toString();
-    await getshopinformation.getshopinformation_id(
-        constant.indexcustomer, token);
+    await getshopinformation.getshopinformation_id(constant.indexcustomer, token);
     if (Getshopinformation.GetshopinformationSucces == true) {
       setState(() {
         status = "Get Data";
@@ -119,6 +151,7 @@ class _Shoplist extends State<Shoplist> {
 
   @override
   Widget build(BuildContext context) {
+    MoneyFormatter Format_credit = MoneyFormatter(amount: double.parse(Provider.of<managen_credit>(context, listen: true).CreditResult()));
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -169,7 +202,7 @@ class _Shoplist extends State<Shoplist> {
                 ))
           ],
         ),
-        body: Container(
+        body:  Container(
           padding: EdgeInsets.all(8),
           color: App_Color.Background,
           child: Column(
@@ -219,7 +252,7 @@ class _Shoplist extends State<Shoplist> {
                                 fontSize: 15,
                                 fontFamily: 'OpenSans',
                               )),
-                          Text("${Provider.of<managen_credit>(context, listen: true).CreditResult()}",style: TextStyle(
+                          Text("${Format_credit.output.nonSymbol}",style: TextStyle(
                             color: double.parse(Provider.of<managen_credit>(context, listen: true).CreditResult())>0?App_Color.green:Colors.red,
                             decoration: TextDecoration.none,
                             fontWeight: FontWeight.bold,
@@ -229,18 +262,9 @@ class _Shoplist extends State<Shoplist> {
                         ],
                       ))),
               Expanded(
-                  child: SingleChildScrollView(
+                  child: checknull?Loading():SingleChildScrollView(
                       child: Container(
-                child: _foundUsers.isEmpty
-                    ? Center(
-                        child: AnimatedTextKit(
-                        animatedTexts: [
-                          WavyAnimatedText(status,
-                              textStyle: TextStyle(color: App_Color.green)),
-                        ],
-                        isRepeatingAnimation: true,
-                      ))
-                    : Container(
+                child: Container(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height / 1.55,
                         child: SmartRefresher(
@@ -283,7 +307,7 @@ class _Shoplist extends State<Shoplist> {
                                       index,
                                       _foundUsers[index]["id"],
                                       _foundUsers[index]["name"],
-                                      "${_foundUsers[index]["building_number"]}/${_foundUsers[index]["street_name"]}/${_foundUsers[index]["post_code"]}",
+                                      "${_foundUsers[index]["building_number"]}, ${_foundUsers[index]["street_name"]}, ${_foundUsers[index]["post_code"]}",
                                       _foundUsers[index]["building_number"].toString(),
                                       _foundUsers[index]["street_name"].toString(),
                                       _foundUsers[index]["post_code"].toString(),

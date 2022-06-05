@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:money_formatter/money_formatter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -72,6 +73,10 @@ class _PayoneScreen extends State<PayoneScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String formart_money(String money){
+      MoneyFormatter money_format = MoneyFormatter(amount: double.parse(money));
+      return money_format.output.nonSymbol;
+    }
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -135,7 +140,7 @@ class _PayoneScreen extends State<PayoneScreen> {
                             fontSize: 15,
                             fontFamily: 'OpenSans',
                           )),
-                      Text("${Provider.of<managen_credit>(context, listen: true).CreditResult()}",
+                      Text("${formart_money(Provider.of<managen_credit>(context, listen: true).CreditResult())}",
                           style: TextStyle(
                             color: double.parse(Provider.of<managen_credit>(context, listen: true).CreditResult())>0?App_Color.green:Colors.red,
                             decoration: TextDecoration.none,

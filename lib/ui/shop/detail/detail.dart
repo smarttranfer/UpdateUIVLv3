@@ -3,6 +3,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:money_formatter/money_formatter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -84,6 +85,8 @@ class _DetailScreen extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    MoneyFormatter Formart_money = MoneyFormatter(amount: double.parse(Provider.of<managen_credit>(context, listen: true).CreditResult()));
+
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -156,7 +159,7 @@ class _DetailScreen extends State<DetailScreen> {
                                 fontSize: 15,
                                 fontFamily: 'OpenSans',
                               )),
-                          Text("${Provider.of<managen_credit>(context, listen: true).CreditResult()}",
+                          Text("${Formart_money.output.nonSymbol}",
                               style: TextStyle(
                                 color: double.parse(Provider.of<managen_credit>(context, listen: true).CreditResult())>0?App_Color.green:Colors.red,
                                 decoration: TextDecoration.none,

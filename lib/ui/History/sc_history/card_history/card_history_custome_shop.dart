@@ -11,8 +11,8 @@ class History_customer_shop extends StatefulWidget {
   int idHistory;
   String Status;
   String Contents;
-  int User;
-  int Customer_Shop_id;
+  String User;
+  String Customer_Shop_id;
   String Create_date;
 
   History_customer_shop(this.idHistory, this.Status,this.Contents, this.User,this.Customer_Shop_id,this.Create_date);
@@ -67,23 +67,23 @@ class _History_customer_shop extends State<History_customer_shop> {
                           height: 5,
                         ),
                         Text(
-                          "ID nhân viên: ${widget.User}",
+                          "Nhân viên: ${widget.User}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
                         SizedBox(
                           height: 5,
                         ),
-                        Text(
-                          constant.check_history_mode?"ID Khách hàng":"ID Shop: ${widget.Customer_Shop_id}",
-                          style: kLabelStyle,
-                          textDirection: TextDirection.ltr,
-                        ),
+                        // Text(
+                        //   constant.check_history_mode?"Khách hàng":"Shop: ${widget.Customer_Shop_id}",
+                        //   style: kLabelStyle,
+                        //   textDirection: TextDirection.ltr,
+                        // ),
                         SizedBox(
                           height: 5,
                         ),
                         Text(
-                          "Ngày tạo: ${widget.Create_date}",
+                          "Ngày sửa: ${widget.Create_date}",
                           style: kLabelStyle,
                           textDirection: TextDirection.ltr,
                         ),
