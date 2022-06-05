@@ -563,6 +563,9 @@ class _ShopregisterScreen extends State<customelistcard> {
                         textColor: Colors.white, // foreground
                         onPressed: () async{
                           constant.indexcustomer = widget.ID_Custome;
+                          final prefs = await SharedPreferences.getInstance();
+                          String token = await prefs.getString("token").toString();
+                          await getshopinformation_createbills.getshopinformation_id(widget.ID_Custome, token);
                           Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreen(Getshopinformation_createbill.data_shop,true)));
                         },
                         child: Text("Thêm hóa đơn",style: TextStyle(fontSize: 12)),

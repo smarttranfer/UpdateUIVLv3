@@ -174,7 +174,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                 "Bạn cần nhập đủ thông tin của cửa hàng");
           } else {
             await _CreaterShop(
-                name.text, House.text, address.text, postcode.text.replaceAll(" ", ""));
+                name.text, House.text.replaceAll(" ", ""), address.text.replaceAll(" ", ""), postcode.text.replaceAll(" ", ""));
             if (registershop.Create_Shop_Succes == true) {
               name.text = "";  House.text = ""; address.text = ""; postcode.text = "";
               Fluttertoast.showToast(
@@ -224,7 +224,7 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
                 "Bạn cần nhập đủ thông tin của cửa hàng");
           } else {
             await _CreaterShop(
-                name.text, House.text, address.text, postcode.text.replaceAll(" ",""));
+                name.text, House.text.replaceAll(" ", ""), address.text.replaceAll(" ", ""), postcode.text.replaceAll(" ",""));
             if (registershop.Create_Shop_Succes == true) {
               Fluttertoast.showToast(
                   msg: "Create Shop Done",
@@ -349,37 +349,37 @@ class _ShopregisterScreen extends State<ShopregisterScreen> {
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: GestureDetector(
-          onHorizontalDragUpdate: (details) async {
-            if (details.delta.dx > 0) {
-              if (name.text.isEmpty |
-              House.text.isEmpty |
-                  address.text.isEmpty |
-                  postcode.text.isEmpty) {
-                _showErrorMessage(
-                    "Bạn cần nhập đủ thông tin của cửa hàng");
-              } else {
-                await _CreaterShop(
-                    name.text, House.text, address.text, postcode.text);
-                if (registershop.Create_Shop_Succes == true) {
-                  Fluttertoast.showToast(
-                      msg: "Tạo shop thành công",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: App_Color.green.withOpacity(0.9),
-                      textColor: Colors.white,
-                      fontSize: 16.0);
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/home', (Route<dynamic> route) => false);
-                } else {
-                  _showErrorMessage(registershop.ContentError);
-                }
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    '/home', (Route<dynamic> route) => false);
-              }
-              // Right Swipe
-            }
-          },
+          // onHorizontalDragUpdate: (details) async {
+          //   if (details.delta.dx > 0) {
+          //     if (name.text.isEmpty |
+          //     House.text.isEmpty |
+          //         address.text.isEmpty |
+          //         postcode.text.isEmpty) {
+          //       _showErrorMessage(
+          //           "Bạn cần nhập đủ thông tin của cửa hàng");
+          //     } else {
+          //       await _CreaterShop(
+          //           name.text, House.text, address.text, postcode.text);
+          //       if (registershop.Create_Shop_Succes == true) {
+          //         Fluttertoast.showToast(
+          //             msg: "Tạo shop thành công",
+          //             toastLength: Toast.LENGTH_SHORT,
+          //             gravity: ToastGravity.BOTTOM,
+          //             timeInSecForIosWeb: 1,
+          //             backgroundColor: App_Color.green.withOpacity(0.9),
+          //             textColor: Colors.white,
+          //             fontSize: 16.0);
+          //         Navigator.of(context).pushNamedAndRemoveUntil(
+          //             '/home', (Route<dynamic> route) => false);
+          //       } else {
+          //         _showErrorMessage(registershop.ContentError);
+          //       }
+          //       Navigator.of(context).pushNamedAndRemoveUntil(
+          //           '/home', (Route<dynamic> route) => false);
+          //     }
+          //     // Right Swipe
+          //   }
+          // },
           onTap: () => FocusScope.of(context).unfocus(),
           child: Stack(
             children: <Widget>[
