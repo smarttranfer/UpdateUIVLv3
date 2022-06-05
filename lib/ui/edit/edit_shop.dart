@@ -270,8 +270,6 @@ class _ShopEditScreen extends State<ShopEditScreen> {
               House.text.isEmpty |
               address.text.isEmpty |
               postcode.text.isEmpty) {
-                _showErrorMessage(
-                    "Bạn cần nhập đủ thông tin của cửa hàng");
               } else {
                 await _EditShop(
                     name.text, House.text, address.text, postcode.text);
