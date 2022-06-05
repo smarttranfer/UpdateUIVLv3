@@ -54,7 +54,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
 
   @override
   void initState() {
-    _money..text = "${widget.suggest}";
+    _money..text = "${ double.parse((widget.suggest).toStringAsFixed(2))}";
     suggest = widget.suggest;
     checkdone = widget.checkactive;
     total = double.parse(widget.Total);
@@ -153,7 +153,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                                   try {
                                     if ((double.parse(e.toString().replaceAll(",", "")) > double.parse(Provider.of<managen_credit>(context, listen: false).CreditResult()))) {
                                       setState(() {
-                                        suggest =double.parse(e);
+                                        suggest =double.parse(e.toString().replaceAll(",", ""));
                                       });
                                       Fluttertoast.showToast(
                                           msg: "Số tiêng không đủ để thực hiện",
@@ -165,7 +165,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                                           fontSize: 16.0);
                                     } else if (double.parse(e.toString().replaceAll(",", "")) > mustpay) {
                                       setState(() {
-                                        suggest =double.parse(e);
+                                        suggest =double.parse(e.toString().replaceAll(",", ""));
                                       });
                                       Fluttertoast.showToast(
                                           msg: "Số tiền bạn nhập vượt quá số tiền phải trả",
@@ -177,10 +177,12 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                                           fontSize: 16.0);
                                     }else{
                                       setState(() {
-                                        suggest =double.parse(e);
+                                        suggest =double.parse(e.toString().replaceAll(",", ""));
                                       });
                                     }
-                                  } catch (e) {}
+                                  } catch (e) {
+                                    print(e);
+                                  }
                                 },
                                 style: TextStyle(
                                   color: Colors.white,
@@ -236,7 +238,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                         ),
                         color: App_Color.green, // background
                         textColor: Colors.white, // foreground
-                        onPressed: ((suggest <= double.parse(Provider.of<managen_credit>(context, listen: false).CreditResult()))&&suggest>0)
+                        onPressed: ((suggest <= double.parse(Provider.of<managen_credit>(context, listen: false).CreditResult()))&&suggest>0 &&suggest<=mustpay)
                             ? () async {
                                 final prefs = await SharedPreferences.getInstance();
                                 String? token = await prefs.getString("token");
@@ -263,6 +265,16 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                                         backgroundColor: Colors.green,
                                         textColor: Colors.white,
                                         fontSize: 16.0);
+                                  }else{
+                                    setState(() {
+                                      paid = paid + double.parse(_money.text.toString().replaceAll(",", ""));
+                                      credit = credit -double.parse(_money.text.toString().replaceAll(",", ""));
+                                      mustpay = mustpay - double.parse(_money.text.toString().replaceAll(",", ""));
+                                    });
+                                    setState(() {
+                                      suggest=0.0;
+                                    });
+                                    _money.clear();
                                   }
                                 } else {
                                   Fluttertoast.showToast(

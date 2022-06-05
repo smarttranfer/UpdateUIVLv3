@@ -44,18 +44,18 @@ class _Shoplist extends State<Shoplist> {
 
   @override
   void didChangeDependencies() async{
-    await checkEmty();
-    await mapData();
+    await checkEmtys();
     super.didChangeDependencies();
   }
 
-  Future<bool> checkEmty() async {
+  Future<bool> checkEmtys() async {
     try{
       final prefs = await SharedPreferences.getInstance();
       String? token = await prefs.getString("token");
       await getbillinformation.getbill(constant.indexcustomer, token!,1,"asc");
-      await getshopinformation_createbills.getshopinformation_id(constant.indexcustomer, token);
-      if(Getshopinformation_createbill.GetshopinformationSucces_createbill=true &&  Getbillinformation.GetbillinformationSucces==true){
+      await getshopinformation.getshopinformation_id(constant.indexcustomer, token);
+      if(Getshopinformation_createbill.GetshopinformationSucces_createbill=true && Getbillinformation.GetbillinformationSucces==true){
+        await mapData();
         setState(() {
           checknull = false;
         });
@@ -88,9 +88,6 @@ class _Shoplist extends State<Shoplist> {
     });
   }
   @override
-  void initState() {
-    mapData();
-  }
   Future<void> mapData()async {
     for (var shop in Getshopinformation.data_shop) {
       _allUsers.add({
@@ -119,8 +116,7 @@ class _Shoplist extends State<Shoplist> {
     await Future.delayed(Duration(milliseconds: 1000));
     final prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token").toString();
-    await getshopinformation.getshopinformation_id(
-        constant.indexcustomer, token);
+    await getshopinformation.getshopinformation_id(constant.indexcustomer, token);
     if (Getshopinformation.GetshopinformationSucces == true) {
       setState(() {
         status = "Get Data";
@@ -268,16 +264,7 @@ class _Shoplist extends State<Shoplist> {
               Expanded(
                   child: checknull?Loading():SingleChildScrollView(
                       child: Container(
-                child: _foundUsers.isEmpty
-                    ? Center(
-                        child: AnimatedTextKit(
-                        animatedTexts: [
-                          WavyAnimatedText(status,
-                              textStyle: TextStyle(color: App_Color.green)),
-                        ],
-                        isRepeatingAnimation: true,
-                      ))
-                    : Container(
+                child: Container(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height / 1.55,
                         child: SmartRefresher(

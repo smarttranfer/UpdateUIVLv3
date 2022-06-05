@@ -11,6 +11,7 @@ import 'package:vldebitor/funtion_app/apigetshopinformation/delete/fn_delete.dar
 import 'package:vldebitor/funtion_app/history/history_shop/gethistory_shop.dart';
 import 'package:vldebitor/funtion_app/history/history_shop/history_shop.dart';
 import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
+import 'package:vldebitor/ui/createbill/fn_createbill/getshop.dart';
 import '../funtion_app/apigetbill/apigetbill.dart';
 import '../funtion_app/apigetbill/fn_getbill.dart';
 import '../funtion_app/apiregistercustomer/delete/fn_detelecustomer.dart';
@@ -456,6 +457,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                           final prefs = await SharedPreferences.getInstance();
                           String? token = await prefs.getString("token");
                           await getbillinformation.getbill(widget.id, token!,1,"asc");
+                          await getshopinformation_createbills.getshopinformation_id(constant.indexcustomer, token);
                           constant.index_bill = widget.index_bill;
                           if (Getbillinformation.GetbillinformationSucces == true) {
                             Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreenMore(Getshopinformation_createbill.data_shop,constant.index_bill,Shoplist(title: constant.TitleApp_Shop,))));
