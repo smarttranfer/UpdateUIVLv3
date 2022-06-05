@@ -27,8 +27,7 @@ class CreaterCustomer {
         prefs.setInt("id_custome", json.decode(registercustomer.Jsondata)["data"]["id"]);
       } else {
         registercustomer.Create_Customer_Succes = false;
-        registercustomer.ContentError = json.decode(registercustomer.Jsondata)["message"];
-        print(response.reasonPhrase);
+        registercustomer.ContentError = json.decode(registercustomer.Jsondata)["data"];
       }
     } catch (e) {}
   }

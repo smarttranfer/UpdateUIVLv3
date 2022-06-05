@@ -52,9 +52,10 @@ class _Shoplist extends State<Shoplist> {
     try{
       final prefs = await SharedPreferences.getInstance();
       String? token = await prefs.getString("token");
+      print(constant.indexcustomer);
       await getbillinformation.getbill(constant.indexcustomer, token!,1,"asc");
       await getshopinformation.getshopinformation_id(constant.indexcustomer, token);
-      if(Getshopinformation_createbill.GetshopinformationSucces_createbill=true && Getbillinformation.GetbillinformationSucces==true){
+      if( Getshopinformation.GetshopinformationSucces=true){
         await mapData();
         setState(() {
           checknull = false;
@@ -102,7 +103,6 @@ class _Shoplist extends State<Shoplist> {
       "total_payment": shop.Total_payment,
       "total_liabilities": shop.Total_liabilities,
       "create_date": shop.Create_date,
-
       });
     }
     _foundUsers = _allUsers;

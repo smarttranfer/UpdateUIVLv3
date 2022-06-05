@@ -37,12 +37,11 @@ class gethistory_shop{
       }
       else {
         constant_history_shop.history_customer_shop_sucess = false;
-        constant_history_shop.ContentError = json.decode(constant_history_shop.Jsondata)["message"];
-        print(response.reasonPhrase);
+        constant_history_shop.ContentError = json.decode(constant_history_shop.Jsondata)["data"];
       }
     }catch(e){
       constant_history_shop.history_customer_shop_sucess = false;
-      constant_history_shop.ContentError = json.decode(constant_history_shop.Jsondata)["message"];
+      constant_history_shop.ContentError = e.toString();
     }
 
   }

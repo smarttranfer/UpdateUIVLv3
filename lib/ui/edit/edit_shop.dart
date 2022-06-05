@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apiedit_customer/editshop/apiedit_shop.dart';
 import 'package:vldebitor/funtion_app/apiedit_customer/editshop/fn_edit_shop.dart';
 import 'package:vldebitor/funtion_app/apiregistershop/registershop.dart';
@@ -12,6 +13,7 @@ import 'package:vldebitor/theme/Color_app.dart';
 import '../../funtion_app/apiregistershop/fn_registershop.dart';
 import '../../utilities/constants.dart';
 import '../home/home.dart';
+import '../shop/shop.dart';
 
 class ShopEditScreen extends StatefulWidget {
   late int IDShop;
@@ -224,7 +226,7 @@ class _ShopEditScreen extends State<ShopEditScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
-            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
+            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist(title: constant.TitleApp_Shop,)));
           },
         ),
         automaticallyImplyLeading: false,

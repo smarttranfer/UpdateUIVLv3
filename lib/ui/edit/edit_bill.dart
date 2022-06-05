@@ -315,15 +315,6 @@ class _EditBillScreen extends State<EditBillScreen> {
                   ],
                 )))
             : GestureDetector(
-          onHorizontalDragUpdate: (details) {
-            if (details.delta.dx > 0) {
-              Navigator.pushReplacement(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: Home_page()));
-            }
-          },
           onTap: () => FocusScope.of(context).unfocus(),
           child: Stack(
             children: <Widget>[

@@ -78,6 +78,8 @@ class _ShopregisterScreen extends State<customelistcard> {
                   InkWell(
                     onTap: () {
                       showCupertinoModalBottomSheet(
+                        barrierColor:Colors.black87,
+                        enableDrag: true,
                         context: context,
                         builder: (context) => Container(
                           color: App_Color.Background,
@@ -167,6 +169,69 @@ class _ShopregisterScreen extends State<customelistcard> {
                                   color: Colors.grey,
                                 ),
                               ),
+                              // Lịch sử view
+                              Row(children: [
+                                SizedBox(
+                                  width: 30,
+                                ),
+                                Icon(
+                                  Icons.history,
+                                  color: Colors.grey,
+                                  size: 33.0,
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () async{
+                                        constant.check_history_mode = true;
+                                        final prefs = await SharedPreferences.getInstance();
+                                        String? token = await prefs.getString("token");
+                                        await gethistory_customer_shop.gethistory(token!);
+                                        if(constant_history_customer.history_customer_shop_sucess==true){
+                                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: HistoryList()));
+                                        }else{
+                                          _showWarningMessagePay(constant_history_customer.ContentError);
+                                        }
+                                        // _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Lịch sử",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w400,
+                                              decoration: TextDecoration.none,
+                                              fontSize: 17,
+                                              fontFamily: 'OpenSans',
+                                            ),
+                                          ),
+                                          Text("Xem lịch sử",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                decoration: TextDecoration.none,
+                                                fontWeight: FontWeight.w300,
+                                                fontSize: 15,
+                                                fontFamily: 'OpenSans',
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ]),
+                              Container(
+                                padding: EdgeInsets.only(left: 90),
+                                child: Divider(
+                                  color: Colors.grey,
+                                ),
+                              ),
                               Row(children: [
                                 SizedBox(
                                   width: 30,
@@ -216,69 +281,8 @@ class _ShopregisterScreen extends State<customelistcard> {
                                   ],
                                 )
                               ]),
-                              Container(
-                                padding: EdgeInsets.only(left: 90),
-                                child: Divider(
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              // Lịch sử view
-                              Row(children: [
-                                SizedBox(
-                                  width: 30,
-                                ),
-                                Icon(
-                                  Icons.history,
-                                  color: Colors.grey,
-                                  size: 33.0,
-                                ),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    TextButton(
-                                      onPressed: () async{
-                                        constant.check_history_mode = true;
-                                        final prefs = await SharedPreferences.getInstance();
-                                        String? token = await prefs.getString("token");
-                                        await gethistory_customer_shop.gethistory(token!);
-                                        if(constant_history_customer.history_customer_shop_sucess==true){
-                                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: HistoryList()));
-                                        }else{
-                                          _showWarningMessagePay(constant_history_customer.ContentError);
-                                        }
-                                        // _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
-                                      },
-                                      child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Lịch sử",
-                                            style: TextStyle(
-                                              color: Colors.red,
-                                              fontWeight: FontWeight.w400,
-                                              decoration: TextDecoration.none,
-                                              fontSize: 17,
-                                              fontFamily: 'OpenSans',
-                                            ),
-                                          ),
-                                          Text("Xem lịch sử",
-                                              style: TextStyle(
-                                                color: Colors.grey,
-                                                decoration: TextDecoration.none,
-                                                fontWeight: FontWeight.w300,
-                                                fontSize: 15,
-                                                fontFamily: 'OpenSans',
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ]),
+
+
                             ],
                           ),
                         ),
@@ -510,7 +514,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                             _showWarningMessagePay(constant_history.ContentError);
                           }
                         },
-                        child: Text("Nap tiền",style: TextStyle(fontSize: 12),),
+                        child: Text("Nạp tiền",style: TextStyle(fontSize: 12),),
                       )
                     ],
                   ),
@@ -539,7 +543,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                           constant.indexcustomer = widget.ID_Custome;
                           Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist(title: constant.TitleApp_Shop,)));
                         },
-                        child: Text("Của hàng",style: TextStyle(fontSize: 12)),
+                        child: Text("Cửa hàng",style: TextStyle(fontSize: 12)),
                       )
                     ],
                   ),
