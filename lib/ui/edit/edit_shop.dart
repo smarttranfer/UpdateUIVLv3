@@ -264,37 +264,35 @@ class _ShopEditScreen extends State<ShopEditScreen> {
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: GestureDetector(
-          onHorizontalDragUpdate: (details) async {
-            if (details.delta.dx > 0) {
-              if (name.text.isEmpty |
-              House.text.isEmpty |
-              address.text.isEmpty |
-              postcode.text.isEmpty) {
-                _showErrorMessage(
-                    "Bạn cần nhập đủ thông tin của cửa hàng");
-              } else {
-                await _EditShop(
-                    name.text, House.text, address.text, postcode.text);
-                if (registershop.Create_Shop_Succes == true) {
-                  Fluttertoast.showToast(
-                      msg: "Tạo shop thành công",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: App_Color.green.withOpacity(0.9),
-                      textColor: Colors.white,
-                      fontSize: 16.0);
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/home', (Route<dynamic> route) => false);
-                } else {
-                  _showErrorMessage(registershop.ContentError);
-                }
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    '/home', (Route<dynamic> route) => false);
-              }
-              // Right Swipe
-            }
-          },
+          // onHorizontalDragUpdate: (details) async {
+          //   if (details.delta.dx > 0) {
+          //     if (name.text.isEmpty |
+          //     House.text.isEmpty |
+          //     address.text.isEmpty |
+          //     postcode.text.isEmpty) {
+          //     } else {
+          //       await _EditShop(
+          //           name.text, House.text, address.text, postcode.text);
+          //       if (registershop.Create_Shop_Succes == true) {
+          //         Fluttertoast.showToast(
+          //             msg: "Tạo shop thành công",
+          //             toastLength: Toast.LENGTH_SHORT,
+          //             gravity: ToastGravity.BOTTOM,
+          //             timeInSecForIosWeb: 1,
+          //             backgroundColor: App_Color.green.withOpacity(0.9),
+          //             textColor: Colors.white,
+          //             fontSize: 16.0);
+          //         Navigator.of(context).pushNamedAndRemoveUntil(
+          //             '/home', (Route<dynamic> route) => false);
+          //       } else {
+          //         _showErrorMessage(registershop.ContentError);
+          //       }
+          //       Navigator.of(context).pushNamedAndRemoveUntil(
+          //           '/home', (Route<dynamic> route) => false);
+          //     }
+          //     // Right Swipe
+          //   }
+          // },
           onTap: () => FocusScope.of(context).unfocus(),
           child: Stack(
             children: <Widget>[
