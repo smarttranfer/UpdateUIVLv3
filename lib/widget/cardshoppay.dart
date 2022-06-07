@@ -5,14 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:money_formatter/money_formatter.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apipayment/Payment.dart';
 import 'package:vldebitor/funtion_app/apipayment/fn_payment.dart';
+import 'package:vldebitor/funtion_app/history/history_bill_many/history_bil.dart';
+import 'package:vldebitor/funtion_app/history/history_bill_many/history_bill_many.dart';
 import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
 import '../provider/manager_credit.dart';
 import '../theme/Color_app.dart';
+import '../ui/History/sc_history_bill_many/sc_history_bill_many.dart';
+import '../ui/edit/edit_custome.dart';
 import '../ui/shop/detail/detail.dart';
 import '../utilities/constants.dart';
 
@@ -211,8 +216,13 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                         ),
                         color: App_Color.orange, // background
                         textColor: Colors.white, // foreground
-                        onPressed: () {
-                          transation_page.transation_router(DetailScreen(), 1);
+                        onPressed: () async{
+                          final prefs = await SharedPreferences.getInstance();
+                          String? token = await prefs.getString("token");
+                          await gethistory_bill_many.gethistory(widget.ID, token!);
+                          if(constant_history_billpayment.listhistory_billpayment_sucess == true){
+                            Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft,child: HistoryList_bill()));
+                          }
                         },
                         child: Text("Lịch sử"),
                       )

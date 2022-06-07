@@ -7,7 +7,7 @@ import '../../../model/sc_history/history_customer_shop/history_customer_shops.d
 
 class gethistory_customer_shop{
 
-  static Future<void> gethistory(String token) async {
+  static Future<void> gethistory(String token,int id_custome) async {
     try{
       constant_history_customer.listhistory_customer_shop.clear();
       final prefs = await SharedPreferences.getInstance();
@@ -15,7 +15,7 @@ class gethistory_customer_shop{
       var headers = {
         'Authorization': 'Bearer ${token}'
       };
-      var request = http.Request('GET', Uri.parse('${DC_address}/log/customer?customer_id=-1&user_id=-1&sort=desc&status='));
+      var request = http.Request('GET', Uri.parse('${DC_address}/log/customer?customer_id=${id_custome}&user_id=-1&sort=desc&status='));
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       constant_history_customer.Jsondata = await response.stream.bytesToString();

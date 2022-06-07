@@ -190,7 +190,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                                         constant.check_history_mode = true;
                                         final prefs = await SharedPreferences.getInstance();
                                         String? token = await prefs.getString("token");
-                                        await gethistory_customer_shop.gethistory(token!);
+                                        await gethistory_customer_shop.gethistory(token!,widget.ID_Custome);
                                         if(constant_history_customer.history_customer_shop_sucess==true){
                                           Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: HistoryList()));
                                         }else{
@@ -507,7 +507,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                           });
                           final prefs = await SharedPreferences.getInstance();
                           String token = prefs.getString("token").toString();
-                          await gethistory_credit.gethistory(constant.indexcustomer, token);
+                          await gethistory_credit.gethistory(widget.ID_Custome, token);
                           if(constant_history.history_credit_sucess == true){
                             Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreditScreen(ID: widget.ID_Custome,Total: widget.total_liabilities,Paid: widget.total_payment,Credit: double.parse(widget.unallocated),)));
                           }else{
