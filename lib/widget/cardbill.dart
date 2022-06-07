@@ -5,7 +5,11 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:money_formatter/money_formatter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/history/history_bill_many/history_bil.dart';
+import 'package:vldebitor/funtion_app/history/history_bill_many/history_bill_many.dart';
+import 'package:vldebitor/ui/History/sc_history_bill_many/sc_history_bill_many.dart';
 import 'package:vldebitor/ui/develop/develop.dart';
 import '../funtion_app/transation_page/transation_page.dart';
 import '../provider/manager_credit.dart';
@@ -278,9 +282,13 @@ class _cardbill extends State<cardbill> {
                         ),
                         color: App_Color.orange, // background
                         textColor: Colors.white, // foreground
-                        onPressed: () {
-                          // Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Develop()));
-                          // transation_page.transation_router(Develop(), 2);
+                        onPressed: () async{
+                          final prefs = await SharedPreferences.getInstance();
+                          String? token = await prefs.getString("token");
+                          await gethistory_bill_many.gethistory(int.parse(widget.ID), token!);
+                          if(constant_history_billpayment.listhistory_billpayment_sucess == true){
+                            Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft,child: HistoryList_bill()));
+                          }
                         },
                         child: Text("Lịch sử"),
                       )
