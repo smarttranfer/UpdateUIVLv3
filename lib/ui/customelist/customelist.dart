@@ -70,7 +70,7 @@ class _Customelist extends State<Customelist> {
           .toList();
       if (results.isEmpty) {
         results = _allUsers
-            .where((user) => user["phone"]
+            .where((phone) => phone["phone"]
                 .toLowerCase()
                 .contains(enteredKeyword.toLowerCase()))
             .toList();

@@ -34,7 +34,8 @@ class Shoplist extends StatefulWidget {
 }
 
 class _Shoplist extends State<Shoplist> {
-  final RefreshController _refreshController = RefreshController(initialRefresh: false);
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
   final List<Map<String, dynamic>> _allUsers = [];
   List<Map<String, dynamic>> _foundUsers = [];
   String searchString = "";
@@ -42,35 +43,40 @@ class _Shoplist extends State<Shoplist> {
   bool checknull = true;
   bool check_loding_data = true;
 
+
   @override
-  void didChangeDependencies() async{
-    await checkEmtys();
-    super.didChangeDependencies();
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_)async {
+      await checkEmtys();
+      await mapData();
+    });
+
   }
 
+
   Future<bool> checkEmtys() async {
-    try{
+    try {
       final prefs = await SharedPreferences.getInstance();
       String? token = await prefs.getString("token");
-      print(constant.indexcustomer);
-      await getbillinformation.getbill(constant.indexcustomer, token!,1,"asc");
-      await getshopinformation.getshopinformation_id(constant.indexcustomer, token);
-      if( Getshopinformation.GetshopinformationSucces=true){
-        await mapData();
+      // await getbillinformation.getbill(constant.indexcustomer, token!,1,"asc");
+      await getshopinformation.getshopinformation_id(
+          constant.indexcustomer, token!);
+      if (Getshopinformation.GetshopinformationSucces = true) {
         setState(() {
           checknull = false;
         });
         return false;
-      }else {
+      } else {
         setState(() {
           checknull = true;
         });
         return true;
       }
-    }catch(e){
+    } catch (e) {
       return false;
     }
-
   }
 
   void _runFilter(String enteredKeyword) {
@@ -79,30 +85,39 @@ class _Shoplist extends State<Shoplist> {
     if (enteredKeyword.isEmpty) {
       results = _allUsers;
     } else {
-      results = _allUsers.where((user) => user["name"].toLowerCase().contains(enteredKeyword.toLowerCase())).toList();
-      if(results.isEmpty){
-        results = _allUsers.where((user) => user["building_number"].toLowerCase().contains(enteredKeyword.toLowerCase())).toList();
+      results = _allUsers
+          .where((user) =>
+              user["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
+          .toList();
+      if (results.isEmpty) {
+        results.clear();
+        results = _allUsers
+            .where((user) => user["building_number"]
+                .toLowerCase()
+                .contains(enteredKeyword.toLowerCase()))
+            .toList();
       }
     }
     setState(() {
       _foundUsers = results;
     });
   }
+
   @override
-  Future<void> mapData()async {
+  Future<void> mapData() async {
     for (var shop in Getshopinformation.data_shop) {
       _allUsers.add({
-      "id": shop.Shop_ID,
-      "name": shop.Name,
-      "phone": null,
-      "building_number": shop.Building_number,
-      "street_name": shop.street_name,
-      "post_code": shop.Post_code,
-      "total_invoice": shop.Total_invoice,
-      "total_invoice_paid": shop.Total_invoice_paid,
-      "total_payment": shop.Total_payment,
-      "total_liabilities": shop.Total_liabilities,
-      "create_date": shop.Create_date,
+        "id": shop.Shop_ID,
+        "name": shop.Name,
+        "phone": null,
+        "building_number": shop.Building_number,
+        "street_name": shop.street_name,
+        "post_code": shop.Post_code,
+        "total_invoice": shop.Total_invoice,
+        "total_invoice_paid": shop.Total_invoice_paid,
+        "total_payment": shop.Total_payment,
+        "total_liabilities": shop.Total_liabilities,
+        "create_date": shop.Create_date,
       });
     }
     _foundUsers = _allUsers;
@@ -116,7 +131,8 @@ class _Shoplist extends State<Shoplist> {
     await Future.delayed(Duration(milliseconds: 1000));
     final prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token").toString();
-    await getshopinformation.getshopinformation_id(constant.indexcustomer, token);
+    await getshopinformation.getshopinformation_id(
+        constant.indexcustomer, token);
     if (Getshopinformation.GetshopinformationSucces == true) {
       setState(() {
         status = "Get Data";
@@ -151,7 +167,9 @@ class _Shoplist extends State<Shoplist> {
 
   @override
   Widget build(BuildContext context) {
-    MoneyFormatter Format_credit = MoneyFormatter(amount: double.parse(Provider.of<managen_credit>(context, listen: true).CreditResult()));
+    MoneyFormatter Format_credit = MoneyFormatter(
+        amount: double.parse(
+            Provider.of<managen_credit>(context, listen: true).CreditResult()));
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -202,7 +220,7 @@ class _Shoplist extends State<Shoplist> {
                 ))
           ],
         ),
-        body:  Container(
+        body: Container(
           padding: EdgeInsets.all(8),
           color: App_Color.Background,
           child: Column(
@@ -218,9 +236,11 @@ class _Shoplist extends State<Shoplist> {
                     color: Colors.white,
                     fontFamily: 'OpenSans',
                   ),
-                  onChanged: (value) {
-                    return _runFilter(value);
+                  onChanged: (values) {
+                    return _runFilter(values);
                   },
+                  //   return _runFilter(value);
+                  // },
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.all(10),
@@ -231,15 +251,17 @@ class _Shoplist extends State<Shoplist> {
               ),
               SizedBox(height: 5),
               Container(
-                    decoration:  BoxDecoration(
-                      color: App_Color.Background,
-                    ),
+                  decoration: BoxDecoration(
+                    color: App_Color.Background,
+                  ),
                   padding: EdgeInsets.all(8),
                   child: Container(
                       decoration: kBoxDecorationStyle_credit,
                       height: 80.0,
                       // width: MediaQuery.of(context).size.width/1.19,
-                      margin: EdgeInsets.only(bottom: 8,),
+                      margin: EdgeInsets.only(
+                        bottom: 8,
+                      ),
                       alignment: Alignment.center,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -252,72 +274,96 @@ class _Shoplist extends State<Shoplist> {
                                 fontSize: 15,
                                 fontFamily: 'OpenSans',
                               )),
-                          Text("${Format_credit.output.nonSymbol}",style: TextStyle(
-                            color: double.parse(Provider.of<managen_credit>(context, listen: true).CreditResult())>0?App_Color.green:Colors.red,
-                            decoration: TextDecoration.none,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                            fontFamily: 'OpenSans',
-                          ))
+                          Text("${Format_credit.output.nonSymbol}",
+                              style: TextStyle(
+                                color: double.parse(Provider.of<managen_credit>(
+                                                context,
+                                                listen: true)
+                                            .CreditResult()) >
+                                        0
+                                    ? App_Color.green
+                                    : Colors.red,
+                                decoration: TextDecoration.none,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                                fontFamily: 'OpenSans',
+                              ))
                         ],
                       ))),
               Expanded(
-                  child: checknull?Loading():SingleChildScrollView(
-                      child: Container(
-                child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height / 1.55,
-                        child: SmartRefresher(
-                            physics: const BouncingScrollPhysics(),
-                            enablePullDown: true,
-                            enablePullUp: false,
-                            header: WaterDropHeader(
-                              waterDropColor: App_Color.green,
-                              complete: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  const Icon(Icons.done, color: Colors.green),
-                                  const SizedBox(width: 15.0),
-                                  Text(
-                                    update_SC,
-                                    style: TextStyle(color: App_Color.green),
-                                  )
-                                ],
-                              ),
-                              failed: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  const Icon(Icons.error_outline,
-                                      color: Colors.red),
-                                  const SizedBox(width: 15.0),
-                                  Text(
-                                    update_F,
-                                    style: TextStyle(color: Colors.red),
-                                  )
-                                ],
-                              ),
-                            ),
-                            controller: _refreshController,
-                            onLoading: _onLoading,
-                            onRefresh: _onRefresh,
-                            child: ListView.builder(
-                                itemCount: _foundUsers.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Shoplistcard(
-                                      index,
-                                      _foundUsers[index]["id"],
-                                      _foundUsers[index]["name"],
-                                      "${_foundUsers[index]["building_number"]}, ${_foundUsers[index]["street_name"]}, ${_foundUsers[index]["post_code"]}",
-                                      _foundUsers[index]["building_number"].toString(),
-                                      _foundUsers[index]["street_name"].toString(),
-                                      _foundUsers[index]["post_code"].toString(),
-                                      _foundUsers[index]["total_invoice_paid"].toString(),
-                                      _foundUsers[index]["total_invoice"].toString(),
-                                      _foundUsers[index]["total_payment"].toString(),
-                                      _foundUsers[index]["total_liabilities"].toString(),
-                                      _foundUsers[index]["create_date"].toString());
-                                }))),
-              )))
+                  child: checknull
+                      ? Loading()
+                      : SingleChildScrollView(
+                          child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height / 1.55,
+                              child: SmartRefresher(
+                                  physics: const BouncingScrollPhysics(),
+                                  enablePullDown: true,
+                                  enablePullUp: false,
+                                  header: WaterDropHeader(
+                                    waterDropColor: App_Color.green,
+                                    complete: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        const Icon(Icons.done,
+                                            color: Colors.green),
+                                        const SizedBox(width: 15.0),
+                                        Text(
+                                          update_SC,
+                                          style:
+                                              TextStyle(color: App_Color.green),
+                                        )
+                                      ],
+                                    ),
+                                    failed: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        const Icon(Icons.error_outline,
+                                            color: Colors.red),
+                                        const SizedBox(width: 15.0),
+                                        Text(
+                                          update_F,
+                                          style: TextStyle(color: Colors.red),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  controller: _refreshController,
+                                  onLoading: _onLoading,
+                                  onRefresh: _onRefresh,
+                                  child: ListView.builder(
+                                      itemCount: _foundUsers.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Shoplistcard(
+                                            index,
+                                            _foundUsers[index]["id"],
+                                            _foundUsers[index]["name"],
+                                            "${_foundUsers[index]["building_number"]}, ${_foundUsers[index]["street_name"]}, ${_foundUsers[index]["post_code"]}",
+                                            _foundUsers[index]
+                                                    ["building_number"]
+                                                .toString(),
+                                            _foundUsers[index]["street_name"]
+                                                .toString(),
+                                            _foundUsers[index]["post_code"]
+                                                .toString(),
+                                            _foundUsers[index]
+                                                    ["total_invoice_paid"]
+                                                .toString(),
+                                            _foundUsers[index]["total_invoice"]
+                                                .toString(),
+                                            _foundUsers[index]["total_payment"]
+                                                .toString(),
+                                            _foundUsers[index]
+                                                    ["total_liabilities"]
+                                                .toString(),
+                                            _foundUsers[index]["create_date"]
+                                                .toString());
+                                      }))),
+                        ))
             ],
           ),
         ));
