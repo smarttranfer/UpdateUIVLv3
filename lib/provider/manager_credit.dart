@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:vldebitor/constants/constant_app.dart';
 
 class managen_credit extends ChangeNotifier{
 

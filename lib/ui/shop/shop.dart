@@ -60,9 +60,7 @@ class _Shoplist extends State<Shoplist> {
     try {
       final prefs = await SharedPreferences.getInstance();
       String? token = await prefs.getString("token");
-      // await getbillinformation.getbill(constant.indexcustomer, token!,1,"asc");
-      await getshopinformation.getshopinformation_id(
-          constant.indexcustomer, token!);
+      await getshopinformation.getshopinformation_id(constant.indexcustomer, token!);
       if (Getshopinformation.GetshopinformationSucces = true) {
         setState(() {
           checknull = false;

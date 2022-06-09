@@ -42,8 +42,8 @@ class customelistcard extends StatefulWidget {
   String total_payment;
   String total_liabilities;
   String unallocated;
-
-  customelistcard(this.name, this.Phone, this.NameShop, this.total_invoice, this.total_invoice_paid,this.total_payment,this.total_liabilities,this.unallocated,this.ID_Custome);
+  bool checkshow;
+  customelistcard(this.name, this.Phone, this.NameShop, this.total_invoice, this.total_invoice_paid,this.total_payment,this.total_liabilities,this.unallocated,this.ID_Custome,this.checkshow);
 
   @override
   State<StatefulWidget> createState() {
@@ -53,6 +53,13 @@ class customelistcard extends StatefulWidget {
 
 class _ShopregisterScreen extends State<customelistcard> {
   final TextEditingController _money = TextEditingController();
+  bool checkdelte = false;
+
+  @override
+  void initState() {
+    checkdelte = widget.checkshow;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -237,7 +244,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                                   width: 30,
                                 ),
                                 Icon(
-                                  Icons.recycling_outlined,
+                                  Icons.hive,
                                   color: Colors.grey,
                                   size: 33.0,
                                 ),
@@ -251,14 +258,16 @@ class _ShopregisterScreen extends State<customelistcard> {
                                       onPressed: () async{
                                         final prefs = await SharedPreferences.getInstance();
                                         String? token = await prefs.getString("token");
-                                        _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
+                                        Navigator.pop(context);
+                                        _showWarningMessage("Bạn muốn ẩn thông tin này với user không ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
+
                                       },
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Delete",
+                                            checkdelte?"Hiện thị lại":"Ẩn thôn tin ",
                                             style: TextStyle(
                                               color: Colors.red,
                                               fontWeight: FontWeight.w400,
@@ -267,7 +276,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                                               fontFamily: 'OpenSans',
                                             ),
                                           ),
-                                          Text("Delete Customer",
+                                          Text(checkdelte?"Hiện thị lại thông tin với user.":"Ẩn thông tin này với user.",
                                               style: TextStyle(
                                                 color: Colors.grey,
                                                 decoration: TextDecoration.none,
@@ -281,8 +290,6 @@ class _ShopregisterScreen extends State<customelistcard> {
                                   ],
                                 )
                               ]),
-
-
                             ],
                           ),
                         ),
@@ -296,198 +303,208 @@ class _ShopregisterScreen extends State<customelistcard> {
                   )
                 ],
               ),
-              Row(
+              Stack(
                 children: [
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(children: [
-                          Text(
-                            "Tên khách hàng : ",
-                            style: kLabelStyle,
-                            textDirection: TextDirection.ltr,
-                          ),
-                          Text(
-                            "${widget.name}",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'OpenSans',
-                            ),
-                            textDirection: TextDirection.ltr,
-                          ),
-                        ],),
-
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(children: [
-                          Text(
-                            "Mã khách hàng : ",
-                            style: kLabelStyle,
-                            textDirection: TextDirection.ltr,
-                          ),
-                          Text(
-                            "${widget.ID_Custome}",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'OpenSans',
-                            ),
-                            textDirection: TextDirection.ltr,
-                          ),
-                        ],),
-
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              "Số điện thoại : ",
-                              style: kLabelStyle,
-                              textDirection: TextDirection.ltr,
-                            ),
-                            Text(
-                              "${widget.Phone}",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.normal,
-                                fontFamily: 'OpenSans',
+                  Center(child: Visibility(
+                    child:Image.asset("assets/ic_app/ic_delete.png",height: 150,width: 200,),
+                    visible: checkdelte,
+                    maintainState: true,
+                  )),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(children: [
+                              Text(
+                                "Tên khách hàng : ",
+                                style: kLabelStyle,
+                                textDirection: TextDirection.ltr,
                               ),
-                              textDirection: TextDirection.ltr,
+                              Text(
+                                "${widget.name}",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'OpenSans',
+                                ),
+                                textDirection: TextDirection.ltr,
+                              ),
+                            ],),
+
+                            SizedBox(
+                              height: 5,
                             ),
+                            Row(children: [
+                              Text(
+                                "Mã khách hàng : ",
+                                style: kLabelStyle,
+                                textDirection: TextDirection.ltr,
+                              ),
+                              Text(
+                                "${widget.ID_Custome}",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'OpenSans',
+                                ),
+                                textDirection: TextDirection.ltr,
+                              ),
+                            ],),
+
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  "Số điện thoại : ",
+                                  style: kLabelStyle,
+                                  textDirection: TextDirection.ltr,
+                                ),
+                                Text(
+                                  "${widget.Phone}",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'OpenSans',
+                                  ),
+                                  textDirection: TextDirection.ltr,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(children: [
+                              Text(
+                                "Số cửa hàng : ",
+                                style: kLabelStyle,
+                                textDirection: TextDirection.ltr,
+                              ),
+                              Text(
+                                "${widget.NameShop}",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'OpenSans',
+                                ),
+                                textDirection: TextDirection.ltr,
+                              ),
+                            ],),
+
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(children: [
+                              Text(
+                                "Số hóa đơn : ",
+                                style: kLabelStyle,
+                                textDirection: TextDirection.ltr,
+                              ),
+                              Text(
+                                "${widget.total_invoice_paid}/${widget.total_invoice}",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'OpenSans',
+                                ),
+                                textDirection: TextDirection.ltr,
+                              ),
+                            ],),
+
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  "Tổng nợ : ",
+                                  style: kLabelStyle,
+                                  textDirection: TextDirection.ltr,
+                                ),
+                                Text(
+                                  "${money_formart(widget.total_liabilities)}",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal,
+                                    fontFamily: 'OpenSans',
+                                  ),
+                                  textDirection: TextDirection.ltr,
+                                ),
+
+                              ],),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(children: [
+                              Text(
+                                "Đã trả : ",
+                                style: kLabelStyle,
+                                textDirection: TextDirection.ltr,
+                              ),
+                              Text(
+                                "${money_formart(widget.total_payment)}",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'OpenSans',
+                                ),
+                                textDirection: TextDirection.ltr,
+                              ),
+                            ],),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(children: [
+                              Text(
+                                "Phải trả : ",
+                                style: kLabelStyle,
+                                textDirection: TextDirection.ltr,
+                              ),
+                              Text(
+                                "${money_formart((double.parse(widget.total_liabilities)-double.parse(widget.total_payment)).toString())}",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'OpenSans',
+                                ),
+                                textDirection: TextDirection.ltr,
+                              ),
+                            ],),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(children: [
+                              Text(
+                                "Số dư : ",
+                                style: kLabelStyle,
+                                textDirection: TextDirection.ltr,
+                              ),
+                              Text(
+                                "${money_formart(double.parse(widget.unallocated).toStringAsFixed(2))}",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'OpenSans',
+                                ),
+                                textDirection: TextDirection.ltr,
+                              ),
+                            ],)
+
                           ],
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(children: [
-                          Text(
-                            "Số cửa hàng : ",
-                            style: kLabelStyle,
-                            textDirection: TextDirection.ltr,
-                          ),
-                          Text(
-                            "${widget.NameShop}",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'OpenSans',
-                            ),
-                            textDirection: TextDirection.ltr,
-                          ),
-                        ],),
-
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(children: [
-                          Text(
-                            "Số hóa đơn : ",
-                            style: kLabelStyle,
-                            textDirection: TextDirection.ltr,
-                          ),
-                          Text(
-                            "${widget.total_invoice_paid}/${widget.total_invoice}",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'OpenSans',
-                            ),
-                            textDirection: TextDirection.ltr,
-                          ),
-                        ],),
-
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                          Text(
-                            "Tổng nợ : ",
-                            style: kLabelStyle,
-                            textDirection: TextDirection.ltr,
-                          ),
-                          Text(
-                            "${money_formart(widget.total_liabilities)}",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'OpenSans',
-                            ),
-                            textDirection: TextDirection.ltr,
-                          ),
-
-                        ],),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(children: [
-                          Text(
-                            "Đã trả : ",
-                            style: kLabelStyle,
-                            textDirection: TextDirection.ltr,
-                          ),
-                          Text(
-                            "${money_formart(widget.total_payment)}",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'OpenSans',
-                            ),
-                            textDirection: TextDirection.ltr,
-                          ),
-                        ],),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(children: [
-                          Text(
-                            "Phải trả : ",
-                            style: kLabelStyle,
-                            textDirection: TextDirection.ltr,
-                          ),
-                          Text(
-                            "${money_formart((double.parse(widget.total_liabilities)-double.parse(widget.total_payment)).toString())}",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'OpenSans',
-                            ),
-                            textDirection: TextDirection.ltr,
-                          ),
-                        ],),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(children: [
-                          Text(
-                            "Số dư : ",
-                            style: kLabelStyle,
-                            textDirection: TextDirection.ltr,
-                          ),
-                          Text(
-                            "${money_formart(double.parse(widget.unallocated).toStringAsFixed(2))}",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'OpenSans',
-                            ),
-                            textDirection: TextDirection.ltr,
-                          ),
-                        ],)
-
-                      ],
-                    ),
-                  )
+                      )
+                    ],
+                  ),
                 ],
               ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -680,6 +697,9 @@ class _ShopregisterScreen extends State<customelistcard> {
                             style: TextStyle(color: Colors.red),
                           ),
                           onPressed: () async{
+                            setState(() {
+                              checkdelte =! checkdelte;
+                            });
                            await f;
                            if(Deletecustomer.Delete_Customer_Succes==true){
                              Fluttertoast.showToast(

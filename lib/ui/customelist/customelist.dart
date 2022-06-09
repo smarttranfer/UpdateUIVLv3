@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -9,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/home/fn_getdatacutome.dart';
 import 'package:vldebitor/funtion_app/home/home.dart';
-import 'package:vldebitor/funtion_app/transation_page/transation_page.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../model/sc_datahome/sc_datahome_bill.dart';
 import '../../utilities/constants.dart';
@@ -25,8 +23,7 @@ class Customelist extends StatefulWidget {
 }
 
 class _Customelist extends State<Customelist> {
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  final RefreshController _refreshController = RefreshController(initialRefresh: false);
   final List<Map<String, dynamic>> _allUsers = [];
   List<Map<String, dynamic>> _foundUsers = [];
   String searchString = "";
@@ -34,11 +31,16 @@ class _Customelist extends State<Customelist> {
   bool checknull = true;
   bool check_loding_data = true;
 
+
   @override
-  void didChangeDependencies() async {
-    await checkEmty();
-    await mapData();
-    super.didChangeDependencies();
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_)async {
+      await checkEmty();
+      await mapData();
+    });
+
   }
 
   Future<void> mapData() async {
@@ -260,26 +262,18 @@ class _Customelist extends State<Customelist> {
                                 onRefresh: _onRefresh,
                                 child: ListView.builder(
                                     itemCount: _foundUsers.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
+                                    itemBuilder: (BuildContext context, int index) {
                                       return customelistcard(
                                         _foundUsers[index]["name"],
                                         _foundUsers[index]["phone"],
-                                        _foundUsers[index]["total_shop"]
-                                            .toString(),
-                                        _foundUsers[index]["total_invoice"]
-                                            .toString(),
-                                        _foundUsers[index]["total_invoice_paid"]
-                                            .toString(),
-                                        _foundUsers[index]["total_payment"]
-                                            .toString(),
-                                        _foundUsers[index]["total_liabilities"]
-                                            .toString(),
-                                        _foundUsers[index]["unallocated"]
-                                            .toString(),
-                                        int.parse(
-                                          _foundUsers[index]["id"],
-                                        ),
+                                        _foundUsers[index]["total_shop"].toString(),
+                                        _foundUsers[index]["total_invoice"].toString(),
+                                        _foundUsers[index]["total_invoice_paid"].toString(),
+                                        _foundUsers[index]["total_payment"].toString(),
+                                        _foundUsers[index]["total_liabilities"].toString(),
+                                        _foundUsers[index]["unallocated"].toString(),
+                                        int.parse(_foundUsers[index]["id"],),
+                                          true
                                       );
                                     })))),
               )

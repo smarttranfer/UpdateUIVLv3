@@ -243,7 +243,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                                   width: 30,
                                 ),
                                 Icon(
-                                  Icons.recycling_outlined,
+                                  Icons.hive,
                                   color: Colors.grey,
                                   size: 33.0,
                                 ),
@@ -257,14 +257,14 @@ class _Shoplistcard extends State<Shoplistcard> {
                                       onPressed: () async{
                                         final prefs = await SharedPreferences.getInstance();
                                         String? token = await prefs.getString("token");
-                                        _showWarningMessage("Do you want delete customer ?", DeleteCustomer.DeleteCustomers(constant.indexcustomer, token!));
+                                        _showWarningMessage("Bạn có muốn ẩn thông tin này các user khác không ?", DeleteCustomer.DeleteCustomers(constant.indexcustomer, token!));
                                       },
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Delete",
+                                            "Ẩn thông tin",
                                             style: TextStyle(
                                               color: Colors.red,
                                               fontWeight: FontWeight.w400,
@@ -273,7 +273,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                                               fontFamily: 'OpenSans',
                                             ),
                                           ),
-                                          Text("Delete Customer",
+                                          Text("Ẩn thông tin này với user",
                                               style: TextStyle(
                                                 color: Colors.grey,
                                                 decoration: TextDecoration.none,
@@ -521,14 +521,14 @@ class _Shoplistcard extends State<Shoplistcard> {
                 filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
                 child: CupertinoAlertDialog(
                     title: Text(
-                      "Warning",
+                      "Cảnh báo",
                       style: TextStyle(color: Colors.red),
                     ),
                     content: Text(message),
                     actions: [
                       CupertinoDialogAction(
                           child: Text(
-                            "Yes",
+                            "Đồng ý",
                             style: TextStyle(color: Colors.red),
                           ),
                           onPressed: () async {
@@ -537,7 +537,7 @@ class _Shoplistcard extends State<Shoplistcard> {
                           }),
                       CupertinoDialogAction(
                           child: Text(
-                            "No",
+                            "Hủy bỏ",
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () => Navigator.pop(context))

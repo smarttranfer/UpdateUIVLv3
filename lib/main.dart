@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vldebitor/provider/manager_credit.dart';
 import 'package:vldebitor/provider/manager_history_credit.dart';
+import 'package:vldebitor/provider/provider_delete.dart';
 import 'package:vldebitor/ui/addbill/addbill.dart';
 import 'package:vldebitor/ui/customelist/customelist.dart';
 import 'package:vldebitor/ui/customeregistry/customeregistry.dart';
@@ -28,6 +29,10 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (ctx) => managen_credit_history(),
           ),
+          ChangeNotifierProvider(
+            create: (ctx) => managen_delete(),
+          ),
+
         ],
         child: MaterialApp(
           navigatorKey: AppRouter.navigatorKey,
