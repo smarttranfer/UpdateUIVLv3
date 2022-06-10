@@ -45,12 +45,15 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
   bool checkdone = false;
   bool checkenable = false;
   bool checkactive = true;
+
   late double credit = 0.0;
   late double total = 0.0;
   late double paid = 0.0;
   late double mustpay = 0.0;
   late double suggest = 0.0;
+  double moneypay = 0.0;
   String status = '0.0';
+
 
   @override
   void initState() {
@@ -261,6 +264,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                         onPressed: ((suggest <= double.parse(Provider.of<managen_credit>(context, listen: false).CreditResult())) && suggest > 0 && suggest <= mustpay)
                             ? () async {
                           if(_money.text.isNotEmpty){
+                            moneypay = double.parse(_money.text);
                             _showWarningMessage("Bạn có muốn thanh toán số tiền ${_money.text} cho hóa đơn này không ?",_money.text);
                           }else{
                             _showWarningMessagePay("Bạn chưa nhập số tiền để thanh toán");
@@ -412,7 +416,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                                 }
                                 _showTopFlash(
                                     messager:
-                                        "Hóa đơn ${constant.TitleApp_Bar} đã thanh toán thành công số tiền là : ${money} GBP",
+                                        "Hóa đơn đã thanh toán thành công số tiền là : ${moneypay} GBP",
                                     title: 'Thông báo');
                               } else {
                                 setState(() {
@@ -435,7 +439,7 @@ class _Shoplistcardpay extends State<Shoplistcardpay> {
                                 _money.clear();
                                 _showTopFlash(
                                     messager:
-                                        "Hóa đơn ${constant.TitleApp_Bar} đã thanh toán thành công số tiền là : ${_money.text.toString()} GBP",
+                                        "Hóa đơn đã thanh toán thành công số tiền là : ${moneypay} GBP",
                                     title: 'Thông báo');
                               }
                             } else {
