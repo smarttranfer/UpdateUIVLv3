@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rolling_bottom_bar/rolling_bottom_bar.dart';
 import 'package:rolling_bottom_bar/rolling_bottom_bar_item.dart';
+import 'package:vldebitor/theme/Color_app.dart';
 import '../customelist/customelist.dart';
 import '../develop/develop.dart';
 import '../setting/setting.dart';
@@ -20,39 +21,43 @@ class _Home_page extends State<Home_page> {
     List<Widget> tabItems = <Widget>[
       Customelist(),
       Develop(Tilte: "Quản lý nhân sự"),
-      Develop(Tilte:"Thống kê"),
+      Develop(Tilte: "Thống kê"),
       SettingsPage()
     ];
     return Scaffold(
-        appBar: AppBar(
-        title: Text('Rolling Bottom Bar'),
-    ),
-    body: PageView(
-    controller: _controller,
-    children: <Widget>[
-    ColoredBox(color: Colors.blueGrey.shade100),
-    ColoredBox(color: Colors.redAccent),
-    ColoredBox(color: Colors.greenAccent),
-    ColoredBox(color: Colors.yellowAccent),
-    ],
-    ),
-    extendBody: true,
-    bottomNavigationBar: RollingBottomBar(
-    controller: _controller,
-    flat: true,
-    useActiveColorByDefault: false,
-    items: [
-    RollingBottomBarItem(Icons.home, label: 'Page 1', activeColor: Colors.redAccent),
-    RollingBottomBarItem(Icons.star, label: 'Page 2', activeColor: Colors.blueAccent),
-    RollingBottomBarItem(Icons.person, label: 'Page 3', activeColor: Colors.yellowAccent),
-    RollingBottomBarItem(Icons.access_alarm, label: 'Page 4', activeColor: Colors.orangeAccent),
-    ],
-    enableIconRotation: true,
-    onTap: (index) {
-    _controller.animateToPage(
-    index,
-    duration: const Duration(milliseconds: 400),
-    curve: Curves.easeOut,
-    )}));
+        body: PageView(
+          controller: _controller,
+          children: <Widget>[
+            Customelist(),
+            Develop(Tilte: "Quản lý nhân sự"),
+            Develop(Tilte: "Thống kê"),
+            SettingsPage()
+          ],
+        ),
+        extendBody: true,
+        bottomNavigationBar: RollingBottomBar(
+            itemColor: Colors.green,
+            color: App_Color.background_textfield,
+            controller: _controller,
+            flat: true,
+            useActiveColorByDefault: false,
+            items: [
+              RollingBottomBarItem(Icons.home,
+                   activeColor: Colors.white),
+              RollingBottomBarItem(Icons.person,
+                  activeColor: Colors.white),
+              RollingBottomBarItem(Icons.bar_chart,
+                  activeColor: Colors.white),
+              RollingBottomBarItem(Icons.settings,
+                  activeColor: Colors.white),
+            ],
+            enableIconRotation: true,
+            onTap: (index) {
+              _controller.animateToPage(
+                index,
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeInOutCubic,
+              );
+            }));
   }
 }

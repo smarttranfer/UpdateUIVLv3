@@ -273,7 +273,7 @@ class _Customelist extends State<Customelist> {
                                         _foundUsers[index]["total_liabilities"].toString(),
                                         _foundUsers[index]["unallocated"].toString(),
                                         int.parse(_foundUsers[index]["id"],),
-                                          true
+                                          false
                                       );
                                     })))),
               )
