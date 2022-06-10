@@ -431,7 +431,6 @@ class _Shoplistcard extends State<Shoplistcard> {
                           String? token = await prefs.getString("token");
                           await getbillinformation.getbill(widget.id, token!,1,"desc");
                           constant.index_bill = widget.index_bill;
-                          constant.idshop = widget.id;
                           if (Getbillinformation.GetbillinformationSucces == true) {
                             Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: Billlist()));
                           } else {
@@ -478,6 +477,10 @@ class _Shoplistcard extends State<Shoplistcard> {
           ),
         ));
   }
+
+
+
+
 
   _showMessage(String message) {
     showCupertinoDialog(

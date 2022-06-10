@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:flash/flash.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,18 +15,21 @@ import 'package:vldebitor/funtion_app/addtocredit/fn_addtocredit.dart';
 import 'package:vldebitor/funtion_app/apigetbill/fn_getbill.dart';
 import 'package:vldebitor/funtion_app/apipayment/Payment.dart';
 import 'package:vldebitor/funtion_app/apipayment/fn_payment.dart';
+import 'package:vldebitor/funtion_app/history/history_bill_many/history_bil.dart';
+import 'package:vldebitor/funtion_app/history/history_bill_many/history_bill_many.dart';
 import '../../provider/manager_credit.dart';
 import '../../theme/Color_app.dart';
 import '../../utilities/constants.dart';
+import '../History/sc_history_bill_many/sc_history_bill_many.dart';
 import 'addbill.dart';
 
 class CardPayment extends StatefulWidget {
-  int ID ;
+  int ID;
   String Total;
   String Paid;
   double Credit;
-  bool check ;
-  CardPayment(this.ID,this.Total, this.Paid, this.Credit,this.check);
+  bool check;
+  CardPayment(this.ID, this.Total, this.Paid, this.Credit, this.check);
 
   @override
   State<StatefulWidget> createState() {
@@ -50,12 +54,14 @@ class _CardPayment extends State<CardPayment> {
     mustpay = double.parse(widget.Total) - double.parse(widget.Paid);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    String formart_money(String money){
+    String formart_money(String money) {
       MoneyFormatter money_format = MoneyFormatter(amount: double.parse(money));
       return money_format.output.nonSymbol;
     }
+
     return Card(
         margin: EdgeInsets.only(top: 0, bottom: 16, left: 8, right: 8),
         color: App_Color.background_search,
@@ -127,45 +133,47 @@ class _CardPayment extends State<CardPayment> {
                                     symbol: '',
                                   ),
                                 ],
-                                onChanged: (e){
-                                  try{
-                                    if((double.parse(e.toString().replaceAll(",", ""))>double.parse(Provider.of<managen_credit>(context, listen: false).CreditResult())) ){
+                                onChanged: (e) {
+                                  try {
+                                    if ((double.parse(
+                                            e.toString().replaceAll(",", "")) >
+                                        double.parse(
+                                            Provider.of<managen_credit>(context,
+                                                    listen: false)
+                                                .CreditResult()))) {
                                       setState(() {
-                                        checkactive=false;
+                                        checkactive = false;
                                       });
                                       Fluttertoast.showToast(
-                                          msg: "Số tiêng không đủ để thực hiện",
-                                          toastLength: Toast.LENGTH_SHORT,
+                                          msg: "Số tiền không đủ để thực hiện",
                                           gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIosWeb: 1,
+                                          timeInSecForIosWeb: 100,
                                           backgroundColor: Colors.red,
                                           textColor: Colors.white,
-                                          fontSize: 16.0
-                                      );
-                                    }else{
-                                      if(double.parse(e.toString().replaceAll(",", "")) > mustpay){
+                                          fontSize: 16.0);
+                                    } else {
+                                      if (double.parse(e
+                                              .toString()
+                                              .replaceAll(",", "")) >
+                                          mustpay) {
                                         setState(() {
-                                          checkactive=false;
+                                          checkactive = false;
                                         });
                                         Fluttertoast.showToast(
-                                            msg: "Số tiền bạn nhập vượt quá số tiền phải trả",
-                                            toastLength: Toast.LENGTH_SHORT,
+                                            msg:
+                                                "Số tiền bạn nhập vượt quá số tiền phải trả",
                                             gravity: ToastGravity.BOTTOM,
-                                            timeInSecForIosWeb: 1,
+                                            timeInSecForIosWeb: 100,
                                             backgroundColor: Colors.red,
                                             textColor: Colors.white,
-                                            fontSize: 16.0
-                                        );
-                                      }else{
+                                            fontSize: 16.0);
+                                      } else {
                                         setState(() {
                                           checkactive = widget.check;
                                         });
                                       }
-
-
                                     }
-                                  }catch(e){}
-
+                                  } catch (e) {}
                                 },
                                 controller: _money,
                                 keyboardType: TextInputType.number,
@@ -176,13 +184,12 @@ class _CardPayment extends State<CardPayment> {
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   contentPadding:
-                                  EdgeInsets.only(bottom: 14, left: 5),
+                                      EdgeInsets.only(bottom: 14, left: 5),
                                   hintText: '0.0',
                                   hintStyle: kHintTextStyle,
                                 ),
                               ),
                             ),
-
                           ],
                         ),
                         SizedBox(height: 3),
@@ -196,58 +203,22 @@ class _CardPayment extends State<CardPayment> {
                             ),
                             color: App_Color.green, // background
                             textColor: Colors.white, // foreground
-                            onPressed: checkactive? () async{
-                              if(_money.text.isNotEmpty){
-                                final prefs = await SharedPreferences.getInstance();
-                                String? token =await prefs.getString("token").toString();
-                                await fn_payment.Payment(double.parse(_money.text.replaceAll(",", "")), constant.indexcustomer, token,widget.ID);
-                                if( payments.Create_payment_Succes==true){
-                                  Provider.of<managen_credit>(context, listen: false).decrease(double.parse(_money.text.replaceAll(",", "")));
-                                  setState(() {
-                                    paid = paid + double.parse(_money.text.replaceAll(",", ""));
-                                    credit = credit - double.parse(_money.text.replaceAll(",", ""));
-                                    mustpay = mustpay - double.parse(_money.text.replaceAll(",", ""));
-                                  });
-                                  if(mustpay > 0 && double.parse(Provider.of<managen_credit>(context, listen: false).CreditResult())>0){
-                                    Fluttertoast.showToast(
-                                        msg: "Thanh toán thành công.",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIosWeb: 1,
-                                        backgroundColor: Colors.green,
-                                        textColor: Colors.white,
-                                        fontSize: 16.0
-                                    );
-                                    _money.clear();
-                                  }else if(mustpay==0){
-                                    final prefs = await SharedPreferences.getInstance();
-                                    String? token = await prefs.getString("token");
-                                    await getbillinformation.getbill(constant.idshop, token!,1,"asc");
-                                    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: Billlist()));
-                                  }
-                                  else{
-                                    checkactive=false;
-                                  }
-                                }else{
-                                  Fluttertoast.showToast(
-                                      msg: AddCredit_check.ContentError,
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.red,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0
-                                  );
-                                }
-                              }else{
-                                _showErrorMessage("Số tiền trong tài khoản không đủ");
-                              }
+                            onPressed: checkactive
+                                ? () async {
+                                    if (_money.text.isNotEmpty) {
+                                      final prefs =
+                                      _showErrorMessage("Bạn có muốn thanh toán số tiền ${_money.text} cho hóa đơn này không.?" );
+                                      // await fn_payment.Payment(double.parse(_money.text.replaceAll(",", "")), constant.indexcustomer, token, widget.ID);
 
-                            }:null,
+                                    } else {
+                                      _showErrorMessage(
+                                          "Bạn vẫn chưa nhập số tiền phải trả");
+                                    }
+                                  }
+                                : null,
                             child: Text(" Thanh toán "),
                           ),
                         ),
-
                       ],
                     ),
                   ),
@@ -257,63 +228,131 @@ class _CardPayment extends State<CardPayment> {
           ),
         ));
   }
+
+  void _showTopFlash(
+      {FlashBehavior style = FlashBehavior.floating,
+      required String title,
+      required String messager}) {
+    showFlash(
+      context: context,
+      duration: const Duration(seconds: 5),
+      persistent: true,
+      builder: (_, controller) {
+        return Flash(
+          borderRadius: BorderRadius.circular(20.0),
+          margin: EdgeInsets.all(10),
+          controller: controller,
+          backgroundColor: Colors.white,
+          brightness: Brightness.light,
+          boxShadows: [BoxShadow(blurRadius: 4)],
+          barrierBlur: 3.0,
+          behavior: style,
+          position: FlashPosition.top,
+          child: FlashBar(
+            title: Text(
+              title,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            content: Text(messager),
+            // showProgressIndicator: true,
+            primaryAction: TextButton(
+              onPressed: () async {
+                final prefs = await SharedPreferences.getInstance();
+                String? token = await prefs.getString("token");
+                await gethistory_bill_many.gethistory(widget.ID, token!);
+                if (constant_history_billpayment.listhistory_billpayment_sucess == true) {
+                  Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: HistoryList_bill()));
+                }
+              },
+              child: Text('More', style: TextStyle(color: App_Color.green)),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   _showErrorMessage(String messenger) {
     showCupertinoDialog(
         context: context,
         builder: (context) => Theme(
-          data: ThemeData.dark(),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-            child: CupertinoAlertDialog(
-                title: Text("Warning",style: TextStyle(color: Colors.white),),
-                content: Text("${messenger}"),
-                actions: [
-                  CupertinoDialogAction(
-                      child: Text(
-                        "yes",
-                        style: TextStyle(color: Colors.green),
+              data: ThemeData.dark(),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                child: CupertinoAlertDialog(
+                    title: Text(
+                      "Thông tin",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    content: Text("${messenger}"),
+                    actions: [
+                      CupertinoDialogAction(
+                          child: Text(
+                            "yes",
+                            style: TextStyle(color: Colors.green),
+                          ),
+                          onPressed: () async {
+                            final prefs = await SharedPreferences.getInstance();
+                            String? token = await prefs.getString("token").toString();
+                            await fn_payment.Payment(double.parse(_money.text.replaceAll(",", "")), constant.indexcustomer, token, widget.ID);
+                            if (payments.Create_payment_Succes == true) {
+                              Provider.of<managen_credit>(context, listen: false).decrease(double.parse(_money.text.replaceAll(",", "")));
+                              setState(() {
+                                paid = paid + double.parse(_money.text.replaceAll(",", ""));
+                                credit = credit - double.parse(_money.text.replaceAll(",", ""));
+                                mustpay = mustpay - double.parse(_money.text.replaceAll(",", ""));
+                              });
+                              if (mustpay > 0 &&
+                                  double.parse(
+                                      Provider.of<managen_credit>(
+                                          context,
+                                          listen: false)
+                                          .CreditResult()) >
+                                      0) {
+                                _showTopFlash(
+                                    messager:
+                                    "Hóa đơn ${constant.TitleApp_Bill} đã thanh toán thành công số tiền là : ${_money.text.toString()} GBP",
+                                    title: 'Thông báo');
+                                _money.clear();
+                              } else if (mustpay == 0) {
+                                final prefs = await SharedPreferences
+                                    .getInstance();
+                                String? token =
+                                await prefs.getString("token");
+                                await getbillinformation.getbill(
+                                    constant.idshop,
+                                    token!,
+                                    1,
+                                    "asc");
+                                _showTopFlash(
+                                    messager:
+                                    "Hóa đơn ${constant.TitleApp_Bill} đã thanh toán thành công số tiền là : ${_money.text.toString()} GBP",
+                                    title: 'Thông báo');
+                                // Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: Billlist()));
+                              } else {
+                                checkactive = false;
+                              }
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: AddCredit_check.ContentError,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 100,
+                                  backgroundColor: Colors.red,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                            }
+                            Navigator.pop(context);
+                          },
                       ),
-                      onPressed: () async{
-                        final prefs = await SharedPreferences.getInstance();
-                        String? token =await prefs.getString("token").toString();
-                        await fn_payment.Payment(double.parse(_money.text.replaceAll(",", "")), constant.indexcustomer, token,widget.ID);
-                        if(AddCredit_check.AddCredit_Succes==true){
-                          setState(() {
-                            checkactive = false;
-                            paid = paid + double.parse(_money.text.replaceAll(",", ""));
-                            credit = credit - double.parse(_money.text.replaceAll(",", ""));
-                            total = total - double.parse(_money.text.replaceAll(",", ""));
-                          });
-                          Fluttertoast.showToast(
-                              msg: "Add Credit succesfull.",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: Colors.red,
-                              textColor: Colors.white,
-                              fontSize: 16.0
-                          );
-                          Navigator.pop(context);
-                        }else{
-                          Fluttertoast.showToast(
-                              msg: AddCredit_check.ContentError,
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: Colors.red,
-                              textColor: Colors.white,
-                              fontSize: 16.0
-                          );
-                        }
-                      }),
-                  CupertinoDialogAction(
-                      child: Text(
-                        "Close",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () => Navigator.pop(context))
-                ]),
-          ),
-        ));
+
+                      CupertinoDialogAction(
+                          child: Text(
+                            "Close",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () => Navigator.pop(context))
+                    ]),
+              ),
+            ));
   }
 }

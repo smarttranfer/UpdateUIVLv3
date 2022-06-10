@@ -8,7 +8,6 @@ import '../../../model/sc_history/history_customer_shop/history_customer_shops.d
 
 
 class gethistory_shop{
-
   static Future<void> gethistory(String token, int ID) async {
     try{
       constant_history_customer.listhistory_customer_shop.clear();
@@ -17,7 +16,7 @@ class gethistory_shop{
       var headers = {
         'Authorization': 'Bearer ${token}'
       };
-      var request = http.Request('GET', Uri.parse('${DC_address}/log/shop?shop_id=${ID}&user_id=-1&sort=desc&status=all'));
+      var request = http.Request('GET', Uri.parse('${DC_address}/log/shop?shop_id=${ID}&user_id=-1&sort=esc&status=all'));
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       constant_history_shop.Jsondata = await response.stream.bytesToString();

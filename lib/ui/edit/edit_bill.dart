@@ -171,7 +171,7 @@ class _EditBillScreen extends State<EditBillScreen> {
           msg: "Sửa đơn thất bại",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0
@@ -199,7 +199,7 @@ class _EditBillScreen extends State<EditBillScreen> {
                 msg: "Sửa đơn thành công",
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
+                timeInSecForIosWeb: 5,
                 backgroundColor: Colors.green,
                 textColor: Colors.white,
                 fontSize: 16.0
@@ -211,7 +211,7 @@ class _EditBillScreen extends State<EditBillScreen> {
                 msg: "Sửa đơn thất bại",
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
+                timeInSecForIosWeb: 5,
                 backgroundColor: Colors.green,
                 textColor: Colors.white,
                 fontSize: 16.0

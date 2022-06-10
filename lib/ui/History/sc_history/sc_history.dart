@@ -7,6 +7,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/funtion_formart_log/format_log.dart';
 import 'package:vldebitor/funtion_app/history/history_customer/history_customer_shop.dart';
 import 'package:vldebitor/funtion_app/history/history_shop/history_shop.dart';
 import 'package:vldebitor/funtion_app/home/fn_getdatacutome.dart';
@@ -260,7 +261,7 @@ class _HistoryList extends State<HistoryList> {
                                       return History_customer_shop(
                                         constant.check_history_mode?constant_history_customer.listhistory_customer_shop[index].ID_log:constant_history_shop.listhistory_customer_shop[index].ID_log,
                                         constant.check_history_mode?constant_history_customer.listhistory_customer_shop[index].status:constant_history_shop.listhistory_customer_shop[index].status,
-                                        constant.check_history_mode?constant_history_customer.listhistory_customer_shop[index].content:constant_history_shop.listhistory_customer_shop[index].content,
+                                        constant.check_history_mode?fn_format.format_lg(constant_history_customer.listhistory_customer_shop[index].content):fn_format.format_lg(constant_history_shop.listhistory_customer_shop[index].content),
                                         constant.check_history_mode?constant_history_customer.listhistory_customer_shop[index].user_id:constant_history_shop.listhistory_customer_shop[index].user_id,
                                         constant.check_history_mode?constant_history_customer.listhistory_customer_shop[index].customer_id.toString():constant_history_shop.listhistory_customer_shop[index].shop_id.toString(),
                                         constant.check_history_mode?constant_history_customer.listhistory_customer_shop[index].create_date:constant_history_shop.listhistory_customer_shop[index].create_date,

@@ -90,20 +90,25 @@ class _HistoryList_bill extends State<HistoryList_bill> {
   }
 
   Future<bool> checkEmty() async {
-    final prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("token").toString();
-    await fn_DataCustomer.getDataCustomer(token);
-    if (constant.ListCustomer_infor_all.isNotEmpty) {
-      setState(() {
-        checknull = false;
-      });
+    try{
+      final prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString("token").toString();
+      await fn_DataCustomer.getDataCustomer(token);
+      if (constant.ListCustomer_infor_all.isNotEmpty) {
+        setState(() {
+          checknull = false;
+        });
+        return false;
+      } else {
+        setState(() {
+          checknull = true;
+        });
+        return true;
+      }
+    }catch(e){
       return false;
-    } else {
-      setState(() {
-        checknull = true;
-      });
-      return true;
     }
+
   }
 
   @override

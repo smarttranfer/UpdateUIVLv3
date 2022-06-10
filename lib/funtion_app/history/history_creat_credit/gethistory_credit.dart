@@ -16,7 +16,7 @@ class gethistory_credit{
       var headers = {
         'Authorization': 'Bearer ${token}'
       };
-      var request = http.Request('GET', Uri.parse('${DC_address}/log/credit?customer_id=${idcustome}&user_id=-1&sort=desc'));
+      var request = http.Request('GET', Uri.parse('${DC_address}/log/credit?customer_id=${idcustome}&user_id=-1&sort=esc'));
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       constant_history.Jsondata = await response.stream.bytesToString();

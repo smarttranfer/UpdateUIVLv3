@@ -706,7 +706,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                                  msg: "Delete customer successfully",
                                  toastLength: Toast.LENGTH_SHORT,
                                  gravity: ToastGravity.BOTTOM,
-                                 timeInSecForIosWeb: 1,
+                                 timeInSecForIosWeb: 5,
                                  backgroundColor: App_Color.background_textfield,
                                  textColor: Colors.white,
                                  fontSize: 16.0
@@ -717,7 +717,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                                  msg: Deletecustomer.ContentError,
                                  toastLength: Toast.LENGTH_SHORT,
                                  gravity: ToastGravity.BOTTOM,
-                                 timeInSecForIosWeb: 1,
+                                 timeInSecForIosWeb: 5,
                                  backgroundColor: App_Color.background_textfield,
                                  textColor: Colors.white,
                                  fontSize: 16.0

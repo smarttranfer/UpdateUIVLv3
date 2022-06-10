@@ -200,7 +200,7 @@ class _CardCredit extends State<CardCredit> {
                               msg: "Add Credit succesfull.",
                               toastLength: Toast.LENGTH_SHORT,
                               gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 1,
+                              timeInSecForIosWeb: 5,
                               backgroundColor: Colors.green,
                               textColor: Colors.white,
                               fontSize: 16.0
@@ -212,7 +212,7 @@ class _CardCredit extends State<CardCredit> {
                               msg: AddCredit_check.ContentError,
                               toastLength: Toast.LENGTH_SHORT,
                               gravity: ToastGravity.BOTTOM,
-                              timeInSecForIosWeb: 1,
+                              timeInSecForIosWeb: 5,
                               backgroundColor: Colors.red,
                               textColor: Colors.white,
                               fontSize: 16.0

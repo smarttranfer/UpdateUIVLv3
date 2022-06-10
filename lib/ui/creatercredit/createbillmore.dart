@@ -183,7 +183,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
           msg: "Tạo đơn thất bại",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0
@@ -204,7 +204,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
                 msg: "Bạn cần điền đầy đủ thông tin.",
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
+                timeInSecForIosWeb: 5,
                 backgroundColor: Colors.red,
                 textColor: Colors.white,
                 fontSize: 16.0
@@ -222,7 +222,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
                 msg: "Tạo đơn thành công",
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
+                timeInSecForIosWeb: 5,
                 backgroundColor: Colors.green,
                 textColor: Colors.white,
                 fontSize: 16.0
@@ -236,7 +236,7 @@ class _CreateBillScreenMore extends State<CreateBillScreenMore> {
                 msg: "Tạo đơn thất bại",
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
+                timeInSecForIosWeb: 5,
                 backgroundColor: Colors.green,
                 textColor: Colors.white,
                 fontSize: 16.0

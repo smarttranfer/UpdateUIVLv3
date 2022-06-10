@@ -190,7 +190,7 @@ class _ShopEditScreen extends State<ShopEditScreen> {
                   msg: "Sửa thông tin cửa hàng thành công.",
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
+                  timeInSecForIosWeb: 100,
                   backgroundColor: App_Color.green.withOpacity(0.9),
                   textColor: Colors.white,
                   fontSize: 16.0);
@@ -278,7 +278,7 @@ class _ShopEditScreen extends State<ShopEditScreen> {
           //             msg: "Tạo shop thành công",
           //             toastLength: Toast.LENGTH_SHORT,
           //             gravity: ToastGravity.BOTTOM,
-          //             timeInSecForIosWeb: 1,
+          //             timeInSecForIosWeb: 1
           //             backgroundColor: App_Color.green.withOpacity(0.9),
           //             textColor: Colors.white,
           //             fontSize: 16.0);

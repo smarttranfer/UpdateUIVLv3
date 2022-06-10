@@ -194,7 +194,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
           msg: "Tạo đơn thất bại",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
+          timeInSecForIosWeb: 100,
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0
@@ -222,7 +222,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
                 msg: "Tạo đơn thành công",
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
+                timeInSecForIosWeb: 10,
                 backgroundColor: Colors.green,
                 textColor: Colors.white,
                 fontSize: 16.0
@@ -234,7 +234,7 @@ class _CreateBillScreen extends State<CreateBillScreen> {
                 msg: "Tạo đơn thất bại",
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
+                timeInSecForIosWeb: 10,
                 backgroundColor: Colors.green,
                 textColor: Colors.white,
                 fontSize: 16.0

@@ -132,7 +132,7 @@ class _CustomereditScreen extends State<CustomereditScreen> {
                 msg: "Sửa thông tin thành công",
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
+                timeInSecForIosWeb: 5,
                 backgroundColor: App_Color.green.withOpacity(0.9),
                 textColor: Colors.white,
                 fontSize: 16.0);

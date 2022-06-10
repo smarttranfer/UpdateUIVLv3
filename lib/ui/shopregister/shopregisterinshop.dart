@@ -179,10 +179,10 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
               address.clear();
               postcode.clear();
               Fluttertoast.showToast(
-                  msg: "Tạo của hành thành công",
+                  msg: "Tạo của hàng thành công",
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
+                  timeInSecForIosWeb: 5,
                   backgroundColor: App_Color.green.withOpacity(0.9),
                   textColor: Colors.white,
                   fontSize: 16.0);
@@ -197,7 +197,7 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
         ),
         color: App_Color.orange,
         child: Text(
-          'Thêm cửa hàng',
+          'Hoàn Thành & Thêm Cửa Hàng',
           style: TextStyle(
             color: Colors.white,
             letterSpacing: 1.5,
@@ -228,10 +228,10 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
             await _CreaterShop(name.text, house.text.replaceAll(" ", ""), address.text, postcode.text.replaceAll(" ", ""));
             if (registershop.Create_Shop_Succes == true) {
               Fluttertoast.showToast(
-                  msg: "Tạo của hành thành công",
+                  msg: "Tạo của hàng thành công",
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1,
+                  timeInSecForIosWeb: 5,
                   backgroundColor: App_Color.green.withOpacity(0.9),
                   textColor: Colors.white,
                   fontSize: 16.0);
@@ -332,7 +332,7 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
           //             msg: "Tạo của hàng thành công",
           //             toastLength: Toast.LENGTH_SHORT,
           //             gravity: ToastGravity.BOTTOM,
-          //             timeInSecForIosWeb: 1,
+          //             timeInSecForIosWeb: 1
           //             backgroundColor: App_Color.green.withOpacity(0.9),
           //             textColor: Colors.white,
           //             fontSize: 16.0);
@@ -373,11 +373,12 @@ class _ShopregisterScreen extends State<ShopregisterScreeninShop> {
                         height: 6.0,
                       ),
                       _buildPostCodeTF(),
-                      SizedBox(
-                        height: 249.0,
+                      const SizedBox(
+                        height: 230.0,
                       ),
-                      _buildAddShopBtn(),
                       _buildDoneBtn(),
+                      _buildAddShopBtn(),
+
                     ],
                   ),
                 ),
