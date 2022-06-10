@@ -323,7 +323,7 @@ class _CardPayment extends State<CardPayment> {
                                     constant.idshop,
                                     token!,
                                     1,
-                                    "asc");
+                                    "desc");
                                 _showTopFlash(
                                     messager:
                                     "Hóa đơn ${constant.TitleApp_Bill} đã thanh toán thành công số tiền là : ${_money.text.toString()} GBP",

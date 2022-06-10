@@ -9,11 +9,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/history/history_bill_many/history_bil.dart';
 import 'package:vldebitor/funtion_app/history/history_bill_many/history_bill_many.dart';
+import 'package:vldebitor/funtion_app/history/history_edit_bill/history_edit_bill.dart';
+import 'package:vldebitor/funtion_app/history/history_edit_bill/history_status_edit_bill.dart';
 import 'package:vldebitor/ui/History/sc_history_bill_many/sc_history_bill_many.dart';
 import 'package:vldebitor/ui/develop/develop.dart';
 import '../funtion_app/transation_page/transation_page.dart';
 import '../provider/manager_credit.dart';
 import '../theme/Color_app.dart';
+import '../ui/History/sc_history_edit_bill/sc_edit_bill.dart';
 import '../ui/addbill/cardpayment.dart';
 import '../ui/addbill/payone.dart';
 import '../ui/edit/edit_bill.dart';
@@ -28,7 +31,6 @@ class cardbill extends StatefulWidget {
   String Paid;
   String Rest;
   String date_create;
-
   cardbill(
       this.name, this.ID, this.Total, this.Paid, this.Rest, this.date_create);
 
@@ -39,7 +41,7 @@ class cardbill extends StatefulWidget {
 }
 
 class _cardbill extends State<cardbill> {
-
+  bool checkdelte = false;
   @override
   Widget build(BuildContext context) {
     MoneyFormatter Rest = MoneyFormatter(amount: double.parse(widget.Rest));
@@ -66,7 +68,7 @@ class _cardbill extends State<cardbill> {
                         context: context,
                         builder: (context) => Container(
                           color: App_Color.Background,
-                          height: MediaQuery.of(context).size.height / 4,
+                          height: MediaQuery.of(context).size.height / 3,
                           width: MediaQuery.of(context).size.width,
                           child: Column(
                             children: [
@@ -94,50 +96,45 @@ class _cardbill extends State<cardbill> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        SizedBox(
-                                          width: 30,
-                                        ),
+                                        SizedBox(width: 30,),
                                         Icon(
                                           Icons.remove_circle_outline_sharp,
                                           color: Colors.grey,
                                           size: 33.0,
                                         ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
+                                        SizedBox(width: 20,),
                                         Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             TextButton(
-                                              onPressed: () {
-                                                // Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: EditBillScreen(widget.id,double.parse(widget.Total)-double.parse(widget.Paid),widget.name,widget.street_name,widget.post_code)));
+                                              onPressed: () async {
+                                                Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: EditBillScreen(int.parse(widget.ID),widget.name,double.parse(widget.Total),widget.date_create)));
                                               },
                                               child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    "Edit  ",
+                                                    "Sửa  ",
                                                     style: TextStyle(
                                                       color: Colors.white,
-                                                      fontWeight: FontWeight.w400,
-                                                      decoration: TextDecoration.none,
+                                                      fontWeight:
+                                                      FontWeight.w400,
+                                                      decoration:
+                                                      TextDecoration.none,
                                                       fontSize: 17,
                                                       fontFamily: 'OpenSans',
                                                     ),
                                                   ),
                                                   Text(
-                                                      "Edit information of shop",
+                                                      "Sửa Thông tin",
                                                       style: TextStyle(
                                                         color: Colors.grey,
                                                         decoration:
-                                                            TextDecoration.none,
+                                                        TextDecoration.none,
                                                         fontWeight:
-                                                            FontWeight.w300,
+                                                        FontWeight.w300,
                                                         fontSize: 15,
                                                         fontFamily: 'OpenSans',
                                                       )),
@@ -155,12 +152,13 @@ class _cardbill extends State<cardbill> {
                                   color: Colors.grey,
                                 ),
                               ),
+                              // Lịch sử view
                               Row(children: [
                                 SizedBox(
                                   width: 30,
                                 ),
                                 Icon(
-                                  Icons.recycling_outlined,
+                                  Icons.history,
                                   color: Colors.grey,
                                   size: 33.0,
                                 ),
@@ -171,25 +169,30 @@ class _cardbill extends State<cardbill> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     TextButton(
-                                      onPressed: () {
-                                        _showWarningMessage(
-                                            "Do you want delete customer ?");
+                                      onPressed: () async{
+                                        constant.check_history_mode = true;
+                                        final prefs = await SharedPreferences.getInstance();
+                                        String? token = await prefs.getString("token");
+                                        await gethistory_edit_bill.gethistory(token!, int.parse(widget.ID));
+                                        if(constant_history_bill.history_edit_bill_sucess == true){
+                                          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: HistoryList_edit()));
+                                        }
                                       },
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Delete",
+                                            "Lịch sử",
                                             style: TextStyle(
-                                              color: Colors.red,
+                                              color: Colors.white,
                                               fontWeight: FontWeight.w400,
                                               decoration: TextDecoration.none,
                                               fontSize: 17,
                                               fontFamily: 'OpenSans',
                                             ),
                                           ),
-                                          Text("Delete Shop",
+                                          Text("Xem lịch sử",
                                               style: TextStyle(
                                                 color: Colors.grey,
                                                 decoration: TextDecoration.none,
@@ -202,7 +205,64 @@ class _cardbill extends State<cardbill> {
                                     ),
                                   ],
                                 )
-                              ])
+                              ]),
+                              Container(
+                                padding: EdgeInsets.only(left: 90),
+                                child: Divider(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              Row(children: [
+                                SizedBox(
+                                  width: 30,
+                                ),
+                                Icon(
+                                  Icons.hive,
+                                  color: Colors.grey,
+                                  size: 33.0,
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () async{
+                                        final prefs = await SharedPreferences.getInstance();
+                                        String? token = await prefs.getString("token");
+                                        Navigator.pop(context);
+                                        // _showWarningMessage("Bạn muốn ẩn thông tin này với user không ?", DeleteCustomer.DeleteCustomers(widget.ID_Custome, token!));
+
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            checkdelte?"Hiện thị lại":"Ẩn thôn tin ",
+                                            style: TextStyle(
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.w400,
+                                              decoration: TextDecoration.none,
+                                              fontSize: 17,
+                                              fontFamily: 'OpenSans',
+                                            ),
+                                          ),
+                                          Text(checkdelte?"Hiện thị lại thông tin với user.":"Ẩn thông tin này với user.",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                decoration: TextDecoration.none,
+                                                fontWeight: FontWeight.w300,
+                                                fontSize: 15,
+                                                fontFamily: 'OpenSans',
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ]),
                             ],
                           ),
                         ),

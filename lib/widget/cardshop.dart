@@ -430,7 +430,9 @@ class _Shoplistcard extends State<Shoplistcard> {
                           final prefs = await SharedPreferences.getInstance();
                           String? token = await prefs.getString("token");
                           await getbillinformation.getbill(widget.id, token!,1,"desc");
+                          await getshopinformation_createbills.getshopinformation_id(constant.indexcustomer, token);
                           constant.index_bill = widget.index_bill;
+                          constant.idshop = widget.id;
                           if (Getbillinformation.GetbillinformationSucces == true) {
                             Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: Billlist()));
                           } else {

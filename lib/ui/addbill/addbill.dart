@@ -43,7 +43,7 @@ class _Billlist extends State<Billlist> {
     } else {
       results = _allUsers.where((user) => user["name"].toLowerCase().contains(enteredKeyword.toLowerCase())).toList();
       if(results.isEmpty){
-        results = _allUsers.where((user) => user["id"].toLowerCase().contains(enteredKeyword.toLowerCase())).toList();
+        results = _allUsers.where((user) => user["id"].toString().toLowerCase().contains(enteredKeyword.toLowerCase())).toList();
       }
     }
     setState(() {
@@ -123,6 +123,7 @@ class _Billlist extends State<Billlist> {
                 ),
                 child: InkWell(
                   onTap: () {
+                    print(Getshopinformation_createbill.data_shop);
                     Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: CreateBillScreenMore(Getshopinformation_createbill.data_shop,constant.index_bill,Billlist())));
                   },
                   child: Container(

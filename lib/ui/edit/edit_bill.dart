@@ -7,9 +7,15 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vldebitor/constants/constant_app.dart';
+import 'package:vldebitor/funtion_app/apigetbill/fn_getbill.dart';
+import 'package:vldebitor/funtion_app/edit_bill/edit_bill.dart';
+import 'package:vldebitor/funtion_app/edit_bill/status_edit.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import 'package:vldebitor/ui/createbill/fn_createbill/createbill_status.dart';
+import 'package:vldebitor/ui/createbill/fn_createbill/getshop.dart';
 import '../../utilities/constants.dart';
+import '../addbill/addbill.dart';
 import '../home/home.dart';
 
 
@@ -17,19 +23,24 @@ import '../home/home.dart';
 class EditBillScreen extends StatefulWidget {
   int ID_bill;
   double original_amount;
-  String content;
+  String name;
   String create_date;
-  EditBillScreen(this.ID_bill , this.original_amount,this.content ,this.create_date);
+  EditBillScreen(this.ID_bill ,this.name , this.original_amount,this.create_date);
   @override
   _EditBillScreen createState() => _EditBillScreen();
 }
 
 class _EditBillScreen extends State<EditBillScreen> {
+
   bool _isLoaderVisible = false;
   final TextEditingController name = TextEditingController();
   final TextEditingController Money = TextEditingController();
   final TextEditingController Shop = TextEditingController();
   final TextEditingController Note = TextEditingController();
+  initState(){
+    name..text = widget.name;
+    Money..text = widget.original_amount.toString();
+  }
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,35 +73,35 @@ class _EditBillScreen extends State<EditBillScreen> {
       ],
     );
   }
-  Widget _buildSelectCustomer() {
-    return Column(
-      children: [
-        SizedBox(height: 10.0),
-        Container(
-            alignment: Alignment.centerLeft,
-            decoration: kBoxDecorationStyle,
-            height: 60.0,
-            child: TextField(
-              readOnly: true,
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: 'OpenSans',
-              ),
-              controller: Shop,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.only(top: 14.0),
-                prefixIcon: Icon(
-                  Icons.shop,
-                  color: Colors.white,
-                ),
-                hintText: "Chọn tên cửa hàng",
-                hintStyle: kHintTextStyle,
-              ),
-            ))
-      ],
-    );
-  }
+  // Widget _buildSelectCustomer() {
+  //   return Column(
+  //     children: [
+  //       SizedBox(height: 10.0),
+  //       Container(
+  //           alignment: Alignment.centerLeft,
+  //           decoration: kBoxDecorationStyle,
+  //           height: 60.0,
+  //           child: TextField(
+  //             readOnly: true,
+  //             style: TextStyle(
+  //               color: Colors.white,
+  //               fontFamily: 'OpenSans',
+  //             ),
+  //             controller: Shop,
+  //             decoration: InputDecoration(
+  //               border: InputBorder.none,
+  //               contentPadding: EdgeInsets.only(top: 14.0),
+  //               prefixIcon: Icon(
+  //                 Icons.shop,
+  //                 color: Colors.white,
+  //               ),
+  //               hintText: "Chọn tên cửa hàng",
+  //               hintStyle: kHintTextStyle,
+  //             ),
+  //           ))
+  //     ],
+  //   );
+  // }
   Widget _buildPasswordTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -160,15 +171,14 @@ class _EditBillScreen extends State<EditBillScreen> {
       ],
     );
   }
-  Future _CreaterCustomers(String Name, String Phone) async {
-    int ID = 0;
+  Future _CreaterCustomers() async {
     final prefs = await SharedPreferences.getInstance();
     String token = await prefs.getString("token").toString();
-    if(Money.text.isNotEmpty|name.text.isNotEmpty|Note.text.isNotEmpty|Shop.text.isNotEmpty){
-
+    if(Money.text.isNotEmpty|name.text.isNotEmpty|Note.text.isNotEmpty){
+      fn_edit_bill.fn_edit_bills(widget.ID_bill, name.text, double.parse(Money.text), Note.text, widget.create_date, token);
     }else{
       Fluttertoast.showToast(
-          msg: "Sửa đơn thất bại",
+          msg: "Bạn chưa nhập đủ thông tin",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 5,
@@ -190,11 +200,11 @@ class _EditBillScreen extends State<EditBillScreen> {
           setState(() {
             _isLoaderVisible = true;
           });
-          await _CreaterCustomers(name.text, Money.text);
+          await _CreaterCustomers();
           setState(() {
             _isLoaderVisible = false;
           });
-          if (createbill.Create_Bill_Succes==true) {
+          if (edit_bill.edit_bills==true) {
             Fluttertoast.showToast(
                 msg: "Sửa đơn thành công",
                 toastLength: Toast.LENGTH_SHORT,
@@ -204,8 +214,11 @@ class _EditBillScreen extends State<EditBillScreen> {
                 textColor: Colors.white,
                 fontSize: 16.0
             );
-            Navigator.pushReplacement(context,
-                PageTransition(type: PageTransitionType.rightToLeft, child: Home_page()));
+            final prefs = await SharedPreferences.getInstance();
+            String? token = await prefs.getString("token");
+            await getbillinformation.getbill(constant.idshop, token!,1,"desc");
+            await getshopinformation_createbills.getshopinformation_id(constant.indexcustomer, token);
+            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: Billlist()));
           } else {
             Fluttertoast.showToast(
                 msg: "Sửa đơn thất bại",
@@ -244,8 +257,12 @@ class _EditBillScreen extends State<EditBillScreen> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () {
-            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
+          onPressed: () async {
+            final prefs = await SharedPreferences.getInstance();
+            String? token = await prefs.getString("token");
+            await getbillinformation.getbill(constant.idshop, token!,1,"desc");
+            await getshopinformation_createbills.getshopinformation_id(constant.indexcustomer, token);
+            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: Billlist()));
           },
         ),
         actions: [
@@ -257,7 +274,7 @@ class _EditBillScreen extends State<EditBillScreen> {
               ),
               child: InkWell(
                 onTap: () {
-                  Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Home_page()));
+
                 },
                 child: Container(
                   child: Icon(
@@ -330,22 +347,18 @@ class _EditBillScreen extends State<EditBillScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      _buildSelectCustomer(),
-                      SizedBox(
-                        height: 6.0,
-                      ),
-                      _buildNoteTF(),
-                      SizedBox(
-                        height: 6.0,
-                      ),
                       _buildEmailTF(),
                       SizedBox(
                         height: 6.0,
                       ),
                       _buildPasswordTF(),
+                      SizedBox(
+                        height: 6.0,
+                      ),
+                      _buildNoteTF(),
                       Container(
                         margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height / 2.6,
+                            top: MediaQuery.of(context).size.height/1.9,
                             bottom: 10),
                         child: _buildContinueBtn(),
                       )

@@ -558,7 +558,7 @@ class _ShopregisterScreen extends State<customelistcard> {
                             Provider.of<managen_credit>(context, listen: false).increase(double.parse(widget.unallocated));
                           });
                           constant.indexcustomer = widget.ID_Custome;
-                          // await getshopinformation.getshopinformation_id(constant.indexcustomer, token!);
+                          await getshopinformation.getshopinformation_id(constant.indexcustomer, token!);
                           Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft,child: Shoplist(title: constant.TitleApp_Shop,)));
                         },
                         child: Text("Cửa hàng",style: TextStyle(fontSize: 12)),

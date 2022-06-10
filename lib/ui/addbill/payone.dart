@@ -83,7 +83,7 @@ class _PayoneScreen extends State<PayoneScreen> {
             onPressed: () async{
               final prefs = await SharedPreferences.getInstance();
               String? token = await prefs.getString("token");
-              await getbillinformation.getbill(constant.idshop, token!,1,"asc");
+              await getbillinformation.getbill(constant.idshop, token!,1,"desc");
               Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: Billlist()));
             },
             icon: Icon(Icons.arrow_back_ios),

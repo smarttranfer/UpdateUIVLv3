@@ -28,7 +28,6 @@ import '../shopregister/shopregisterinshop.dart';
 class Shoplist extends StatefulWidget {
   late String title;
   Shoplist({Key? key, required this.title}) : super(key: key);
-
   @override
   _Shoplist createState() => _Shoplist();
 }
