@@ -1,8 +1,7 @@
-import 'package:bottom_navy_bar/bottom_navy_bar.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:vldebitor/theme/Color_app.dart';
+import 'package:rolling_bottom_bar/rolling_bottom_bar.dart';
+import 'package:rolling_bottom_bar/rolling_bottom_bar_item.dart';
 import '../customelist/customelist.dart';
 import '../develop/develop.dart';
 import '../setting/setting.dart';
@@ -13,7 +12,7 @@ class Home_page extends StatefulWidget {
 }
 
 class _Home_page extends State<Home_page> {
-  GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+  final _controller = PageController();
   int currentIndex = 0;
 
   @override
@@ -25,42 +24,35 @@ class _Home_page extends State<Home_page> {
       SettingsPage()
     ];
     return Scaffold(
-        bottomNavigationBar: BottomNavyBar(
-          backgroundColor: App_Color.background_textfield,
-          selectedIndex: currentIndex,
-          onItemSelected: (index){
-            setState(() {
-              currentIndex = index;
-            });
-          }, items: [
-          BottomNavyBarItem(
-            icon: Icon(Icons.home),
-            title: Text(""),
-            activeColor: App_Color.green,
-          ),
-          BottomNavyBarItem(
-            textAlign: TextAlign.center,
-            icon: Icon(Icons.people_alt_rounded),
-            title: Text(''),
-            activeColor: App_Color.green,
-          ),
-          BottomNavyBarItem(
-            textAlign: TextAlign.center,
-            icon: Icon(Icons.bar_chart,),
-            title: Text(''),
-            activeColor: App_Color.green,
-          ),
-          BottomNavyBarItem(
-            textAlign: TextAlign.center,
-            icon: Icon(Icons.settings),
-            title: Text(''),
-            activeColor: App_Color.green,
-            inactiveColor: App_Color.green,
-          ),
-        ]),
-        body: Container(
-          color: App_Color.Background,
-          child: Center(child: tabItems[currentIndex]),
-        ));
+        appBar: AppBar(
+        title: Text('Rolling Bottom Bar'),
+    ),
+    body: PageView(
+    controller: _controller,
+    children: <Widget>[
+    ColoredBox(color: Colors.blueGrey.shade100),
+    ColoredBox(color: Colors.redAccent),
+    ColoredBox(color: Colors.greenAccent),
+    ColoredBox(color: Colors.yellowAccent),
+    ],
+    ),
+    extendBody: true,
+    bottomNavigationBar: RollingBottomBar(
+    controller: _controller,
+    flat: true,
+    useActiveColorByDefault: false,
+    items: [
+    RollingBottomBarItem(Icons.home, label: 'Page 1', activeColor: Colors.redAccent),
+    RollingBottomBarItem(Icons.star, label: 'Page 2', activeColor: Colors.blueAccent),
+    RollingBottomBarItem(Icons.person, label: 'Page 3', activeColor: Colors.yellowAccent),
+    RollingBottomBarItem(Icons.access_alarm, label: 'Page 4', activeColor: Colors.orangeAccent),
+    ],
+    enableIconRotation: true,
+    onTap: (index) {
+    _controller.animateToPage(
+    index,
+    duration: const Duration(milliseconds: 400),
+    curve: Curves.easeOut,
+    )}));
   }
 }

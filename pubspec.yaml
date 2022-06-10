@@ -33,7 +33,7 @@ dependencies:
   money_formatter: ^0.0.3
   google_fonts: ^2.1.0
   flutter_svg: ^0.22.0
-  curved_navigation_bar: ^1.0.3
+  rolling_bottom_bar: ^0.2.2
   modal_bottom_sheet: ^2.0.1
   fluttertoast: ^8.0.7
   flutter_spinkit: ^5.1.0
