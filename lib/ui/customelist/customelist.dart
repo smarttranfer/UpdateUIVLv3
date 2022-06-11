@@ -23,24 +23,26 @@ class Customelist extends StatefulWidget {
 }
 
 class _Customelist extends State<Customelist> {
-  final RefreshController _refreshController = RefreshController(initialRefresh: false);
+  final TextEditingController search = TextEditingController();
+  bool checkvalue = false;
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
   final List<Map<String, dynamic>> _allUsers = [];
+
   List<Map<String, dynamic>> _foundUsers = [];
   String searchString = "";
   String state = "Not Data";
   bool checknull = true;
   bool check_loding_data = true;
 
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_)async {
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
       await checkEmty();
       await mapData();
     });
-
   }
 
   Future<void> mapData() async {
@@ -202,11 +204,21 @@ class _Customelist extends State<Customelist> {
                 decoration: kBoxDecorationStyle,
                 height: 44.0,
                 child: TextField(
+                  controller: search,
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'OpenSans',
                   ),
                   onChanged: (value) {
+                    if (value.isEmpty) {
+                      setState(() {
+                        checkvalue = false;
+                      });
+                    } else {
+                      setState(() {
+                        checkvalue = true;
+                      });
+                    }
                     return _runFilter(value);
                   },
                   decoration: InputDecoration(
@@ -214,6 +226,21 @@ class _Customelist extends State<Customelist> {
                     contentPadding: EdgeInsets.all(10),
                     hintText: 'Tìm kiếm',
                     hintStyle: kHintTextStyle,
+                    suffixIcon: Visibility(
+                        visible: checkvalue,
+                        child: IconButton(
+                          onPressed: () {
+                            search.clear();
+                            setState(() {
+                              checkvalue = false;
+                            });
+                            return _runFilter(search.text);
+                          },
+                          icon: Icon(
+                            Icons.clear_rounded,
+                            color: App_Color.green,
+                          ),
+                        )),
                   ),
                 ),
               ),
@@ -262,19 +289,29 @@ class _Customelist extends State<Customelist> {
                                 onRefresh: _onRefresh,
                                 child: ListView.builder(
                                     itemCount: _foundUsers.length,
-                                    itemBuilder: (BuildContext context, int index) {
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
                                       return customelistcard(
-                                        _foundUsers[index]["name"],
-                                        _foundUsers[index]["phone"],
-                                        _foundUsers[index]["total_shop"].toString(),
-                                        _foundUsers[index]["total_invoice"].toString(),
-                                        _foundUsers[index]["total_invoice_paid"].toString(),
-                                        _foundUsers[index]["total_payment"].toString(),
-                                        _foundUsers[index]["total_liabilities"].toString(),
-                                        _foundUsers[index]["unallocated"].toString(),
-                                        int.parse(_foundUsers[index]["id"],),
-                                          false
-                                      );
+                                          _foundUsers[index]["name"],
+                                          _foundUsers[index]["phone"],
+                                          _foundUsers[index]["total_shop"]
+                                              .toString(),
+                                          _foundUsers[index]["total_invoice"]
+                                              .toString(),
+                                          _foundUsers[index]
+                                                  ["total_invoice_paid"]
+                                              .toString(),
+                                          _foundUsers[index]["total_payment"]
+                                              .toString(),
+                                          _foundUsers[index]
+                                                  ["total_liabilities"]
+                                              .toString(),
+                                          _foundUsers[index]["unallocated"]
+                                              .toString(),
+                                          int.parse(
+                                            _foundUsers[index]["id"],
+                                          ),
+                                          false);
                                     })))),
               )
             ],

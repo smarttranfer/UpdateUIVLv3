@@ -33,6 +33,7 @@ class EditBillScreen extends StatefulWidget {
 class _EditBillScreen extends State<EditBillScreen> {
 
   bool _isLoaderVisible = false;
+  bool checkconfirm = true;
   final TextEditingController name = TextEditingController();
   final TextEditingController Money = TextEditingController();
   final TextEditingController Shop = TextEditingController();
@@ -126,6 +127,26 @@ class _EditBillScreen extends State<EditBillScreen> {
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
+            onChanged: (value){
+              if(double.parse(value.replaceAll(",", ""))<widget.original_amount){
+                setState(() {
+                  checkconfirm=true;
+                });
+                Fluttertoast.showToast(
+                    msg: "Số tiền sửa nhỏ hơn số nợ",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 5,
+                    backgroundColor: Colors.green,
+                    textColor: Colors.white,
+                    fontSize: 16.0
+                );
+              }else{
+                setState(() {
+                  checkconfirm=false;
+                });
+              }
+            },
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -174,7 +195,7 @@ class _EditBillScreen extends State<EditBillScreen> {
   Future _CreaterCustomers() async {
     final prefs = await SharedPreferences.getInstance();
     String token = await prefs.getString("token").toString();
-    if(Money.text.isNotEmpty|name.text.isNotEmpty|Note.text.isNotEmpty){
+    if(Money.text.isNotEmpty|name.text.isNotEmpty){
       fn_edit_bill.fn_edit_bills(widget.ID_bill, name.text, double.parse(Money.text), Note.text, widget.create_date, token);
     }else{
       Fluttertoast.showToast(
@@ -182,7 +203,7 @@ class _EditBillScreen extends State<EditBillScreen> {
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 5,
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0
       );
@@ -195,8 +216,9 @@ class _EditBillScreen extends State<EditBillScreen> {
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: RaisedButton(
+        disabledColor: Colors.green.withOpacity(0.3),
         elevation: 5.0,
-        onPressed: () async {
+        onPressed: checkconfirm?null:() async {
           setState(() {
             _isLoaderVisible = true;
           });
@@ -352,13 +374,13 @@ class _EditBillScreen extends State<EditBillScreen> {
                         height: 6.0,
                       ),
                       _buildPasswordTF(),
-                      SizedBox(
-                        height: 6.0,
-                      ),
-                      _buildNoteTF(),
+                      // SizedBox(
+                      //   height: 6.0,
+                      // ),
+                      // _buildNoteTF(),
                       Container(
                         margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height/1.9,
+                            top: MediaQuery.of(context).size.height/1.7,
                             bottom: 10),
                         child: _buildContinueBtn(),
                       )
