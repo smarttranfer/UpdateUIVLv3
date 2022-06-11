@@ -26,7 +26,7 @@ class fn_edit_shop{
         edit_shop.edit_shops = true;
       } else {
         edit_shop.edit_shops = false;
-        edit_shop.edit_shop_error = json.decode(edit_shop.dataedit_shop)["message"].toString();
+        edit_shop.edit_shop_error = json.decode(edit_shop.dataedit_shop)["data"].toString();
       }
     } catch (e) {}
   }
