@@ -16,7 +16,7 @@ class gethistory_bill_many{
       var headers = {
         'Authorization': 'Bearer ${token}'
       };
-      var request = http.Request('GET', Uri.parse('${DC_address}/log/transaction?invoice_id=${id}&user_id=1&sort=esc'));
+      var request = http.Request('GET', Uri.parse('${DC_address}/log/transaction?invoice_id=${id}&user_id=1&sort=desc'));
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       constant_history_billpayment.Jsondata = await response.stream.bytesToString();

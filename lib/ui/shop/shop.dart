@@ -33,8 +33,9 @@ class Shoplist extends StatefulWidget {
 }
 
 class _Shoplist extends State<Shoplist> {
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  final TextEditingController search = TextEditingController();
+  bool checkvalue = false;
+  final RefreshController _refreshController = RefreshController(initialRefresh: false);
   final List<Map<String, dynamic>> _allUsers = [];
   List<Map<String, dynamic>> _foundUsers = [];
   String searchString = "";
@@ -229,20 +230,43 @@ class _Shoplist extends State<Shoplist> {
                 decoration: kBoxDecorationStyle,
                 height: 44.0,
                 child: TextField(
+                  controller: search,
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'OpenSans',
                   ),
-                  onChanged: (values) {
-                    return _runFilter(values);
+                  onChanged: (value) {
+                    if (value.isEmpty) {
+                      setState(() {
+                        checkvalue = false;
+                      });
+                    } else {
+                      setState(() {
+                        checkvalue = true;
+                      });
+                    }
+                    return _runFilter(value);
                   },
-                  //   return _runFilter(value);
-                  // },
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.all(10),
                     hintText: 'Tìm kiếm',
                     hintStyle: kHintTextStyle,
+                    suffixIcon: Visibility(
+                        visible: checkvalue,
+                        child: IconButton(
+                          onPressed: () {
+                            search.clear();
+                            setState(() {
+                              checkvalue = false;
+                            });
+                            return _runFilter(search.text);
+                          },
+                          icon: Icon(
+                            Icons.clear_rounded,
+                            color: App_Color.green,
+                          ),
+                        )),
                   ),
                 ),
               ),
