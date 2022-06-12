@@ -59,6 +59,11 @@ class _EditBillScreen extends State<EditBillScreen> {
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
+            onChanged: (e){
+              setState(() {
+                checkconfirm=false;
+              });
+            },
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 14.0),
@@ -196,7 +201,9 @@ class _EditBillScreen extends State<EditBillScreen> {
     final prefs = await SharedPreferences.getInstance();
     String token = await prefs.getString("token").toString();
     if(Money.text.isNotEmpty|name.text.isNotEmpty){
-      fn_edit_bill.fn_edit_bills(widget.ID_bill, name.text, double.parse(Money.text), Note.text, widget.create_date, token);
+      await fn_edit_bill.fn_edit_bills(widget.ID_bill, name.text, double.parse(Money.text.replaceAll(",", "")), Note.text, widget.create_date, token);
+      await getbillinformation.getbill(constant.idshop, token,1,"desc");
+      await getshopinformation_createbills.getshopinformation_id(constant.indexcustomer, token);
     }else{
       Fluttertoast.showToast(
           msg: "Bạn chưa nhập đủ thông tin",
@@ -236,10 +243,6 @@ class _EditBillScreen extends State<EditBillScreen> {
                 textColor: Colors.white,
                 fontSize: 16.0
             );
-            final prefs = await SharedPreferences.getInstance();
-            String? token = await prefs.getString("token");
-            await getbillinformation.getbill(constant.idshop, token!,1,"desc");
-            await getshopinformation_createbills.getshopinformation_id(constant.indexcustomer, token);
             Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: Billlist()));
           } else {
             Fluttertoast.showToast(
