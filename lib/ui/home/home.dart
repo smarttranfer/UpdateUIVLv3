@@ -14,16 +14,9 @@ class Home_page extends StatefulWidget {
 
 class _Home_page extends State<Home_page> {
   final _controller = PageController();
-  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> tabItems = <Widget>[
-      Customelist(),
-      Develop(Tilte: "Quản lý nhân sự"),
-      Develop(Tilte: "Thống kê"),
-      SettingsPage()
-    ];
     return Scaffold(
         body: PageView(
           controller: _controller,
@@ -42,14 +35,10 @@ class _Home_page extends State<Home_page> {
             flat: false,
             useActiveColorByDefault: false,
             items: [
-              RollingBottomBarItem(Icons.home,
-                   activeColor: Colors.white),
-              RollingBottomBarItem(Icons.person,
-                  activeColor: Colors.white),
-              RollingBottomBarItem(Icons.bar_chart,
-                  activeColor: Colors.white),
-              RollingBottomBarItem(Icons.settings,
-                  activeColor: Colors.white),
+              RollingBottomBarItem(Icons.home, activeColor: Colors.white),
+              RollingBottomBarItem(Icons.person, activeColor: Colors.white),
+              RollingBottomBarItem(Icons.bar_chart, activeColor: Colors.white),
+              RollingBottomBarItem(Icons.settings, activeColor: Colors.white),
             ],
             enableIconRotation: true,
             onTap: (index) {
