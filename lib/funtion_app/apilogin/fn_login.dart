@@ -20,7 +20,7 @@ class fn_login {
         constant.user = username;
         await prefs.setString('token', json.decode(login.datalogin)["data"]["token"].toString());
         List<String> rule = [];
-        for (String rules in json.decode(login.datalogin)["status"]["roles"]) {
+        for (String rules in json.decode(login.datalogin)["data"]["roles"]) {
           rule.add(rules);
         }
         await prefs.setStringList("rule", rule);
@@ -31,6 +31,7 @@ class fn_login {
         await prefs.setStringList("rule", []);
       }
     } catch (e) {
+      login.LoginSucces = false;
       login.dataError = e.toString();
     }
   }

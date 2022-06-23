@@ -42,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
   //
   navigate() async {
-    await constant.DC_adress();
+
     final prefs = await SharedPreferences.getInstance();
     String? username =  await prefs.getString("username");
     String? password = await prefs.getString("password");

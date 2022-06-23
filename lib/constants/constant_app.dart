@@ -1,14 +1,10 @@
 import 'dart:convert';
-
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../model/sc_datahome/sc_datahome_customer.dart';
-
 class constant {
-  static Future<void> DC_adress() async{
+  static Future<void> DC_adress(String domain) async{
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-        'DC_adress',"http://159.223.52.212:27554");
+    await prefs.setString('DC_adress',domain.toString());
   }
   static bool check_history_mode = false;
   static String TitleApp_History = "";
