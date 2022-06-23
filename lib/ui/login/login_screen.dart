@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Icons.person,
                 color: Colors.white,
               ),
-              hintText: 'Enter your Username',
+              hintText: 'Nhập tên đăng nhập',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -84,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Icons.lock,
                 color: Colors.white,
               ),
-              hintText: 'Enter your Password',
+              hintText: 'Nhập mật khẩu',
               hintStyle: kHintTextStyle,
             ),
           ),
@@ -120,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Icons.domain,
                         color: Colors.white,
                       ),
-                      hintText: 'Enter Domain',
+                      hintText: 'Nhập tên miền',
                       hintStyle: kHintTextStyle,
                     ),
                   ),
@@ -158,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         color: App_Color.green,
         child: Text(
-          'LOGIN',
+          'Đăng nhập',
           style: TextStyle(
             color: Colors.white,
             letterSpacing: 1.5,
@@ -192,8 +192,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-
-
                       Image.asset(
                         'assets/ic_app/icon_laucher.png',
                         height: 200,
@@ -215,7 +213,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            'Đổi Doamin',
+                            'Đổi tên miền',
                             style: kHintTextStyle,
                           ),
                           IconButton(
