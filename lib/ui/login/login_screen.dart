@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vldebitor/constants/constant_app.dart';
 import 'package:vldebitor/funtion_app/apilogin/fn_login.dart';
 import 'package:vldebitor/funtion_app/apilogin/login.dart';
+import 'package:vldebitor/funtion_app/history/history_customer/history_customer_shop.dart';
 import 'package:vldebitor/funtion_app/home/home.dart';
 import 'package:vldebitor/theme/Color_app.dart';
 import '../../funtion_app/home/fn_getdatacutome.dart';
@@ -106,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 60.0,
                   child: TextField(
                     controller: domain,
-                    obscureText: true,
+                    obscureText: false,
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'OpenSans',
@@ -135,18 +137,17 @@ class _LoginScreenState extends State<LoginScreen> {
         elevation: 5.0,
         onPressed: () async {
           final prefs = await SharedPreferences.getInstance();
+          if(domain.text.isNotEmpty){
+            await constant.DC_adress(domain.text.toString());
+          }else{
+            await constant.DC_adress("https://vldebtors-api.vllondon.co.uk");
+          }
           await fn_login.fn_loginapp(username.text, password.text);
           String token = prefs.getString("token").toString();
           await fn_DataCustomer.getDataCustomer(token);
           if (login.LoginSucces == true) {
             saveuser(username.text, password.text);
-            if(domain.text.isNotEmpty && _visible==true){
-              await prefs.setString("domain", domain.text);
-            }
-            Navigator.pushReplacement(
-                context,
-                PageTransition(
-                    type: PageTransitionType.rightToLeft, child: Home_page()));
+            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: Home_page()));
           } else {
             _showErrorMessage(login.dataError);
           }
