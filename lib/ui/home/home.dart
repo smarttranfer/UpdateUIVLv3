@@ -39,7 +39,7 @@ class _Home_page extends State<Home_page> {
             itemColor: Colors.green,
             color: App_Color.background_textfield,
             controller: _controller,
-            flat: true,
+            flat: false,
             useActiveColorByDefault: false,
             items: [
               RollingBottomBarItem(Icons.home,
