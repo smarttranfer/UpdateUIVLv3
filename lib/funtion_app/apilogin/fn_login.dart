@@ -32,7 +32,7 @@ class fn_login {
       }
     } catch (e) {
       login.LoginSucces = false;
-      login.dataError = e.toString();
+      login.dataError = "Không kết nối dc đến Server";
     }
   }
 }

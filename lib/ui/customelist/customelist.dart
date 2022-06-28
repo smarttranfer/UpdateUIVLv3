@@ -143,6 +143,7 @@ class _Customelist extends State<Customelist> {
         setState(() {
           checknull = true;
         });
+        _showWarningMessage("Hiện tại không có khách hàng nào được tạo.");
         return true;
       }
     } catch (e) {
@@ -315,6 +316,32 @@ class _Customelist extends State<Customelist> {
                                     })))),
               )
             ],
+          ),
+        ));
+  }
+  _showWarningMessage(String message) {
+    showCupertinoDialog(
+        context: context,
+        builder: (context) => Theme(
+          data: ThemeData.dark(),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            child: CupertinoAlertDialog(
+                title: Text(
+                  "Thông tin",
+                  style: TextStyle(color: Colors.green),
+                ),
+                content: Text(message),
+                actions: [
+                  CupertinoDialogAction(
+                      child: Text(
+                        "Đông ý",
+                        style: TextStyle(color: Colors.green),
+                      ),
+                      onPressed: () async{
+                        Navigator.pop(context);
+                      }),
+                ]),
           ),
         ));
   }
