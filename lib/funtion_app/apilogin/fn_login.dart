@@ -11,6 +11,7 @@ class fn_login {
       String DC_address = await prefs.getString("DC_adress").toString();
       var headers = {'Content-Type': 'application/json'};
       var request = await http.Request('POST', Uri.parse("${DC_address}/auth/login"));
+      print(Uri.parse("${DC_address}/auth/login"));
       request.body = json.encode({"username": "${username}", "password": "${password}"});
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();

@@ -8,9 +8,11 @@ import '../../model/sc_datahome/sc_datahome_customer.dart';
 class fn_DataCustomer {
   static Future getDataCustomer(String token) async {
     try {
+
       constant.ListCustomer_infor_all.clear();
       final prefs = await SharedPreferences.getInstance();
       String DC_address = await prefs.getString("DC_adress").toString();
+      print('${DC_address}/customer/info_customers');
       var headers = {'Authorization': 'Bearer ${token}'};
       var request = http.Request(
           'GET', Uri.parse('${DC_address}/customer/info_customers'));

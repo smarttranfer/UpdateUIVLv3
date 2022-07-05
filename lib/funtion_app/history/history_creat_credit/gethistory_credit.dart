@@ -20,6 +20,7 @@ class gethistory_credit{
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       constant_history.Jsondata = await response.stream.bytesToString();
+      print(constant_history.Jsondata);
       if (json.decode(constant_history.Jsondata)["status"].toString() == "200") {
         for(var history in json.decode(constant_history.Jsondata)["data"]){
           history_credit h_credit = new history_credit();

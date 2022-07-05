@@ -143,8 +143,8 @@ class _LoginScreenState extends State<LoginScreen> {
             await constant.DC_adress("https://vldebtors-api.vllondon.co.uk");
           }
           await fn_login.fn_loginapp(username.text, password.text);
-          String token = prefs.getString("token").toString();
-          await fn_DataCustomer.getDataCustomer(token);
+          // String token = prefs.getString("token").toString();
+          // await fn_DataCustomer.getDataCustomer(token);
           if (login.LoginSucces == true) {
             saveuser(username.text, password.text);
             Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.rightToLeft, child: Home_page()));
